@@ -53,7 +53,7 @@
             <div class="flex jb ac mt50">
                 <div class="size24">等级权益</div>
                 <div class="flex ac">
-                    <img src="@/assets/imgs/9.png" class="img40 mr10 rotate">
+                    <img src="@/assets/imgs/9.png" class="img40 mr10 aniRotate">
                     <div class="size24 bold">1星</div>
                 </div>
             </div>
@@ -144,18 +144,5 @@ const submit = () => {
     75% {
         transform: scale(1.3);
     }
-}
-
-.rotate {
-    animation: rotate 5s linear infinite;
-}
-
-@keyframes rotate {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(-360deg);
-  }
 }
 </style>

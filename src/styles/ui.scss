@@ -1,5 +1,33 @@
+.message{
+    width: 690px;
+    position: fixed;
+    bottom: calc(env(safe-area-inset-bottom) + 30px);
+    left: 30px;
+    z-index: 1000;
+    padding: 16px 4px 4px 4px;
+    border-radius: 30px;
+    .messageBox{
+        width: 100%;
+        padding: 24px 26px;
+        border-radius: 26px;
+        background-color: #090814;
+        position: relative;
+        z-index: 1;
+        .messageClose{
+            width: 24px;
+            height: 24px;
+        }
+    }
+}
+
 .cusToast {
     z-index: 5000 !important;
+}
+
+.cusMask{
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(50px);
+    -webkit-backdrop-filter: blur(50px);
 }
 
 .van-count-down{

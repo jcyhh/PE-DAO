@@ -1,0 +1,23 @@
+.mainBtn{
+    @include linear;
+    height: 72px;
+    border-radius: 36px;
+    text-align: center;
+    line-height: 72px;
+    color: 26px;
+    font-weight: bold;
+    color: #1B1B1E;
+}
+
+.aniRotate {
+    animation: rotate 5s linear infinite;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(-360deg);
+  }
+}

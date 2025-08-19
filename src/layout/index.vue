@@ -1,6 +1,6 @@
 <template>
-    <div class="head flex jb ac" :style="{ backgroundColor: `rgba(0, 0, 0, ${$route.path=='/home'?0.2:0.5})` }">
-        <Menu></Menu>
+    <div class="head flex jb ac" :style="{zIndex}">
+        <Menu @change="$event=>zIndex=$event?10000:100"></Menu>
 
         <div class="linearTxt font1 size40">{{ appName }}</div>
 
@@ -16,6 +16,9 @@
 import CusLang from '@/components/CusLang/index.vue';
 import Menu from './Menu.vue';
 import { appName } from '@/config';
+import { ref } from 'vue';
+
+const zIndex = ref(100)
 </script>
 
 <style lang="scss" scoped>
@@ -25,8 +28,11 @@ import { appName } from '@/config';
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 3000;
     padding: 0 30px;
+    z-index: 100;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
 
     .connect{
         height: 52px;
