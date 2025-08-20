@@ -1,7 +1,7 @@
 <template>
-    <button @click="picker.open">打开Picker</button>
+    <button @click="picker.open(current)">打开Picker</button>
 
-    <CusPicker ref="picker" :list="list" :default-index="current" @change="$event=>current=$event"></CusPicker>
+    <CusPicker ref="picker" :list="list" @change="$event=>current=$event"></CusPicker>
 </template>
 
 <script setup lang="ts">

@@ -1,5 +1,5 @@
 <template>
-    <div class="head flex jb ac" :style="{zIndex}">
+    <div class="head headGlass flex jb ac" :style="{zIndex}">
         <Menu @change="$event=>zIndex=$event?10000:100"></Menu>
 
         <div class="linearTxt font1 size40">{{ appName }}</div>
@@ -22,6 +22,14 @@ const zIndex = ref(100)
 </script>
 
 <style lang="scss" scoped>
+.headGlass{
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+.headBg{
+    background-color: #000000;
+}
 .head {
     width: 100vw;
     height: 100px;
@@ -30,9 +38,6 @@ const zIndex = ref(100)
     left: 0;
     padding: 0 30px;
     z-index: 100;
-    background-color: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
 
     .connect{
         height: 52px;

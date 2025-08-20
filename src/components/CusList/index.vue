@@ -1,6 +1,6 @@
 <template>
-    <van-pull-refresh style="min-height: 100vh;" v-model="refreshing" :pulling-text="$t('下拉即可刷新...')" :loosing-text="$t('释放即可刷新...')" :loading-text="$t('加载中...')" @refresh="onRefresh">
-        <van-list style="min-height: 100vh;" v-model:loading="loading" :finished="finished" :loading-text="$t('加载中...')" :finished-text="$t('没有更多了')" @load="onLoad">
+    <van-pull-refresh :style="cusStyle" v-model="refreshing" :pulling-text="$t('下拉即可刷新...')" :loosing-text="$t('释放即可刷新...')" :loading-text="$t('加载中...')" @refresh="onRefresh">
+        <van-list :style="cusStyle" v-model:loading="loading" :finished="finished" :loading-text="$t('加载中...')" :finished-text="$t('没有更多了')" @load="onLoad">
             <slot :listData="list"></slot>
             <cus-empty v-if="list.length==0"></cus-empty>
         </van-list>
@@ -14,7 +14,7 @@
 import { apiGet } from '@/utils/request';
 import { nextTick, ref } from 'vue';
 
-let props = defineProps(['api', 'name', 'param'])
+let props = defineProps(['api', 'name', 'param', 'cusStyle'])
 let emit = defineEmits(['getListData'])
 
 const list = ref([]);

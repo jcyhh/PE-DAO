@@ -38,6 +38,15 @@ input{
     color: transparent;
 }
 
+.linearNum{
+    display: inline-block;
+    background: linear-gradient(120deg, #76B6E8, #C348FF);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+}
+
 .disable{
     background: #FFFFFF29 !important;
     color: #FFFFFF80 !important;

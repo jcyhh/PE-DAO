@@ -8,6 +8,7 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    CommonNode: typeof import('./src/components/CommonNode/index.vue')['default']
     CusData: typeof import('./src/components/CusData/index.vue')['default']
     CusEmpty: typeof import('./src/components/CusEmpty/index.vue')['default']
     CusLang: typeof import('./src/components/CusLang/index.vue')['default']
@@ -16,6 +17,7 @@ declare module 'vue' {
     CusPicker: typeof import('./src/components/CusPicker/index.vue')['default']
     CusPop: typeof import('./src/components/CusPop/index.vue')['default']
     CusProgress: typeof import('./src/components/CusProgress/index.vue')['default']
+    CusTab: typeof import('./src/components/CusTab/index.vue')['default']
     Demo: typeof import('./src/components/CusLang/demo.vue')['default']
     Line: typeof import('./src/components/Line/index.vue')['default']
     LineCard: typeof import('./src/components/LineCard/index.vue')['default']

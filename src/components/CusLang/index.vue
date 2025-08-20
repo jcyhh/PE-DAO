@@ -5,7 +5,7 @@
         </slot>
     </div>
 
-    <CusPicker ref="picker" :list="langs" title="切换语言" :default-index="current" @change="onChange"></CusPicker>
+    <CusPicker ref="picker" :list="langs" title="切换语言" @change="onChange"></CusPicker>
 </template>
 
 <script setup lang="ts">
@@ -23,7 +23,7 @@ const current = ref(0)
 
 const open = () => {
     current.value = langs.findIndex(item => item.lang === lang.value)
-    picker.value.open()
+    picker.value.open(current.value)
 }
 
 const onChange = (index: number) => {

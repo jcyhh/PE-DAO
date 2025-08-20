@@ -20,7 +20,7 @@
             <div class="flex jb ac mt50">
                 <div class="size24">等级权益</div>
                 <div class="flex ac">
-                    <img src="@/assets/imgs/9.png" class="img40 mr10 rotate">
+                    <img src="@/assets/imgs/9.png" class="img40 mr10 aniRotate">
                     <div class="size24 bold">1星</div>
                 </div>
             </div>
@@ -98,51 +98,5 @@ const submit = () => {
     left: -30px;
     top: 343px;
     z-index: 1;
-} 
-.node {
-    border-radius: 20px;
-    background: linear-gradient(52deg, #31303A4D, #100E1D4D);
-    padding: 40px 30px;
-}
-
-.btn {
-    @include linear;
-    height: 60px;
-    border-radius: 30px;
-    line-height: 60px;
-    font-size: 24px;
-    color: #000000;
-    padding: 0 30px;
-    position: relative;
-    z-index: 5;
-}
-
-.icon{
-    animation: swordSwing 5s ease-in-out infinite;
-}
-@keyframes swordSwing {
-    0%, 50%, 100% {
-        transform: rotate(0deg);
-    }
-    25% {
-        transform: rotate(20deg);
-    }
-    75% {
-        transform: rotate(20deg);
-    }
-}
-.crow{
-    animation: crowScale 5s ease-in-out infinite;
-}
-@keyframes crowScale {
-    0%, 50%, 100% {
-        transform: scale(1);
-    }
-    25% {
-        transform: scale(1.2);
-    }
-    75% {
-        transform: scale(1.3);
-    }
 }
 </style>

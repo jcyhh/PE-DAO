@@ -1,5 +1,5 @@
 <template>
-    <VanPopup v-model:show="show" style="background: transparent;" :destroy-on-close="true" position="bottom">
+    <VanPopup v-model:show="show" style="background: transparent;" :destroy-on-close="true" position="bottom" overlay-class="cusMask" teleport="#app">
         <div class="picker">
             <div class="flex jb ac mb60">
                 <div class="size32">{{ title }}</div>
@@ -14,7 +14,7 @@
                 </swiper>
             </div>
             <div class="mt60">
-                <div class="submit size30" v-scale v-delay="{fun:submit}">{{ submitTxt }}</div>
+                <div class="mainBtn size30" v-scale v-delay="{fun:submit}">{{ submitTxt }}</div>
             </div>
             <div class="safeBottom"></div>
         </div>
@@ -31,14 +31,10 @@ import { Swiper, SwiperSlide } from 'swiper/vue';
 import 'swiper/css';
 
 const emit = defineEmits(['change'])
-const props = defineProps({
+defineProps({
     list: { // 列表
         type: Array as PropType<any[]>,
         default: ():any[] => []
-    },
-    defaultIndex: { // 默认选中
-        type: Number,
-        default: 0
     },
     title: { // 标题
         type: String,
@@ -55,12 +51,18 @@ const props = defineProps({
 })
 
 const show = ref(false)
-const open = () => show.value = true
+const open = async (index:number) => {
+    show.value = true
+    current.value = index
+}
 const close = () => show.value = false
 
-const current = ref(props.defaultIndex)
+const current = ref(0)
 const mySwiper = ref()
-const onSwiper = (swiper: any) => mySwiper.value = swiper
+const onSwiper = (swiper: any) => {
+    mySwiper.value = swiper
+    mySwiper.value.slideTo(current.value)
+}
 const slideChange = (data: any) => current.value = data.activeIndex
 
 const submit = ()=> {
@@ -78,15 +80,6 @@ defineExpose({
     border-radius: 40px 40px 0 0;
     padding: 40px;
     background-color: $card;
-    .submit{
-        height: 80px;
-        line-height: 80px;
-        border-radius: 10px;
-        background-color: $main-color;
-        color: $black;
-        text-align: center;
-        font-size: 28px;
-    }
     .swiper {
         width: 670px;
         height: 500px;
