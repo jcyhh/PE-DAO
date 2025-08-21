@@ -45,19 +45,6 @@
     </div>
 
     <div class="gap80"></div>
-
-    <van-popup v-model:show="show" style="background-color: transparent !important;" overlay-class="cusMask">
-        <div class="bind">
-            <div class="tc size32 bold">激活地址</div>
-            <div class="mt60 size24">当前地址</div>
-            <div class="box mt20 size20 gray">0xd205e66545DCf043cF30CCDB97508332BD7b</div>
-            <div class="mt30 size24">邀请码</div>
-            <div class="box mt20 flex">
-                <input type="text" placeholder="请输入邀请码" class="size20 flex1">
-            </div>
-            <div class="mainBtn mt40" v-scale>确认</div>
-        </div>
-    </van-popup>
 </template>
 
 <script setup lang="ts">
@@ -66,8 +53,6 @@ import Node from './components/Node.vue'
 import QA from './components/QA.vue'
 import { ref } from 'vue';
 import { message } from '@/utils/message';
-
-const show = ref(false)
 
 const qa = ref()
 const onQaOpen = (index:any)=>{
@@ -147,18 +132,6 @@ const onQaOpen = (index:any)=>{
     .pic7{
         width: 240px;
         height: 180px;
-    }
-}
-.bind{
-    width: 590px;
-    padding: 30px 30px 40px 30px;
-    border: 1px solid #FFFFFF80;
-    border-radius: 20px;
-    background: linear-gradient(52deg, #1C1F1D, #080908);
-    .box{
-        padding: 30px;
-        border-radius: 20px;
-        border: 1px solid #999999;
     }
 }
 </style>

@@ -1,22 +1,25 @@
 <template>
     <VanPopup v-model:show="show" style="background: transparent;" :destroy-on-close="true" position="bottom" overlay-class="cusMask" teleport="#app">
-        <div class="picker">
-            <div class="flex jb ac mb60">
-                <div class="size32">{{ title }}</div>
-                <van-icon size="25" name="cross" @click="close" />
+        <div class="pt2 pr2 pb2 pl2">
+            <div class="picker">
+                <div class="flex jb ac mb30">
+                    <div class="size32 bold">{{ title }}</div>
+                    <van-icon size="25" name="cross" color="#999999" @click="close" />
+                </div>
+                <div class="pickerLine mb30"></div>
+                <CusEmpty v-if="list.length==0"></CusEmpty>
+                <div v-else>
+                    <swiper slidesPerView="auto" :centeredSlides="true" direction="vertical" space-between="10" @swiper="onSwiper" @slide-change="slideChange">
+                        <swiper-slide v-for="(item, index) in list" :key="index">
+                            <div>{{ item[name] }}</div>
+                        </swiper-slide>
+                    </swiper>
+                </div>
+                <div class="mt60">
+                    <div class="mainBtn size30" v-scale v-delay="{fun:submit}">{{ submitTxt }}</div>
+                </div>
+                <div class="safeBottom"></div>
             </div>
-            <CusEmpty v-if="list.length==0"></CusEmpty>
-            <div  v-else>
-                <swiper slidesPerView="auto" :centeredSlides="true" direction="vertical" space-between="10" @swiper="onSwiper" @slide-change="slideChange">
-                    <swiper-slide v-for="(item, index) in list" :key="index">
-                        <div>{{ item[name] }}</div>
-                    </swiper-slide>
-                </swiper>
-            </div>
-            <div class="mt60">
-                <div class="mainBtn size30" v-scale v-delay="{fun:submit}">{{ submitTxt }}</div>
-            </div>
-            <div class="safeBottom"></div>
         </div>
     </VanPopup>
 </template>
@@ -79,7 +82,25 @@ defineExpose({
 .picker{
     border-radius: 40px 40px 0 0;
     padding: 40px;
-    background-color: $card;
+    background-color: #14141C;
+    border: 1px solid transparent;
+    position: relative;
+    &::before{
+        content: "";
+        position: absolute;
+        top: -2px;
+        left: -2px;
+        right: -2px;
+        bottom: -2px;
+        z-index: -1;
+        background: linear-gradient(#C348FF, #00000000);
+        border-radius: 40px 40px 0 0;
+    }
+    .pickerLine{
+        width: 100%;
+        height: 1px;
+        background-color: #FFFFFF1A;
+    }
     .swiper {
         width: 670px;
         height: 500px;
@@ -96,7 +117,9 @@ defineExpose({
     }
 
     .swiper-slide-active {
-        background-color: $box;
+        background-image: url("@/assets/common/picker.png");
+        background-size: 100% 100%;
+        color: $main-color;
         opacity: 1;
     }
 }

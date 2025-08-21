@@ -1,6 +1,6 @@
 import { t } from '@/locale';
+import { message } from '@/utils/message';
 import copy from 'copy-to-clipboard';
-import { showSuccessToast, showFailToast } from 'vant';
 
 interface RippleHTMLElement extends HTMLElement {
     _copyValue: string
@@ -11,8 +11,8 @@ export default {
         el.addEventListener('click', () => {
             let valueToCopy = el._copyValue || binding.value
             const result = copy(valueToCopy);
-            if (result) showSuccessToast(t('复制成功'))
-            else showFailToast(t('复制失败'))
+            if (result) message(t('复制成功'),'success')
+            else message(t('复制失败'),'fail')
         });
     },
     updated(el: RippleHTMLElement, binding: any) {

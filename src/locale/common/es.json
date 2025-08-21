@@ -1,1 +1,20 @@
-{}
+{
+    "切换语言": "Cambiar Idioma",
+    "下拉即可刷新...": "Desliza hacia abajo para actualizar...",
+    "释放即可刷新...": "Suelta para actualizar...",
+    "加载中...": "Cargando...",
+    "没有更多了": "No hay más datos",
+    "请选择": "Por favor selecciona",
+    "确定": "OK",
+    "确认": "Confirmar",
+    "取消": "Cancelar",
+    "链接钱包": "Conectar Billetera",
+    "复制成功": "Copia exitosa",
+    "复制失败": "Copia fallida",
+    "复制": "Copiar",
+    "提取": "Retirar",
+    "充值": "Depositar",
+    "社区": "Comunidad",
+    "成功": "Éxito",
+    "失败": "Fallido"
+}

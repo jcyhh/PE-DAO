@@ -5,7 +5,6 @@ import { getHeaderLang } from '../locale'
 import { closeToast, showLoadingToast, showToast } from 'vant';
 import { router, routerPush } from '@/router';
 import { startPath } from '@/config/dapp';
-import { useDappStore } from '@/store';
 
 const service = axios.create({
     baseURL: import.meta.env.VITE_BASE_URL,
@@ -95,8 +94,6 @@ export const apiUpload = () => {
 // 登录失效
 export function logout() {
     delToken()
-    const useStore = useDappStore()
-    useStore.updateAddress('')
     const currentRoute = router.currentRoute.value
     if(currentRoute.path!==startPath)routerPush(startPath)
 }

@@ -9,15 +9,15 @@
             <div class="pop">
                 <div class="size26 bold">我的地址</div>
                 <div class="flex jb ac mt24">
-                    <div class="font1 linearTxt size32 bold">0xd205e6...7b268B</div>
-                    <img src="@/assets/layout/copy.png" class="img48">
+                    <div class="font1 linearTxt size32 bold" v-init:address="address"></div>
+                    <img src="@/assets/layout/copy.png" class="img48" v-copy="address">
                 </div>
-                <div class="opc6 size24 mt12">2025.08.01 17:50</div>
+                <div class="opc6 size24 mt12">2025-08-01 17:50</div>
                 <div class="flex jb ac mt50">
-                    <div class="size24">账户登记</div>
+                    <div class="size24">账户等级</div>
                     <div class="flex ac">
-                        <img src="@/assets/imgs/9.png" class="img48 aniRotate">
-                        <div class="size24 ml8">1星</div>
+                        <img src="@/assets/imgs/9.png" class="img48 aniRotate mr8" v-for="(item,index) in 5" :key="index">
+                        <div class="size24">1星</div>
                     </div>
                 </div>
                 <div class="line mt60 mb30"></div>
@@ -33,9 +33,14 @@
 
 <script setup lang="ts">
 import { routerReplace } from '@/router';
+import { useDappStore } from '@/store';
+import { storeToRefs } from 'pinia';
 import { computed, ref, watch } from 'vue';
 
 const emits = defineEmits(['change'])
+
+const dappStore = useDappStore()
+const { address } = storeToRefs(dappStore)
 
 const show = ref(false)
 

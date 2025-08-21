@@ -1,1 +1,20 @@
-{}
+{
+    "切换语言": "Dili Değiştir",
+    "下拉即可刷新...": "Yenilemek için aşağı çekin...",
+    "释放即可刷新...": "Yenilemek için bırakın...",
+    "加载中...": "Yükleniyor...",
+    "没有更多了": "Daha fazla veri yok",
+    "请选择": "Lütfen seçin",
+    "确定": "Tamam",
+    "确认": "Onayla",
+    "取消": "İptal",
+    "链接钱包": "Cüzdan Bağla",
+    "复制成功": "Kopyalama başarılı",
+    "复制失败": "Kopyalama başarısız",
+    "复制": "Kopyala",
+    "提取": "Çek",
+    "充值": "Yatır",
+    "社区": "Topluluk",
+    "成功": "Başarılı",
+    "失败": "Başarısız"
+}

@@ -14,7 +14,7 @@
             <div class="line"></div>
             <div class="flex1">
                 <div class="size36 bold font1">2,000.38</div>
-                <div class="size24 gray mt16">直推收益(USDT)</div>
+                <div class="size24 gray mt16">间推收益(USDT)</div>
             </div>
         </div>
         <div class="mt40 card">

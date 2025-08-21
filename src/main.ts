@@ -39,7 +39,7 @@ import { copy, delay, scale, filter, onShow } from '@/directives';
 app.directive('scale', scale);
 app.directive('copy', copy);
 app.directive('delay', delay);
-app.directive('filter', filter);
+app.directive('init', filter);
 app.directive('on-show', onShow);
 
 /**

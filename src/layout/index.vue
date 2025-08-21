@@ -2,7 +2,7 @@
     <div class="head headGlass flex jb ac" :style="{zIndex}">
         <Menu @change="$event=>zIndex=$event?10000:100"></Menu>
 
-        <div class="linearTxt font1 size40">{{ appName }}</div>
+        <div class="linearTxt font1 size40 bold">{{ $route.meta.title }}</div>
 
         <CusLang></CusLang>
     </div>
@@ -15,7 +15,6 @@
 <script setup lang="ts">
 import CusLang from '@/components/CusLang/index.vue';
 import Menu from './Menu.vue';
-import { appName } from '@/config';
 import { ref } from 'vue';
 
 const zIndex = ref(100)

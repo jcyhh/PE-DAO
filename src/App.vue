@@ -14,9 +14,9 @@ import { watch } from 'vue';
 import { getToken, setAddress } from './config/storage';
 import { routerPush } from './router';
 import { logout } from './utils/request';
-import { useAppStore } from './store';
+import { useDappStore } from './store';
 
-const useStore = useAppStore()
+const dappStore = useDappStore()
 
 const { ethereum } = window as any;
 
@@ -30,10 +30,13 @@ const init = async () => {
     createListener() // 创建监听
 }
 // 本地存的地址跟当前链接保持同步
-watch(address,(val)=>setAddress(val))
+watch(address,(val)=>{
+    setAddress(val)
+    dappStore.updateAddress(val)
+})
 // 当钱包对象异步注入到浏览器后
 watch(hasMetaMask, async (val)=>{
-    useStore.updateHasMetaMask(val)
+    dappStore.updateHasMetaMask(val)
     if(val==1)await init()
     if(!getToken())routerPush(startPath)
 })
