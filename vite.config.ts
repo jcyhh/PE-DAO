@@ -31,7 +31,7 @@ export default defineConfig({
         Components({
             resolvers: [
                 VantResolver(),
-                VueAmazingUIResolver()
+                VueAmazingUIResolver({cjs: false})
             ]
         })
     ],

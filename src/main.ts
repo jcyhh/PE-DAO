@@ -19,6 +19,7 @@ import '@vant/touch-emulator'; // 电脑端mouse事件转touch事件
 import 'vant/es/toast/style';
 import 'vant/es/image-preview/style';
 
+
 /**
  * 公共样式
  */

@@ -10,7 +10,7 @@ export default [
         },
         children:[{
             path:'index',
-            component: () => import('@/views/menu/home/index.vue')
+            component: () => import('@/views/home/index.vue')
         }]
     },
     {
@@ -22,7 +22,7 @@ export default [
         },
         children:[{
             path:'index',
-            component: () => import('@/views/menu/invite/index.vue')
+            component: () => import('@/views/invite/index.vue')
         }]
     },
     {
@@ -34,7 +34,7 @@ export default [
         }, 
         children:[{
             path:'index',
-            component: () => import('@/views/menu/team/index.vue')
+            component: () => import('@/views/team/index.vue')
         }]
     },
     {
@@ -46,7 +46,7 @@ export default [
         },
         children:[{
             path:'index',
-            component: () => import('@/views/menu/income/index.vue')
+            component: () => import('@/views/income/index.vue')
         }]
     },
     {
@@ -58,7 +58,7 @@ export default [
         },
         children:[{
             path:'index',
-            component: () => import('@/views/menu/vip/index.vue')
+            component: () => import('@/views/vip/index.vue')
         }]
     },
     {
@@ -70,7 +70,7 @@ export default [
         },
         children:[{
             path:'index',
-            component: () => import('@/views/menu/qa/index.vue')
+            component: () => import('@/views/qa/index.vue')
         }]
     }
 ]

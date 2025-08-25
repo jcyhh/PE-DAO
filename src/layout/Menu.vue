@@ -12,14 +12,14 @@
                     <div class="font1 linearTxt size32 bold" v-init:address="address"></div>
                     <img src="@/assets/layout/copy.png" class="img48" v-copy="address">
                 </div>
-                <div class="opc6 size24 mt12">2025-08-01 17:50</div>
-                <div class="flex jb ac mt50">
+                <div class="opc6 size24 mt12">{{ userInfo?.created_at }}</div>
+                <!-- <div class="flex jb ac mt50">
                     <div class="size24">账户等级</div>
                     <div class="flex ac">
                         <img src="@/assets/imgs/9.png" class="img48 aniRotate mr8" v-for="(item,index) in 5" :key="index">
                         <div class="size24">1星</div>
                     </div>
-                </div>
+                </div> -->
                 <div class="line mt60 mb30"></div>
                 <div class="pt30 pb30 flex jb ac" v-for="(item,index) in menus" :key="index" @click="jump(item.path)">
                     <div class="size28" :class="$route.path==item.path?'main':''">{{ item.name }}</div>
@@ -34,6 +34,7 @@
 <script setup lang="ts">
 import { routerReplace } from '@/router';
 import { useDappStore } from '@/store';
+import { apiGet } from '@/utils/request';
 import { storeToRefs } from 'pinia';
 import { computed, ref, watch } from 'vue';
 
@@ -43,6 +44,10 @@ const dappStore = useDappStore()
 const { address } = storeToRefs(dappStore)
 
 const show = ref(false)
+
+// 用户信息
+const userInfo = ref()
+apiGet('/api/users/my').then(res => userInfo.value = res)
 
 const menus = computed(()=>([
     {name:'首页', path:'/home/index'},
