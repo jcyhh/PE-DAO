@@ -44,8 +44,8 @@ const messages = {
  */
 export const langs = [
     { name: 'English', lang: 'en', value: 'en' }, // 英语
-    { name: '한국어', lang: 'ko', value: 'ko' }, // 韩语
-    { name: '日本語', lang: 'ja', value: 'ja' }, // 日语
+    // { name: '한국어', lang: 'ko', value: 'ko' }, // 韩语
+    // { name: '日本語', lang: 'ja', value: 'ja' }, // 日语
     { name: '繁体中文', lang: 'hk', value: 'zh-Hant' }, // 繁体中文
     { name: '简体中文', lang: 'zh', value: 'zh-Hans' }, // 简体中文
     // { name: 'Indonesian', lang: 'id', value: 'id' }, // 印尼语

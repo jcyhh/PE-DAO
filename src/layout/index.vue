@@ -2,7 +2,7 @@
     <div class="head headGlass flex jb ac" :style="{zIndex}">
         <Menu @change="$event=>zIndex=$event?10000:100"></Menu>
 
-        <div class="linearTxt font1 size40 bold">{{ $route.meta.title }}</div>
+        <div class="linearTxt font1 size40 bold">{{ $t($route.meta.title as string) }}</div>
 
         <CusLang></CusLang>
     </div>

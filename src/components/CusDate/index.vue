@@ -10,11 +10,11 @@
                 
                 <div class="flex ac">
                     <div class="date">
-                        <span class="gray">开始时间</span>
+                        <span class="gray">{{ $t('开始时间') }}</span>
                     </div>
                     <div class="dateLine"></div>
                     <div class="date">
-                        <span class="gray">结束时间</span>
+                        <span class="gray">{{ $t('结束时间') }}</span>
                     </div>
                 </div>
 

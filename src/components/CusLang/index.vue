@@ -5,7 +5,7 @@
         </slot>
     </div>
 
-    <CusPicker ref="picker" :list="langs" title="切换语言" @change="onChange"></CusPicker>
+    <CusPicker ref="picker" :list="langs" :title="$t('切换语言')" @change="onChange"></CusPicker>
 </template>
 
 <script setup lang="ts">

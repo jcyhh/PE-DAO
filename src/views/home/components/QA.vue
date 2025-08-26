@@ -2,20 +2,14 @@
     <div class="qa-container">
         <div class="qaAct" :class="{ 'active': show }">
             <div class="qAct flex rel" @click="show=false">
-                <div class="br flex1 mr60 size28 bold lh50">PE-DAO 平台是做什么的?</div>
+                <div class="br flex1 mr60 size28 bold lh50">{{ data?.question }}</div>
                 <van-icon class="mt5" name="arrow-up" color="#00000080" />
             </div>
-            <div class="a" :class="{ 'show': show }">
-                Private 是一个为个人数字资产提供跨链隐私化处理的系统 。它主要由两个部分构成:<br>
-                <br>
-                PE(Private Exchange)：这是您用来进行资产隐私化处理的平台。<br>
-                <br>
-                PL(Private Liquidity)：这是一个流动性平台，为整个系统的顺畅运行提供资金支持我们的目标是为全球的加密货币用户提供一个可靠的资产隐私安全护盾。
-            </div>
+            <div class="a" :class="{ 'show': show }" v-html="data?.content"></div>
         </div>
         <div class="qa" :class="{ 'hidden': show }">
             <div class="q flex rel" @click="open">
-                <div class="br flex1 mr60 size28 bold lh50">PE-DAO 平台是做什么的?</div>
+                <div class="br flex1 mr60 size28 bold lh50">{{ data?.question }}</div>
                 <van-icon class="mt5" name="arrow-down" color="#FFFFFF80" />
             </div>
         </div>
@@ -25,7 +19,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 
-const props = defineProps(['index'])
+const props = defineProps(['data'])
 
 const emits = defineEmits(['open'])
 
@@ -33,11 +27,11 @@ const show = ref(false)
 
 const open = () => {
     show.value = true
-    emits('open', props.index)
+    emits('open', props.data.id)
 }
 
-const close = (index:any) => {
-    if(props.index != index)show.value = false
+const close = (id:any) => {
+    if(props.data.id != id)show.value = false
 }
 
 defineExpose({

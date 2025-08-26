@@ -3,18 +3,18 @@
         <div class="gap90"></div>
         <div class="tc">
             <div class="linearNum size60 bold font1" v-init="userInfo?.kpi"></div>
-            <div class="size24 gray mt10">总业绩(USDT)</div>
+            <div class="size24 gray mt10">{{ $t('总业绩') }}(USDT)</div>
             <div class="size40 bold font1 mt40" v-init="userInfo?.team_kpi"></div>
-            <div class="size24 gray mt10">直推业绩(USDT)</div>
+            <div class="size24 gray mt10">{{ $t('直推业绩') }}(USDT)</div>
         </div>
 
         <div class="flex jb mt60 pl30 pr30 black">
             <div class="card card1">
-                <div class="size26">团队人数</div>
+                <div class="size26">{{ $t('团队人数') }}</div>
                 <div class="size36 bold">{{ userInfo?.team_count }}</div>
             </div>
             <div class="card card2">
-                <div class="size26">直推人数</div>
+                <div class="size26">{{ $t('直推人数') }}</div>
                 <div class="size36 bold">{{ userInfo?.referral_count }}</div>
             </div>
         </div>
@@ -24,7 +24,7 @@
             <div class="flex jb ac">
                 <div class="flex ac">
                     <div class="line mr10"></div>
-                    <div class="size28 bold">社区列表</div>
+                    <div class="size28 bold">{{ $t('社区列表') }}</div>
                 </div>
                 <div class="flex">
                     <div class="filter flex ac size24 gray" @click="pickerRef.open(current)">
@@ -33,7 +33,7 @@
                     </div>
                     <div class="filter flex ac size24 gray ml20" @click="showDate=true">
                         <div v-if="start_at&&end_at">{{ start_at }}-{{ end_at }}</div>
-                        <div class="mr10" v-else>选择日期</div>
+                        <div class="mr10" v-else>{{ $t('选择日期') }}</div>
                         <van-icon name="arrow-down" />
                     </div>
                 </div>
@@ -46,14 +46,14 @@
                 <div class="pt30 pb30" v-for="(item, index) in list" :key="index">
                     <div class="flex jb ac">
                         <div class="flex ac">
-                            <div class="size28 mr10">0xC1...839d</div>
-                            <div class="tag tag1">直推</div>
+                            <div class="size28 mr10">{{ item.nickname }}</div>
+                            <div class="tag tag1">{{ pickerList[current].name }}</div>
                         </div>
-                        <div class="size28 bold">268</div>
+                        <div class="size28 bold" v-init="item.team_kpi"></div>
                     </div>
                     <div class="flex jb size24 opc4 mt10">
-                        <div>2025-07-06 15:28:26</div>
-                        <div>团队业绩</div>
+                        <div v-init:time="item.created_at"></div>
+                        <div>{{ $t('团队业绩') }}</div>
                     </div>
                 </div>
                 <CusEmpty v-if="list?.length==0"></CusEmpty>
@@ -78,18 +78,19 @@ import { usePullRefresh } from '@/hooks/usePullRefresh';
 import { apiGet } from '@/utils/request';
 import { computed, ref } from 'vue';
 import CusEmpty from '@/components/CusEmpty/index.vue'
+import { t } from '@/locale';
 
 // 类型
 const pickerRef = ref()
 const current = ref(0)
 const pickerList = computed(()=>([
-    { name: '直推', value: 1 },
-    { name: '间推', value: 2 }
+    { name: t('直推'), value: 1 },
+    { name: t('间推'), value: 2 }
 ]))
 const onPickerChange = (index:number)=>{
     if(current.value==index)return
     current.value = index
-    loadList(true)
+    loadList()
 }
 
 // 日期
@@ -100,7 +101,7 @@ const onDateChange = (vals:any) => {
     start_at.value = `${vals[0].getFullYear()}-${vals[0].getMonth() + 1}-${vals[0].getDate()}`
     end_at.value = `${vals[1].getFullYear()}-${vals[1].getMonth() + 1}-${vals[1].getDate()}`
     showDate.value = false
-    loadList(true)
+    loadList()
 }
 
 // 列表接口参数
@@ -117,7 +118,7 @@ const loadInfo = () => apiGet('/api/users/my').then(res => userInfo.value = res)
 // 初始加载数据
 const loadData = () => {
     loadInfo()
-    loadList(true)
+    loadList()
 }
 
 const { props } = usePullRefresh(loadData)

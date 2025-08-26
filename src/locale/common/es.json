@@ -16,5 +16,22 @@
     "充值": "Depositar",
     "社区": "Comunidad",
     "成功": "Éxito",
-    "失败": "Fallido"
+    "失败": "Fallido",
+    "开始时间": "Tiempo de Inicio",
+    "结束时间": "Tiempo de Fin",
+    "选择日期": "Seleccionar Fecha",
+    "操作失败": "Operación Fallida",
+    "提取成功": "Retiro Exitoso",
+    "铸造成功": "Acuñación Exitosa",
+    "余额不足": "Saldo Insuficiente",
+    "转账成功": "Transferencia Exitosa",
+    "转账失败": "Transferencia Fallida",
+    "授权成功": "Autorización Exitosa",
+    "授权失败": "Autorización Fallida",
+    "Gas费不足": "Tarifa de Gas Insuficiente",
+    "查看": "Ver",
+    "公告详情": "Detalles del Anuncio",
+    "公告列表": "Lista de Anuncios",
+    "查看详情": "Ver Detalles",
+    "昨天": "Ayer"
 }

@@ -7,14 +7,14 @@
     <van-popup v-model:show="show" style="background-color: transparent !important;" position="left" overlay-class="cusMask" teleport="#app">
         <div class="popBox">
             <div class="pop">
-                <div class="size26 bold">我的地址</div>
+                <div class="size26 bold">{{ $t('我的地址') }}</div>
                 <div class="flex jb ac mt24">
                     <div class="font1 linearTxt size32 bold" v-init:address="address"></div>
                     <img src="@/assets/layout/copy.png" class="img48" v-copy="address">
                 </div>
                 <div class="opc6 size24 mt12">{{ userInfo?.created_at }}</div>
                 <!-- <div class="flex jb ac mt50">
-                    <div class="size24">账户等级</div>
+                    <div class="size24">{{ $t('账户等级') }}</div>
                     <div class="flex ac">
                         <img src="@/assets/imgs/9.png" class="img48 aniRotate mr8" v-for="(item,index) in 5" :key="index">
                         <div class="size24">1星</div>
@@ -32,6 +32,7 @@
 </template>
 
 <script setup lang="ts">
+import { t } from '@/locale';
 import { routerReplace } from '@/router';
 import { useDappStore } from '@/store';
 import { apiGet } from '@/utils/request';
@@ -50,12 +51,12 @@ const userInfo = ref()
 apiGet('/api/users/my').then(res => userInfo.value = res)
 
 const menus = computed(()=>([
-    {name:'首页', path:'/home/index'},
-    {name:'邀请码', path:'/invite/index'},
-    {name:'团队', path:'/team/index'},
-    {name:'收益', path:'/income/index'},
-    {name:'我的身份', path:'/vip/index'},
-    {name:'常见问题', path:'/qa/index'}
+    {name:t('首页'), path:'/home/index'},
+    {name:t('邀请码'), path:'/invite/index'},
+    {name:t('团队'), path:'/team/index'},
+    {name:t('收益'), path:'/income/index'},
+    {name:t('我的身份'), path:'/vip/index'},
+    {name:t('常见问题'), path:'/qa/index'}
 ]))
 
 const jump = (path:string) => {

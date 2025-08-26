@@ -36,9 +36,12 @@ export const testNet = {
         symbol: 'ETH',
         decimals: 18
     },
-    rpcUrls: ['http://192.168.31.230:7545'],
+    rpcUrls: ['http://192.168.31.237:7545'],
     blockExplorerUrls: []
 }
+
+// 估算Gas
+export const getGasLimit = (estimatedGas:any) => new BigNumber(estimatedGas.toString()).times(gasMul).toFixed(0)
 
 // 大数字转小数字
 export const bigToSmall = (bigNum:number|string):number => bigNum ? new BigNumber(bigNum).div(numRule).dp(4).toNumber() : 0

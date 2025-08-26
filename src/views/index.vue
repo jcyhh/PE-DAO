@@ -6,14 +6,14 @@
 
     <van-popup v-model:show="show" style="background-color: transparent !important;" :close-on-click-overlay="false" overlay-class="cusMask">
         <div class="bind">
-            <div class="tc size32 bold">激活地址</div>
-            <div class="mt60 size24">当前地址</div>
-            <div class="box mt20 size20 gray br lh30">{{ address }}</div>
-            <div class="mt30 size24">邀请码</div>
+            <div class="tc size32 bold">{{ $t('激活地址') }}</div>
+            <div class="mt60 size24">{{ $t('当前地址') }}</div>
+            <div class="box mt20 size24 gray br lh30">{{ address }}</div>
+            <div class="mt30 size24">{{ $t('邀请码') }}</div>
             <div class="box mt20 flex">
-                <input type="text" v-model="inviteCode" placeholder="请输入邀请码" class="size20 flex1">
+                <input type="text" v-model="inviteCode" :placeholder="$t('请输入邀请码')" class="size24  flex1">
             </div>
-            <div class="mainBtn mt40" v-scale v-delay="{fun:loginIn}">确认</div>
+            <div class="mainBtn mt40" v-scale v-delay="{fun:loginIn}">{{ $t('确认') }}</div>
         </div>
     </van-popup>
 </template>
@@ -24,7 +24,7 @@ import { getToken, setToken } from '@/config/storage';
 import { useEthers } from '@/dapp';
 import { routerReplace } from '@/router';
 import { useDappStore } from '@/store';
-import { apiPost } from '@/utils/request';
+import { apiGet, apiPost } from '@/utils/request';
 import { storeToRefs } from 'pinia';
 import { ref, watch } from 'vue';
 
@@ -40,8 +40,17 @@ const inviteCode = ref()
 watch(hasMetaMask, async (val)=>{
     if(val!=1)return
     await connectWallet()
-    setTimeout(() => getToken() ? routerReplace(homePath) : show.value=true, 1500);
+    setTimeout(() => getToken() ? routerReplace(homePath) : checkIsRegister(), 1500);
 },{immediate:true})
+
+const checkIsRegister = () => {
+    apiGet('/api/auth/is_reg',{
+        address: address.value
+    }).then((res:any)=>{
+        if(res.is_reg==1)loginIn()
+        else show.value = true
+    })
+}
 
 // 钱包登录
 const loginIn = async () => {

@@ -4,6 +4,7 @@ import BigNumber from "bignumber.js";
 import { ref } from "vue";
 import { bscMainnet, testNet, type SignMessage, minGas, numRule } from '@/config/dapp';
 import { showToast } from "vant";
+import { t } from "@/locale";
 
 export function useEthers() {
     const { ethereum } = window as any
@@ -36,8 +37,8 @@ export function useEthers() {
     const checkChain = async () => {
         const network = await provider.getNetwork();
         const chainId: string = network.chainId.toString(); // 当前网络
-        // const chainInfo = import.meta.env.PROD ? bscMainnet : testNet; // 目标网络
-        const chainInfo = bscMainnet; // 目标网络
+        const chainInfo = import.meta.env.PROD ? bscMainnet : testNet; // 目标网络
+        // const chainInfo = bscMainnet; // 目标网络
         if(chainId != parseInt(chainInfo.chainId).toFixed())await switchChain(chainInfo) // 切换至目标网络
     }
 
@@ -80,7 +81,7 @@ export function useEthers() {
         balanceInEth = new BigNumber(balanceInEth)
         const min = new BigNumber(minGas).times(numRule)
         if(min.comparedTo(balanceInEth) == 1){
-            showToast('Gas费不足')
+            showToast(t('Gas费不足'))
             return false
         }
         return true;

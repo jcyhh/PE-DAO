@@ -16,5 +16,22 @@
     "充值": "Deposit",
     "社区": "Komunitas",
     "成功": "Berhasil",
-    "失败": "Gagal"
+    "失败": "Gagal",
+    "开始时间": "Waktu Mulai",
+    "结束时间": "Waktu Selesai",
+    "选择日期": "Pilih Tanggal",
+    "操作失败": "Operasi Gagal",
+    "提取成功": "Penarikan Berhasil",
+    "铸造成功": "Pencetakan Berhasil",
+    "余额不足": "Saldo Tidak Cukup",
+    "转账成功": "Transfer Berhasil",
+    "转账失败": "Transfer Gagal",
+    "授权成功": "Otorisasi Berhasil",
+    "授权失败": "Otorisasi Gagal",
+    "Gas费不足": "Biaya Gas Tidak Cukup",
+    "查看": "Lihat",
+    "公告详情": "Detail Pengumuman",
+    "公告列表": "Daftar Pengumuman",
+    "查看详情": "Lihat Detail",
+    "昨天": "Kemarin"
 }

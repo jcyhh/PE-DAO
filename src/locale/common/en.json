@@ -16,5 +16,22 @@
     "充值": "Deposit",
     "社区": "Community",
     "成功": "Success",
-    "失败": "Failed"
+    "失败": "Failed",
+    "开始时间": "Start Time",
+    "结束时间": "End Time",
+    "选择日期": "Select Date",
+    "操作失败": "Operation Failed",
+    "提取成功": "Withdrawal Successful",
+    "铸造成功": "Minting Successful",
+    "余额不足": "Insufficient Balance",
+    "转账成功": "Transfer Successful",
+    "转账失败": "Transfer Failed",
+    "授权成功": "Authorization Successful",
+    "授权失败": "Authorization Failed",
+    "Gas费不足": "Insufficient Gas Fee",
+    "查看": "View",
+    "公告详情": "Announcement Details",
+    "公告列表": "Announcement List",
+    "查看详情": "View Details",
+    "昨天": "Yesterday"
 }
