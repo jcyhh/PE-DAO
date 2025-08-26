@@ -24,23 +24,18 @@ export function message(title:string, type:Message='warning'){
         }
     }
     let bg = ''
-    let border = ''
     let icon = ''
     if(type=='success'){
         bg = 'bgGreen'
-        border = 'messageSuccess'
         icon = success
     }else if(type=='info'){
         bg = 'bgGray'
-        border = 'messageInfo'
         icon = info
     }else if(type=='fail'){
         bg = 'bgRed'
-        border = 'messageFail'
         icon = fail
     }else{
         bg = 'bgYellow'
-        border = 'messageWarning'
         icon = warning
     }
     const htmlStr = `
