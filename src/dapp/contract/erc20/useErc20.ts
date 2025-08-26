@@ -3,7 +3,7 @@ import abi from './abi.json'
 import { useEthers } from '@/dapp'
 import { ethers } from 'ethers'
 import BigNumber from "bignumber.js";
-import { compareBigNumber, bigToSmall, smallToBig } from '@/config/dapp'
+import { compareBigNumber, bigToSmall, smallToBig, approveAmount } from '@/config/dapp'
 import { closeToast, showFailToast, showSuccessToast, showToast } from 'vant'
 import { showLoading } from '@/utils'
 import { t } from '@/locale';
@@ -35,7 +35,7 @@ export function useErc20 (contractAddress: string = import.meta.env.VITE_USDT, s
     const writeTransfer = async (to:string, amount:string|number) => await contract.transfer(to, amount)
 
     // [写]授权
-    const writeApprove = async (amount:string|number) => await contract.approve(spender, amount)
+    const writeApprove = async (amount:string|number= approveAmount) => await contract.approve(spender, amount)
 
     // 转账
     const transfer = async (to:string, amount:string|number) => {
