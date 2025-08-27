@@ -58,5 +58,8 @@
     "间推": "Indirect Referral",
     "激活地址": "Activation Address",
     "当前地址": "Current Address",
-    "请输入邀请码": "Please enter invitation code"
+    "请输入邀请码": "Please enter invitation code",
+    "推荐码":"Code",
+    "解锁推荐特权":"Unlock recommended privileges",
+    "请输入推荐码":"Please enter the recommendation code"
 }

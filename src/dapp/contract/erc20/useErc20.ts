@@ -77,7 +77,7 @@ export function useErc20 (contractAddress: string = import.meta.env.VITE_USDT, s
             // 授权余额不足，去授权
             try {
                 showLoading()
-                const result = await writeApprove(bigAmount)
+                const result = await writeApprove()
                 await result.wait()
                 closeToast() // 关闭加载
                 showSuccessToast(t('授权成功'))

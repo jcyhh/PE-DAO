@@ -119,6 +119,9 @@
                 <div class="size24 opc6">{{ $t('释放方式') }}</div>
                 <div class="size26">{{ Number(info.release_rate) }}%</div>
             </div>
+            <div class="box mt60 flex">
+                <input type="text" v-model="inviteCode" :placeholder="$t('请输入推荐码')" class="size24  flex1">
+            </div>
             <div class="tips size20 mt60 lh48">{{ $t('提示...') }}</div>
             <div class="mainBtn mt40" v-scale v-delay="{fun:submit}">{{ $t('确认') }}</div>
         </div>
@@ -131,6 +134,8 @@ import { apiGet, apiPost } from '@/utils/request'
 import { useEthers } from '@/dapp'
 import { useBiz } from '@/dapp/contract/biz/useBiz'
 import { useErc20 } from '@/dapp/contract/erc20/useErc20'
+import { message } from '@/utils/message'
+import { t } from '@/locale'
 
 const { getSign, checkGas, connectWallet } = useEthers()
 connectWallet()
@@ -144,17 +149,21 @@ const show = ref(false) // 弹窗
 const list = ref<any[]>([]) // nft列表
 const info = ref() // 当前要铸造的nft信息
 const gsz_price = ref(0) // “共识者”nft的价格
+const inviteCode = ref() // 邀请码
 
 apiGet('/api/nft').then((res:any)=>list.value=res.nft)
 apiGet('/api/config/config').then((res:any)=>gsz_price.value=res.gsz_price)
 
 const open = (data:any) => {
+    inviteCode.value = ''
     info.value = data
     show.value = true
 }
 
 // 铸造nft
 const submit = async () => {
+    if(!inviteCode.value)return message(t('请输入推荐码'))
+
     const gasEnough = await checkGas(); // 检测ETH
     if(!gasEnough)return;
 
@@ -162,9 +171,9 @@ const submit = async () => {
     
     const signInfo:any = await getSign('Order') // 签名
 
-    apiPost('/api/order',{
-        type: 2,
+    apiPost('/api/order/nft',{
         nft_id: info.value.id,
+        ref: inviteCode.value,
         ...signInfo
     }).then(async (res:any)=>{
         const { id, price, expired_at, sign } = res
@@ -182,10 +191,7 @@ const submit1 = async () => {
     
     const signInfo:any = await getSign('Order') // 签名
 
-    apiPost('/api/order',{
-        type: 1,
-        ...signInfo
-    }).then(async (res:any)=>{
+    apiPost('/api/order/gsz', signInfo).then(async (res:any)=>{
         const { id, price, to, expired_at, sign } = res
         await writeDonate(id, price, to, expired_at, sign) // 铸造
     })
@@ -209,6 +215,11 @@ const submit1 = async () => {
     background: linear-gradient(52deg, #1C1F1D, #080908);
     .tips{
         color: #EED05F;
+    }
+    .box{
+        padding: 30px 24px;
+        border-radius: 20px;
+        border: 1px solid #999999;
     }
 }
 .card{

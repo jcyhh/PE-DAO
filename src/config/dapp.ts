@@ -36,7 +36,7 @@ export const testNet = {
         symbol: 'ETH',
         decimals: 18
     },
-    rpcUrls: ['http://192.168.31.237:7545'],
+    rpcUrls: ['http://192.168.31.238:7545'],
     blockExplorerUrls: []
 }
 

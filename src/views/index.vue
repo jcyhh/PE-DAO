@@ -9,9 +9,9 @@
             <div class="tc size32 bold">{{ $t('激活地址') }}</div>
             <div class="mt60 size24">{{ $t('当前地址') }}</div>
             <div class="box mt20 size24 gray br lh30">{{ address }}</div>
-            <div class="mt30 size24">{{ $t('邀请码') }}</div>
+            <div class="mt30 size24">{{ $t('推荐码') }}</div>
             <div class="box mt20 flex">
-                <input type="text" v-model="inviteCode" :placeholder="$t('请输入邀请码')" class="size24  flex1">
+                <input type="text" v-model="inviteCode" :placeholder="$t('请输入推荐码')" class="size24  flex1">
             </div>
             <div class="mainBtn mt40" v-scale v-delay="{fun:loginIn}">{{ $t('确认') }}</div>
         </div>
@@ -28,7 +28,7 @@ import { apiGet, apiPost } from '@/utils/request';
 import { storeToRefs } from 'pinia';
 import { ref, watch } from 'vue';
 
-const { connectWallet, getSign } = useEthers()
+const { getSign, connectWallet } = useEthers()
 
 const dappStore = useDappStore()
 const { address, hasMetaMask } = storeToRefs(dappStore)
@@ -37,9 +37,8 @@ const show = ref(false)
 const inviteCode = ref()
 
 // 当钱包对象异步注入到浏览器后，钱包登录 或者 去首页
-watch(hasMetaMask, async (val)=>{
-    if(val!=1)return
-    await connectWallet()
+watch(address, async (val)=>{
+    if(!val)return
     setTimeout(() => getToken() ? routerReplace(homePath) : checkIsRegister(), 1500);
 },{immediate:true})
 
@@ -54,6 +53,7 @@ const checkIsRegister = () => {
 
 // 钱包登录
 const loginIn = async () => {
+    await connectWallet()
     const signInfo = await getSign('Login')
     apiPost('/api/auth/login',{
         ref: inviteCode.value,

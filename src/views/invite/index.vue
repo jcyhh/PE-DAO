@@ -67,7 +67,7 @@ const tabsClick = async (index:number) => {
 }
 
 const canInvite = ref(true)
-apiGet('/api/users/my').then((res:any)=>canInvite.value = res.kpi > 0)
+apiGet('/api/referral_code/is_referral').then((res:any)=>canInvite.value = res.is_referral==1)
 
 /** 列表 */
 const params = computed(()=>({

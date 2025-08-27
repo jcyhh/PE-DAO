@@ -1,5 +1,5 @@
 <template>
-    <div @click="show=!show">
+    <div @click="menuSwitch">
         <img src="@/assets/layout/close.png" class="img52 animate__animated animate__rotateIn ani3" v-if="show">
         <img src="@/assets/layout/menu.png" class="img52" v-else>
     </div>
@@ -20,6 +20,17 @@
                         <div class="size24">1星</div>
                     </div>
                 </div> -->
+                <div class="box flex jb ac">
+                    <div class="size24">{{ $t('推荐码') }}</div>
+                    <div class="flex ac size24" v-if="userInfo?.referral_code" v-copy="userInfo?.referral_code">
+                        <div class="opc6 mr10">{{ userInfo?.referral_code }}</div>
+                        <img src="@/assets/imgs/copy.png" class="img32">
+                    </div>
+                    <div class="flex ac size24" v-else @click="jump('/home/index')">
+                        <div class="opc6 mr10">{{ $t('解锁推荐特权') }}</div>
+                        <van-icon name="arrow" />
+                    </div>
+                </div>
                 <div class="line mt60 mb30"></div>
                 <div class="pt30 pb30 flex jb ac" v-for="(item,index) in menus" :key="index" @click="jump(item.path)">
                     <div class="size28" :class="$route.path==item.path?'main':''">{{ item.name }}</div>
@@ -48,7 +59,15 @@ const show = ref(false)
 
 // 用户信息
 const userInfo = ref()
-apiGet('/api/users/my').then(res => userInfo.value = res)
+
+const menuSwitch = () => {
+    if(show.value){
+        show.value = false
+    }else{
+        show.value = true
+        apiGet('/api/users/my').then(res => userInfo.value = res)
+    }
+}
 
 const menus = computed(()=>([
     {name:t('首页'), path:'/home/index'},
@@ -97,6 +116,14 @@ watch(show, val => {
         .line{
             height: 1px;
             background-color: #FFFFFF33;
+        }
+        .box{
+            height: 85px;
+            border: 1px solid #C4C4C433;
+            background-color: #3030304D;
+            padding: 0 30px;
+            border-radius: 20px;
+            margin-top: 40px;
         }
     }
 }
