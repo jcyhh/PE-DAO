@@ -17,7 +17,7 @@
                         </div>
                     </div>
                     <div class="size40 bold mt40" v-init="item.type==1?gsz_price:item.nft.price"></div>
-                    <div class="size20 blue mt4">{{ $t('售卖价格') }} (USDT)</div>
+                    <div class="size20 blue mt4">{{ item.type==1 ? $t('赞助金额') : $t('购买价格') }} (USDT)</div>
                     <div v-if="item.type==2">
                         <div class="flex jb ac mt50">
                             <div class="size24">{{ $t('等级权益') }}</div>

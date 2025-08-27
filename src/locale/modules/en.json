@@ -11,7 +11,7 @@
     "恭喜加入PE项目共创": "Congratulations on joining PE project co-creation",
     "立即赞助": "Sponsor Now",
     "赞助金额": "Sponsorship Amount",
-    "赞助...": "Sponsor 100U to join PE project co-creation, get 100U initial liquidity value, rights and consensus member qualification",
+    "赞助...": "Sponsor 100USDT to become a consensus member of the PE project, and you will receive an initial liquidity benefit worth 100USDT, as well as the qualification to share the consensus.",
     "我的组织身份": "My Organization Identity",
     "身份": "Identity",
     "进度": "Progress",
@@ -24,7 +24,7 @@
     "立即购买": "Buy Now",
     "天": "Days",
     "成为": "Become",
-    "提示...": "Note: PE is a DAO project initiated by blockchain enthusiasts to maintain the on-chain property sovereignty of all digital asset holders, unrelated to any organization or individual. Purchasing NFT will be considered as actively sponsoring project development in recognition of PE's philosophy, not involving any investment;",
+    "提示...": "Warm reminder :PE is a DAO project initiated by blockchain enthusiasts to safeguard the on-chain property sovereignty of all digital asset holders and has no relation to any organization or individual. Purchasing NFTS will be regarded as an active act of sponsoring the project's development in line with the PE philosophy, without involving any investment.",
     "加入": "Join",
     "让我们共同创造Web3的未来": "Let's create the future of Web3 together",
     "分权治理社区共建利益共享": "Decentralized governance, community co-construction, benefit sharing",
@@ -61,5 +61,12 @@
     "请输入邀请码": "Please enter invitation code",
     "推荐码":"Code",
     "解锁推荐特权":"Unlock recommended privileges",
-    "请输入推荐码":"Please enter the recommendation code"
+    "请输入推荐码":"Please enter the recommendation code",
+    "恭喜，赞助成功，您已成为PE-DAO共识者！":"Congratulations! Your sponsorship is successful and you have become a consensus member of PE-DAO!",
+    "恭喜，购买成功，您已成为PE-DAO组织成员！":"Congratulations! Your sponsorship is successful and you have become a consensus member of PE-DAO!",
+    "领取收益手续费为":"The handling fee for claiming the earnings is",
+    "，确认现在领取收益吗？":", are you sure you can claim the earnings now?",
+    "个人业绩":"Personal achievements",
+    "欢迎加入PE成为共识者":"Welcome to join PE and become a consensus",
+    "购买价格":"Purchase price"
 }

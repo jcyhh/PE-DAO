@@ -17,6 +17,7 @@ export type Api =
 | '/api/auth/login'                 // 登录
 | '/api/config/config'              // 配置
 | '/api/withdraw'                   // 提取
+| '/api/withdraw/fee'               // 提取手续费
 | '/api/notices'                    // 公告列表
 | `/api/notices/${number}`          // 公告详情
 | '/api/banners'                    // 轮播图

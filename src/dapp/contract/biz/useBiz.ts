@@ -49,7 +49,7 @@ export function useBiz (contractAddress: string = import.meta.env.VITE_BIZ) {
             const result = await contract.donate(id, price, to, expiredTime, signature, { gasLimit: getGasLimit(estimatedGas)})
             await result.wait();
             closeToast()
-            message(t('铸造成功'),'success')
+            message(t('恭喜，赞助成功，您已成为PE-DAO共识者！'),'success')
         } catch (error) {
             onContractFail(error)
             throw new Error('操作失败')
@@ -65,7 +65,7 @@ export function useBiz (contractAddress: string = import.meta.env.VITE_BIZ) {
             const result = await contract.mint(id, price, deadline, signature, { gasLimit: getGasLimit(estimatedGas)})
             await result.wait();
             closeToast()
-            message(t('铸造成功'),'success')
+            message(t('恭喜，购买成功，您已成为PE-DAO组织成员！'),'success')
         } catch (error) {
             onContractFail(error)
             throw new Error('操作失败')

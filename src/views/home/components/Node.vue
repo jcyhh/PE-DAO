@@ -3,7 +3,7 @@
         <div class="pl30 pr30 flex jb ac">
             <div>
                 <div class="size32 bold font2">HI! {{ $t('共识者') }}</div>
-                <div class="size20 grey mt8">{{ $t('恭喜加入PE项目共创') }}</div>
+                <div class="size20 grey mt8">{{ $t('欢迎加入PE成为共识者') }}</div>
             </div>
             <div class="invite" v-scale v-delay="{fun:submit1}">{{ $t('立即赞助') }}</div>
         </div>
@@ -120,7 +120,7 @@
                 <div class="size26">{{ Number(info.release_rate) }}%</div>
             </div>
             <div class="box mt60 flex">
-                <input type="text" v-model="inviteCode" :placeholder="$t('请输入推荐码')" class="size24  flex1">
+                <input type="text" v-model="inviteCode" :placeholder="$t('请输入邀请码')" class="size24  flex1">
             </div>
             <div class="tips size20 mt60 lh48">{{ $t('提示...') }}</div>
             <div class="mainBtn mt40" v-scale v-delay="{fun:submit}">{{ $t('确认') }}</div>

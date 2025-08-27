@@ -65,7 +65,7 @@
                     </div>
                     <div class="flex jb size24 opc4 mt10">
                         <div v-init:time="item.created_at"></div>
-                        <div>BNB</div>
+                        <div>USDT</div>
                     </div>
                 </div>
                 <CusEmpty v-if="list?.length==0"></CusEmpty>
@@ -87,7 +87,7 @@
                 <div class="size32 bold">{{ $t('提示') }}</div>
                 <van-icon name="cross" color="#999999" :size="25" @click="show=false" />
             </div>
-            <div class="mt60 size24">{{ $t('确定领取收益吗？') }}</div>
+            <div class="mt60 size24">{{ $t('领取收益手续费为') }} {{ fee }}% {{ $t('，确认现在领取收益吗？') }}</div>
             <div class="mainBtn mt40" v-scale v-delay="{fun:withdrawSubmit}">{{ $t('确认') }}</div>
         </div>
     </van-popup>
@@ -109,6 +109,9 @@ const show = ref(false)
 
 const stats = ref()
 const loadInfo = () => apiGet('/api/users/my/income').then(res => stats.value = res)
+
+const fee = ref(0)
+apiGet('/api/withdraw/fee').then((res:any)=>fee.value = res.usdt_fee)
 
 const picker = ref()
 const current = ref(0)

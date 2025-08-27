@@ -2,9 +2,9 @@
     <van-pull-refresh class="fullPage" v-bind="props">
         <div class="gap90"></div>
         <div class="tc">
-            <div class="linearNum size60 bold font1" v-init="userInfo?.kpi"></div>
+            <div class="linearNum size60 bold font1" v-init="userInfo?.team_kpi"></div>
             <div class="size24 gray mt10">{{ $t('总业绩') }}(USDT)</div>
-            <div class="size40 bold font1 mt40" v-init="userInfo?.team_kpi"></div>
+            <div class="size40 bold font1 mt40" v-init="userInfo?.referral_kpi"></div>
             <div class="size24 gray mt10">{{ $t('直推业绩') }}(USDT)</div>
         </div>
 
@@ -47,13 +47,13 @@
                     <div class="flex jb ac">
                         <div class="flex ac">
                             <div class="size28 mr10">{{ item.nickname }}</div>
-                            <div class="tag tag1">{{ pickerList[current].name }}</div>
+                            <div class="tag tag1">{{ item.type == 1 ? $t('直推') : $t('间推') }}</div>
                         </div>
-                        <div class="size28 bold" v-init="item.team_kpi"></div>
+                        <div class="size28 bold" v-init="item.kpi"></div>
                     </div>
                     <div class="flex jb size24 opc4 mt10">
                         <div v-init:time="item.created_at"></div>
-                        <div>{{ $t('团队业绩') }}</div>
+                        <div>{{ $t('个人业绩') }}</div>
                     </div>
                 </div>
                 <CusEmpty v-if="list?.length==0"></CusEmpty>
@@ -84,6 +84,7 @@ import { t } from '@/locale';
 const pickerRef = ref()
 const current = ref(0)
 const pickerList = computed(()=>([
+    { name: t('全部'), value: '' },
     { name: t('直推'), value: 1 },
     { name: t('间推'), value: 2 }
 ]))

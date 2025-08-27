@@ -1,4 +1,4 @@
-import { t } from '@/locale'
+// import { t } from '@/locale'
 import { showLoadingToast } from 'vant';
 
 export function showLoading() {
@@ -102,11 +102,12 @@ export function isIOS() {
 export function initNumber(value:number | bigint){
     let text:string = ''
     if(value){
-        const num = Math.floor(parseFloat(`${value}`) * 1e6) / 1e6
-        let numFormat = new Intl.NumberFormat('en-US',{
-            maximumFractionDigits: 6
+        const num = Number(value)
+        // 使用 Intl.NumberFormat 格式化数字，包含千分位分隔符和两位小数
+        text = new Intl.NumberFormat('en-US', {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
         }).format(num)
-        text = numFormat == '0'?'0.00':numFormat
     }else{
         text = '0.00'
     }
@@ -128,29 +129,34 @@ export function initAddress(value:string){
 export function initTime(timestamp:string){
     if(!timestamp)return '--'
     const date = new Date(timestamp); // 将时间戳转换为 Date 对象
-    const now = new Date(); // 当前时间
+    // const now = new Date(); // 当前时间
 
     // 获取日期信息
-    const isToday = date.toDateString() === now.toDateString();
-    const isYesterday = date.toDateString() === new Date(now.setDate(now.getDate() - 1)).toDateString();
+    // const isToday = date.toDateString() === now.toDateString();
+    // const isYesterday = date.toDateString() === new Date(now.setDate(now.getDate() - 1)).toDateString();
 
     const hours = date.getHours().toString().padStart(2, '0');
     const minutes = date.getMinutes().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // 月份从 0 开始
+    const day = date.getDate().toString().padStart(2, '0');
 
-    if (isToday) {
-        return `${hours}:${minutes}`;
-    } else if (isYesterday) {
-        return `${t('昨天')} ${hours}:${minutes}`;
-    } else {
-        const year = date.getFullYear();
-        const month = (date.getMonth() + 1).toString().padStart(2, '0'); // 月份从 0 开始
-        const day = date.getDate().toString().padStart(2, '0');
+    // if (isToday) {
+    //     return `${hours}:${minutes}`;
+    // } else if (isYesterday) {
+    //     return `${t('昨天')} ${hours}:${minutes}`;
+    // } else {
+    //     const year = date.getFullYear();
+    //     const month = (date.getMonth() + 1).toString().padStart(2, '0'); // 月份从 0 开始
+    //     const day = date.getDate().toString().padStart(2, '0');
 
-        // 判断是否在当前年份内
-        if (year === now.getFullYear()) {
-            return `${month}-${day} ${hours}:${minutes}`;
-        } else {
-            return `${year}-${month}-${day} ${hours}:${minutes}`;
-        }
-    }
+    //     // 判断是否在当前年份内
+    //     if (year === now.getFullYear()) {
+    //         return `${month}-${day} ${hours}:${minutes}`;
+    //     } else {
+    //         return `${year}-${month}-${day} ${hours}:${minutes}`;
+    //     }
+    // }
+
+
+    return `${month}/${day} ${hours}:${minutes}`
 }
