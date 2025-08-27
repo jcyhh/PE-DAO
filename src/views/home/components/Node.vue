@@ -162,7 +162,7 @@ const open = (data:any) => {
 
 // 铸造nft
 const submit = async () => {
-    if(!inviteCode.value)return message(t('请输入推荐码'))
+    if(!inviteCode.value)return message(t('请输入邀请码'))
 
     const gasEnough = await checkGas(); // 检测ETH
     if(!gasEnough)return;
