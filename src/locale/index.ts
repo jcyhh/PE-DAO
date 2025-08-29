@@ -11,6 +11,7 @@ import esCommon from './common/es.json';
 import trCommon from './common/tr.json';
 import viCommon from './common/vi.json';
 import thCommon from './common/th.json';
+import itCommon from './common/it.json';
 
 import en from './modules/en.json';
 import ko from './modules/ko.json';
@@ -22,6 +23,7 @@ import es from './modules/es.json';
 import tr from './modules/tr.json';
 import vi from './modules/vi.json';
 import th from './modules/th.json';
+import it from './modules/it.json';
 
 const messages = {
     en: {...en, ...enCommon},
@@ -33,7 +35,8 @@ const messages = {
     es: {...es, ...esCommon},
     tr: {...tr, ...trCommon},
     vi: {...vi, ...viCommon},
-    th: {...th, ...thCommon}
+    th: {...th, ...thCommon},
+    it: {...it, ...itCommon}
 }
 
 
@@ -44,8 +47,9 @@ const messages = {
  */
 export const langs = [
     { name: 'English', lang: 'en', value: 'en' }, // 英语
-    // { name: '한국어', lang: 'ko', value: 'ko' }, // 韩语
-    // { name: '日本語', lang: 'ja', value: 'ja' }, // 日语
+    { name: '한국어', lang: 'ko', value: 'ko' }, // 韩语
+    { name: '日本語', lang: 'ja', value: 'ja' }, // 日语
+    { name: 'Italiano', lang: 'it', value: 'it' }, // 意大利语
     { name: '繁体中文', lang: 'hk', value: 'zh-Hant' }, // 繁体中文
     { name: '简体中文', lang: 'zh', value: 'zh-Hans' }, // 简体中文
     // { name: 'Indonesian', lang: 'id', value: 'id' }, // 印尼语
