@@ -59,13 +59,12 @@
         </div> -->
 
         <div class="linearTxt size32 bold font2">{{ $t('成为组织成员') }}</div>
+        <div class="gap10"></div>
 
-        <div class="node mt40" v-for="(item, index) in list" :key="index">
+        <div class="node mt70" v-for="(item, index) in list" :key="index">
+            <img :src="item.img_url" class="nftimg mr20">
             <div class="flex jb ac">
-                <div class="flex ac">
-                    <img :src="item.img_url" class="img44 mr20">
-                    <div class="size24 bold">{{ $t('身份') }}-{{ item.name }}</div>
-                </div>
+                <div class="pl170 size24 bold">{{ $t('身份') }}-{{ item.name }}</div>
                 <div class="btn" @click="open(item)">{{ $t('立即购买') }}</div>
             </div>
             <div class="size40 bold mt40" v-init="item.price"></div>

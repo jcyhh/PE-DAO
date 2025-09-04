@@ -10,7 +10,7 @@ defineProps(['width'])
 
 <style lang="scss" scoped>
 .cusProgress{
-    width: 280px;
+    width: 200px;
     height: 18px;
     border-radius: 9px;
     background-color: #FFFFFF29;

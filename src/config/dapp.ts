@@ -12,7 +12,7 @@ export const minGas: number = 0.0004 // 最低eth余额
 
 export const gasMul: number = 1.5 // Gas费倍率
 
-export type SignMessage = 'Login' | 'Transfer' | 'Withdraw' | 'Order' | 'Node' | 'Pledge' | 'Claim' | 'Saving' | 'TokenOrder'; // 签名前缀
+export type SignMessage = 'Login' | 'Transfer' | 'Withdraw' | 'Order' | 'Node' | 'Pledge' | 'Claim' | 'Saving' | 'TokenOrder' | 'Upgrade'; // 签名前缀
 
 // BSC主网信息
 export const bscMainnet = {

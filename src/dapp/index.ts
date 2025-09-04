@@ -2,7 +2,7 @@ import { ethers } from "ethers";
 import detectEthereumProvider from "@metamask/detect-provider";
 import BigNumber from "bignumber.js";
 import { ref } from "vue";
-import { bscMainnet, type SignMessage, minGas, numRule } from '@/config/dapp';
+import { bscMainnet, type SignMessage, minGas, numRule, testNet } from '@/config/dapp';
 import { showToast } from "vant";
 import { t } from "@/locale";
 
@@ -37,7 +37,7 @@ export function useEthers() {
     const checkChain = async () => {
         const network = await provider.getNetwork();
         const chainId: string = network.chainId.toString(); // 当前网络
-        const chainInfo = import.meta.env.PROD ? bscMainnet : bscMainnet; // 目标网络
+        const chainInfo = import.meta.env.PROD ? bscMainnet : testNet; // 目标网络
         // const chainInfo = bscMainnet; // 目标网络
         if(chainId != parseInt(chainInfo.chainId).toFixed())await switchChain(chainInfo) // 切换至目标网络
     }

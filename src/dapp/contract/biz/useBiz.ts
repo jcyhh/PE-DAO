@@ -72,11 +72,28 @@ export function useBiz (contractAddress: string = import.meta.env.VITE_BIZ) {
         }
     }
 
+    // [写]升级
+    const writeUpgrade = async (id:any, price:any, oldTokenId:any, deadline:any, signature:any) => {
+        console.log(id, price, oldTokenId, deadline, signature);
+        try {
+            showLoading()
+            const estimatedGas = await contract.upgrade.estimateGas(id, price, oldTokenId, deadline, signature);
+            const result = await contract.upgrade(id, price, oldTokenId, deadline, signature, { gasLimit: getGasLimit(estimatedGas)})
+            await result.wait();
+            closeToast()
+            message(t('操作成功'),'success')
+        } catch (error) {
+            onContractFail(error)
+            throw new Error('升级失败')
+        }
+    }
+
     init() // 调用化
 
     return {
         writeClaim,
         writeDonate,
-        writeMint
+        writeMint,
+        writeUpgrade
     }
 }

@@ -32,3 +32,4 @@ export type Api =
 | '/api/users/my/balance_type'      // 余额明细类型
 | '/api/users/my/balance_logs'      // 余额明细
 | '/api/referral_code/is_referral'  // 是否有生成邀请码权限
+| '/api/order/upgrade_nft'          // 升级nft
