@@ -5,8 +5,8 @@
         <div class="pl30 pr30">
             <van-list v-bind="listProps">
                 <div class="node mb70" v-for="(item,index) in list" :key="index">
-                    <img src="@/assets/imgs/7.png" class="nftimg mr20" v-if="item.type==1">
-                    <img :src="item.img_url" class="nftimg mr20" v-else>
+                    <img src="@/assets/imgs/7.png" class="nftimg mr20" style="object-fit: cover;" v-if="item.type==1">
+                    <img :src="item.nft.img_url" class="nftimg mr20" v-else>
                     <div class="flex jb ac">
                         <div class="size24 bold pl170">{{ $t('身份') }}-{{ item.type==1? $t('共识者') : item.nft.name }}</div>
                         <div>
@@ -19,8 +19,10 @@
                             <div class="size40 bold" v-init="item.type==1?gsz_price:item.nft.price"></div>
                             <div class="size20 blue mt4">{{ item.type==1 ? $t('赞助金额') : $t('购买价格') }} (USDT)</div>
                         </div>
-                        <div class="disableBtn pl30 pr30" v-if="item.nft.id==maxId">{{ $t('已满级') }}</div>
-                        <div class="update pl30 pr30" @click="openpop(item)" v-else>{{ $t('升级') }}</div>
+                        <div v-if="item.type!=1">
+                            <div class="disableBtn pl30 pr30" v-if="item.nft.id==maxId">{{ $t('已满级') }}</div>
+                            <div class="update pl30 pr30" @click="openpop(item)"  v-else>{{ $t('升级') }}</div>
+                        </div>
                     </div>
                     <div v-if="item.type==2">
                         <div class="flex jb ac mt50">
