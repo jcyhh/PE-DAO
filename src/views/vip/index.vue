@@ -100,6 +100,7 @@ import { computedSub } from '@/utils';
 import { useEthers } from '@/dapp';
 import { useNft } from '@/dapp/contract/nft/useNft';
 import { useBiz } from '@/dapp/contract/biz/useBiz';
+import { useErc20 } from '@/dapp/contract/erc20/useErc20';
 
 
 const nfts = ref<any[]>([])
@@ -140,6 +141,8 @@ const { writeUpgrade } = useBiz()
 
 const { readIsApprovedForAll, writeSetApprovalForAll } = useNft()
 
+const { approve } = useErc20()
+
 const submit = async () => {
     const gasEnough = await checkGas(); // 检测ETH
     if(!gasEnough)return;
@@ -154,6 +157,8 @@ const submit = async () => {
 }
 
 const update = async () => {
+    await approve(total.value)
+
     const signInfo:any = await getSign('Upgrade') // 签名
 
     apiPost('/api/order/upgrade_nft',{
