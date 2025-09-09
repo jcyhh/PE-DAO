@@ -10,8 +10,8 @@
 
         <div class="flex jb mt60 pl30 pr30 black">
             <div class="card card1">
-                <div class="size26">{{ $t('团队人数') }}</div>
-                <div class="size36 bold">{{ userInfo?.team_count }}</div>
+                <div class="size26">{{ $t('团队有效人数') }}</div>
+                <div class="size36 bold">{{ userInfo?.team_valid_count }}</div>
             </div>
             <div class="card card2">
                 <div class="size26">{{ $t('直推人数') }}</div>
