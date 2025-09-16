@@ -75,12 +75,18 @@ const menus = computed(()=>([
     {name:t('团队'), path:'/team/index'},
     {name:t('收益'), path:'/income/index'},
     {name:t('我的身份'), path:'/vip/index'},
-    {name:t('常见问题'), path:'/qa/index'}
+    {name:t('常见问题'), path:'/qa/index'},
+    {name:'PE Forge', path:''},
 ]))
 
 const jump = (path:string) => {
-    routerReplace(path)
-    show.value = false
+    if(path){
+        routerReplace(path)
+        show.value = false
+    }else{
+        location.href = 'https://secret.privateprotocol.org'
+    }
+    
 }
 
 watch(show, val => {
