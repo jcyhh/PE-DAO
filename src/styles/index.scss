@@ -109,6 +109,10 @@ img{
     .delay#{$i} {
 		animation-delay: calc($i / 10) + s !important;
 	}
+    .rel#{$i} {
+        position: relative;
+        z-index: $i;
+    }
 }
 
 .anitl{

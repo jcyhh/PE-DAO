@@ -1,13 +1,12 @@
 <template>
     <div class="cusTab">
-        <div class="gap140"></div>
+        <div class="gap40"></div>
         <div class="cusTabBox size28 flex ac">
             <div class="cusTabLine ani" :class="current?'cur1':'cur0'"></div>
             <div class="flex1 cusTabItem ani" :class="current==index?'black':''" v-for="(item,index) in list" :key="index" @click="tabClick(index)">{{ item.name }}</div>
         </div>
         <div class="gap40"></div>
     </div>
-    <div class="gap160"></div>
 </template>
 
 <script setup lang="ts">
@@ -31,10 +30,6 @@ const tabClick = (index:number) => {
     width: 100vw;
     padding: 0 30px;
     background-color: #090814;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 10;
     .cusTabBox{
         height: 80px;
         border: 1px solid #333333;

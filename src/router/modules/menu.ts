@@ -6,7 +6,7 @@ export default [
         component: Layout,
         redirect: '/home/index',
         meta:{
-            title:'PE-DAO'
+            title:'共建'
         },
         children:[{
             path:'index',
@@ -14,15 +14,15 @@ export default [
         }]
     },
     {
-        path:'/invite',
+        path:'/create',
         component: Layout,
-        redirect: '/invite/index',
+        redirect: '/create/index',
         meta:{
-            title:'邀请码'
+            title:'共创'
         },
         children:[{
             path:'index',
-            component: () => import('@/views/invite/index.vue')
+            component: () => import('@/views/create/index.vue')
         }]
     },
     {

@@ -70,13 +70,12 @@ const menuSwitch = () => {
 }
 
 const menus = computed(()=>([
-    {name:t('首页'), path:'/home/index'},
-    {name:t('邀请码'), path:'/invite/index'},
-    {name:t('团队'), path:'/team/index'},
-    {name:t('收益'), path:'/income/index'},
-    {name:t('我的身份'), path:'/vip/index'},
-    {name:t('常见问题'), path:'/qa/index'},
-    {name:'PE Forge', path:''},
+    {name:t('共建'), path:'/home/index'},
+    {name:t('共创'), path:'/create/index'},
+    {name:t('共治'), path:'/team/index'},
+    {name:t('共享'), path:'/income/index'},
+    {name:t('新闻公告'), path:'/vip/index'},
+    {name:t('常见问题'), path:'/qa/index'}
 ]))
 
 const jump = (path:string) => {
