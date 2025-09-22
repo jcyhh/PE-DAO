@@ -16,6 +16,7 @@
     "axios": "^1.8.4",
     "bignumber.js": "^9.2.1",
     "copy-to-clipboard": "^3.3.3",
+    "echarts": "^6.0.0",
     "ethers": "^6.13.5",
     "iframe-resizer": "^5.4.6",
     "pinia": "^3.0.2",
