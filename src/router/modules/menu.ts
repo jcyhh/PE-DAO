@@ -26,39 +26,39 @@ export default [
         }]
     },
     {
-        path:'/team',
+        path:'/cure',
         component: Layout,
-        redirect: '/team/index',
+        redirect: '/cure/index',
         meta:{
-            title:'团队'
+            title:'共治'
         }, 
         children:[{
             path:'index',
-            component: () => import('@/views/team/index.vue')
+            component: () => import('@/views/cure/index.vue')
         }]
     },
     {
-        path:'/income',
+        path:'/share',
         component: Layout,
-        redirect: '/income/index',
+        redirect: '/share/index',
         meta:{
-            title:'收益'
+            title:'共享'
         },
         children:[{
             path:'index',
-            component: () => import('@/views/income/index.vue')
+            component: () => import('@/views/share/index.vue')
         }]
     },
     {
-        path:'/vip',
+        path:'/news',
         component: Layout,
-        redirect: '/vip/index',
+        redirect: '/news/index',
         meta:{
-            title:'我的身份'
+            title:'新闻公告'
         },
         children:[{
             path:'index',
-            component: () => import('@/views/vip/index.vue')
+            component: () => import('@/views/news/index.vue')
         }]
     },
     {

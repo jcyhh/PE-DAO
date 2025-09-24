@@ -1,5 +1,5 @@
 <template>
-    <CusNav title="赞助记录"></CusNav>
+    <CusNav title="奖励明细"></CusNav>
     <div class="head">
         <div class="filter flex jb ac" @click="showDate=true">
             <img src="@/assets/imgs/clock.png" class="img36">
@@ -13,27 +13,29 @@
 
     <div class="pl30 pr30">
 
-        <div class="node mb30" v-for="(item,index) in 2" :key="index">
-            <div class="size40 bold">500</div>
-            <div class="blue size24 mt4">赞助价格(USD)</div>
-            <div class="flex jb ac mt50">
-                <div class="size24">赞助数量</div>
+        <div class="node mb30" v-for="(item,index) in 10" :key="index">
+            <div class="flex jb ac">
+                <div class="size24">数量</div>
                 <div class="size28 bold">100</div>
             </div>
             <div class="flex jb ac mt30">
-                <div class="size24 opc6">赞助币种</div>
+                <div class="size24 opc6">币种</div>
                 <div class="size28 flex ac">
-                    <div>USDT</div>
-                    <img src="@/assets/usdt.png" class="img26 ml5">
+                    <div>PE</div>
+                    <img src="@/assets/pe.png" class="img26 ml10">
                 </div>
             </div>
             <div class="flex jb ac mt30">
-                <div class="size24 opc6">赞助时间</div>
+                <div class="size24 opc6">领取时间</div>
+                <div class="size28">08-01 17:50:00</div>
+            </div>
+            <div class="flex jb ac mt30">
+                <div class="size24 opc6">到账时间</div>
                 <div class="size28">08-01 17:50:00</div>
             </div>
             <div class="flex jb ac mt30">
                 <div class="size24 opc6">交易哈希</div>
-                <div class="size28">0x456789iuhiu78yu89uihj89</div>
+                <div class="size28 tr br hash">0x456789iuhiu78yu89uihj89</div>
             </div>
         </div>
 
@@ -77,5 +79,8 @@ const onDateChange = (vals:any) => {
 }
 .card{
     background: linear-gradient(#31303A, #100E1D); 
+}
+.hash{
+    width: 400px;
 }
 </style>

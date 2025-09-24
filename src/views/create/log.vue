@@ -1,5 +1,5 @@
 <template>
-    <CusNav title="赞助记录"></CusNav>
+    <CusNav title="铸币记录"></CusNav>
     <div class="head">
         <div class="filter flex jb ac" @click="showDate=true">
             <img src="@/assets/imgs/clock.png" class="img36">
@@ -15,25 +15,26 @@
 
         <div class="node mb30" v-for="(item,index) in 2" :key="index">
             <div class="size40 bold">500</div>
-            <div class="blue size24 mt4">赞助价格(USD)</div>
+            <div class="blue size24 mt4">铸币价值(USD)</div>
             <div class="flex jb ac mt50">
-                <div class="size24">赞助数量</div>
-                <div class="size28 bold">100</div>
+                <div class="size24">铸造数量</div>
+                <div class="size28 bold">100 PE</div>
             </div>
             <div class="flex jb ac mt30">
-                <div class="size24 opc6">赞助币种</div>
-                <div class="size28 flex ac">
-                    <div>USDT</div>
-                    <img src="@/assets/usdt.png" class="img26 ml5">
-                </div>
+                <div class="size24 opc6">消耗铸币权</div>
+                <div class="size28">100 PE</div>
             </div>
             <div class="flex jb ac mt30">
-                <div class="size24 opc6">赞助时间</div>
+                <div class="size24 opc6">实际支付</div>
+                <div class="size28">100 USDT</div>
+            </div>
+            <div class="flex jb ac mt30">
+                <div class="size24 opc6">铸造时间</div>
                 <div class="size28">08-01 17:50:00</div>
             </div>
             <div class="flex jb ac mt30">
                 <div class="size24 opc6">交易哈希</div>
-                <div class="size28">0x456789iuhiu78yu89uihj89</div>
+                <div class="size28 tr br hash">0x456789iuhiu78yu89uihj89</div>
             </div>
         </div>
 
@@ -77,5 +78,8 @@ const onDateChange = (vals:any) => {
 }
 .card{
     background: linear-gradient(#31303A, #100E1D); 
+}
+.hash{
+    width: 400px;
 }
 </style>

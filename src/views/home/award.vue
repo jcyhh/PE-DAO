@@ -15,18 +15,18 @@
                 <div class="size28 bold">100</div>
             </div>
             <div class="flex jb ac mt30">
-                <div class="size24">币种</div>
+                <div class="size24 opc6">币种</div>
                 <div class="size28 flex ac">
                     <div>USDT</div>
                     <img src="@/assets/usdt.png" class="img26 ml5">
                 </div>
             </div>
             <div class="flex jb ac mt30">
-                <div class="size24">时间</div>
+                <div class="size24 opc6">时间</div>
                 <div class="size28">08-01 17:50:00</div>
             </div>
             <div class="flex jb ac mt30">
-                <div class="size24">交易哈希</div>
+                <div class="size24 opc6">交易哈希</div>
                 <div class="size28">0x456789iuhiu78yu89uihj89</div>
             </div>
         </div>

@@ -72,9 +72,9 @@ const menuSwitch = () => {
 const menus = computed(()=>([
     {name:t('共建'), path:'/home/index'},
     {name:t('共创'), path:'/create/index'},
-    {name:t('共治'), path:'/team/index'},
-    {name:t('共享'), path:'/income/index'},
-    {name:t('新闻公告'), path:'/vip/index'},
+    {name:t('共治'), path:'/cure/index'},
+    {name:t('共享'), path:'/share/index'},
+    {name:t('新闻公告'), path:'/news/index'},
     {name:t('常见问题'), path:'/qa/index'}
 ]))
 

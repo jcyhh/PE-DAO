@@ -45,7 +45,7 @@
                     <van-icon name="arrow" />
                 </div>
             </div>
-            <div class="mainBtn mt60">去铸币</div>
+            <div class="mainBtn mt60" @click="routerPush('/create/cast')">去铸币</div>
         </div>
 
         <div class="mainCard">
@@ -164,6 +164,7 @@
 
 <script setup lang="ts">
 import ShinyText from '@/components/VueBits/ShinyText.vue'
+import { routerPush } from '@/router';
 import * as echarts from 'echarts';
 import { onMounted, ref } from 'vue';
 

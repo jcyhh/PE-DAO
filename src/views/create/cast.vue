@@ -1,40 +1,57 @@
 <template>
     <div class="sponsor" @click="showRule = false">
-        <CusNav title="赞助">
+        <CusNav title="铸币">
             <img src="@/assets/imgs/rule.png" class="img26 mr10">
             <div class="main size24" @click.stop="showRule = true">规则</div>
         </CusNav>
 
         <div class="rule size20 lh40 animate__animated animate__zoomIn anitr ani3" v-if="showRule">
-            赞助100U加入PE项目共创，获得价值100U初始流动性权益及分享共识者资格
-        </div>
-        
-        <div class="head">
-            <CusTab :list="tabs" @change="$event => current = $event"></CusTab>
+            铸币规则：<br>
+            铸造周期<br>
+            每份铸币权仅生效1次，有效期至：<br>
+            [2025/12/31 23:59 UTC] ｜ <倒计时组件：28天><br>
+            数量计算公式<br>
+            [您的铸造量] = [基础额度] × [权重系数]<br>
+            ▸ 基础额度 = 当前释放池总量 / 有效铸币权总数<br>
+            ▸ 系数范围 = 0.8~1.5（基于获得权益时的质押时长）<br>
+            成本说明<br>
+            需支付网络Gas费 ≈ 1.2~ 3.5（实时估算）
         </div>
 
-        <div class="gap160"></div>
+        <div class="gap40"></div>
         
         <div class="pl30 pr30">
             <div class="mainCard">
-                <div class="size24 grey mb30">赞助数量</div>
-                <div class="flex wrap jb size26">
-                    <div class="item flex jc ac mb20" :class="amount==item?'itemAct':''" v-for="(item,index) in list" :key="index" @click="amount=item">{{ item }} USD</div>
+                <div class="size24 grey">可用铸币权</div>
+                <div class="mainCard mt24 flex jb ac">
+                    <div class="flex ac">
+                        <img src="@/assets/pe.png" class="img46 mr12">
+                        <div class="size28">PE</div>
+                    </div>
+                    <div class="size28">0.00</div>
                 </div>
-                <div class="gap10"></div>
-                <div class="size24 grey mb30">赞助价值</div>
+                <div class="size24 grey mb30 mt30">铸币数量</div>
                 <div class="mainCard mt24 flex ac">
                     <div class="flex ac">
-                        <img src="@/assets/usd.png" class="img46 mr12">
-                        <div class="size28">USD</div>
+                        <img src="@/assets/pe.png" class="img46 mr12">
+                        <div class="size28">PE</div>
                     </div>
-                    <input type="number" v-model="amount" placeholder="请输入赞助价值" class="size28 flex1 tr">
+                    <input type="number" v-model="amount" placeholder="请输入铸币数量" class="size28 flex1 tr">
                     <div class="line ml16 mr16 flex0"></div>
                     <div class="bold size24 font2">
                         <ShinyText text="全部"></ShinyText>
                     </div>
                 </div>
-                <div class="size24 grey mt30">实际支付</div>
+                <div class="size24 mt30 main">实时铸币价格:1.89 USD</div>
+                <div class="size24 gray mt40">赞助价值</div>
+                <div class="mainCard mt24 flex jb ac">
+                    <div class="flex ac">
+                        <img src="@/assets/usd.png" class="img46 mr12">
+                        <div class="size28">USD</div>
+                    </div>
+                    <div class="size28">0.00</div>
+                </div>
+                <div class="size24 gray mt40">支付数量</div>
                 <div class="mainCard mt24 flex jb ac">
                     <div class="flex ac">
                         <img src="@/assets/usdt.png" class="img46 mr12">
@@ -42,10 +59,12 @@
                     </div>
                     <div class="size28">0.00</div>
                 </div>
-                <div class="mainBtn mt60">立即赞助</div>
+                <div class="size24 mt30">支付数量=铸币数量x铸币价格 x80%</div>
+
+                <div class="mainBtn mt60">开始铸币</div>
                 <div class="flex jc mt40">
-                    <div class="flex ac main size24" @click="routerPush('/home/sponsorLog')">
-                        <div class="mr8">赞助记录</div>
+                    <div class="flex ac main size24" @click="routerPush('/create/castLog')">
+                        <div class="mr8">铸币记录</div>
                         <van-icon name="arrow" />
                     </div>
                 </div>
@@ -59,21 +78,13 @@
 
 <script setup lang="ts">
 import CusNav from '@/components/CusNav/index.vue'
-import { computed, ref } from 'vue';
-import CusTab from '@/components/CusTab/index.vue'
+import { ref } from 'vue';
 import ShinyText from '@/components/VueBits/ShinyText.vue'
 import { routerPush } from '@/router';
 
 const showRule = ref(false)
 
-const current = ref(0)
-const tabs = computed(()=>([
-    {name:'USDT 赞助', value:0},
-    {name:'PE 赞助', value:0}
-]))
-
-const amount = ref(500)
-const list = [500, 1000, 2000, 3000, 5000, 100000]
+const amount = ref()
 </script>
 
 <style lang="scss" scoped>
