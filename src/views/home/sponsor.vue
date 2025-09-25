@@ -10,7 +10,7 @@
         </div>
         
         <div class="head">
-            <CusTab :list="tabs" @change="$event => current = $event"></CusTab>
+            <CusTab :defaultCur="defaultCur" :list="tabs" @change="$event => current = $event"></CusTab>
         </div>
 
         <div class="gap160"></div>
@@ -40,7 +40,7 @@
                         <img src="@/assets/usdt.png" class="img46 mr12">
                         <div class="size28">USDT</div>
                     </div>
-                    <div class="size28">0.00</div>
+                    <div class="size28" v-init="usdt"></div>
                 </div>
                 <div class="mainBtn mt60">立即赞助</div>
                 <div class="flex jc mt40">
@@ -63,10 +63,18 @@ import { computed, ref } from 'vue';
 import CusTab from '@/components/CusTab/index.vue'
 import ShinyText from '@/components/VueBits/ShinyText.vue'
 import { routerPush } from '@/router';
+import { useRoute } from 'vue-router';
+import { apiGet } from '@/utils/request';
+import { computedMul } from '@/utils';
+
+const { query } = useRoute()
 
 const showRule = ref(false)
 
-const current = ref(0)
+const defaultCur = query.type ? 1 : 0
+
+const current = ref(defaultCur)
+
 const tabs = computed(()=>([
     {name:'USDT 赞助', value:0},
     {name:'PE 赞助', value:0}
@@ -74,6 +82,16 @@ const tabs = computed(()=>([
 
 const amount = ref(500)
 const list = [500, 1000, 2000, 3000, 5000, 100000]
+
+const token_price = ref()
+apiGet('/api/token_price').then((res:any)=>token_price.value = res.token_price)
+
+const usdt = computed(()=>{
+    if(amount.value){
+        if(current.value==0)return amount.value
+        else return computedMul(amount.value, token_price.value)
+    }else return 0
+})
 </script>
 
 <style lang="scss" scoped>

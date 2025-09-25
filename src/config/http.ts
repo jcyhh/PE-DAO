@@ -18,8 +18,11 @@ export type Api =
 | '/api/config/config'              // 配置
 | '/api/withdraw'                   // 提取
 | '/api/withdraw/fee'               // 提取手续费
+| '/api/token_price'                // 币价
 | '/api/notices'                    // 公告列表
 | `/api/notices/${number}`          // 公告详情
+| '/api/notices/pop'                // 弹窗公告
+| `/api/notices/${number}/read`     // 弹窗公告已读
 | '/api/banners'                    // 轮播图
 | '/api/help_center'                // 问答列表
 | `/api/help_center/${number}`      // 问答详情
@@ -33,3 +36,4 @@ export type Api =
 | '/api/users/my/balance_logs'      // 余额明细
 | '/api/referral_code/is_referral'  // 是否有生成邀请码权限
 | '/api/order/upgrade_nft'          // 升级nft
+| '/api/sponsor'                    // 赞助信息

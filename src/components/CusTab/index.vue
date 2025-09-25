@@ -12,11 +12,11 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 
-defineProps(['list'])
+const props = defineProps(['list', 'defaultCur'])
 
 const emits = defineEmits(['change'])
 
-const current = ref(0)
+const current = ref(props.defaultCur ? props.defaultCur : 0)
 
 const tabClick = (index:number) => {
     if(current.value==index)return

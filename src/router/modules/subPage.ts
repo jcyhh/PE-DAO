@@ -42,5 +42,13 @@ export default [
     {
         path:'/news/:id',
         component: () => import('@/views/news/detail.vue')
+    },
+    {
+        path:'/notices',
+        component: () => import('@/views/notice/index.vue')
+    },
+    {
+        path:'/notices/:id',
+        component: () => import('@/views/notice/detail.vue')
     }
 ]

@@ -15,11 +15,11 @@
 
     <div class="pl30 pr30 rel3">
 
-        <div class="notice flex ac size26">
+        <div class="notice flex ac size26" @click="routerPush('/notices')">
             <img src="@/assets/imgs/8.png" class="img36 mr20">
             <van-swipe class="noticeSwipe" :autoplay="3000" :loop="true" :show-indicators="false" :vertical="true">
-                <van-swipe-item v-for="(item,index) in 3" :key="index">
-                    <div class="noticeSwipe line1">公告{{ index }}</div>
+                <van-swipe-item v-for="(item,index) in notices" :key="index">
+                    <div class="noticeSwipe line1" @click="routerPush(`/notices/${item.id}`)">{{ item.title }}</div>
                 </van-swipe-item>
             </van-swipe>
             <van-icon name="arrow" color="#999999" />
@@ -34,14 +34,20 @@
         <div class="assetCard flex col jc ac">
             <img src="@/assets/usdt.png" class="img48">
             <div class="grey size24 mt24">USDT 资产</div>
-            <div class="size36 bold mt32">1000</div>
-            <div class="size24 main mt10">.0000</div>
+            <div class="size36 bold mt32">
+                <span v-init="usdt[0]" v-if="usdt[0]!='0'"></span>
+                <span v-else>0</span>
+            </div>
+            <div class="size24 main mt10">{{ usdt[1] }}</div>
         </div>
         <div class="assetCard flex col jc ac">
             <img src="@/assets/pe.png" class="img48 rel3">
-            <div class="grey size24 mt24">USDT 资产</div>
-            <div class="size36 bold mt32">1000</div>
-            <div class="size24 main mt10">.0000</div>
+            <div class="grey size24 mt24">{{ tokenName }} 资产</div>
+            <div class="size36 bold mt32">
+                <span v-init="token[0]" v-if="token[0]!='0'"></span>
+                <span v-else>0</span>
+            </div>
+            <div class="size24 main mt10">{{ token[1] }}</div>
         </div>
     </div>
 
@@ -57,27 +63,29 @@
             <div class="flex">
                 <div class="box flex1 mr30">
                     <img src="@/assets/usdt.png" class="img40">
-                    <div class="size28 bold mt20 mb10">1000</div>
-                    <div class="grey size20">USDT赞助总量</div>
+                    <div class="size28 bold mt20 mb10" v-init="sponsor?.usdt_sponsor_amount"></div>
+                    <div class="grey size20">USDT 赞助总量</div>
                 </div>
                 <div class="box flex1">
                     <img src="@/assets/pe.png" class="img40">
-                    <div class="size28 bold mt20 mb10">1000</div>
-                    <div class="grey size20">PE赞助总量</div>
+                    <div class="size28 bold mt20 mb10" v-init="sponsor?.pe_sponsor_amount"></div>
+                    <div class="grey size20">{{ tokenName }} 赞助总量</div>
                 </div>
             </div>
             <div class="flex jb size20 mt32">
-                <div class="green">USDT赞助30%</div>
-                <div class="main">PE赞助70%</div>
+                <div class="green">USDT 赞助{{ progress_usdt }}%</div>
+                <div class="main">{{ tokenName }} 赞助{{ progress_token }}%</div>
             </div>
             <div class="line mt20"></div>
-            <div class="progress mt30 size18">
-                <div class="leftLine" :style="{width:`${progress}%`}">30%</div>
-                <div class="rightLine" :style="{width:`${progress1}%`}">70%</div>
+            <div class="progress flex jb ac mt30 size18">
+                <div class="rel pl30">{{ progress_usdt }}%</div>
+                <div class="rel pr30">{{ progress_token }}%</div>
+                <div class="leftLine" :style="{width:`${progress_usdt}%`}"></div>
+                <div class="rightLine" :style="{width:`${progress_token}%`}"></div>
             </div>
             <div class="flex jb size24 mt60">
                 <div class="leftBtn" @click="routerPush('/home/sponsor')">USDT赞助</div>
-                <div class="rightBtn" @click="routerPush('/home/sponsor')">PE赞助</div>
+                <div class="rightBtn" @click="routerPush('/home/sponsor', {type:'token'})">PE赞助</div>
             </div>
             <div class="bold size32 font2 mt80">
                 <ShinyText text="我的赞助"></ShinyText>
@@ -85,7 +93,10 @@
             <div class="box mt40 flex jb ac" @click="routerPush('/home/award')">
                 <div class="size24 grey">总赞助价值</div>
                 <div class="size26 bold flex ac">
-                    <div>100 USDT</div>
+                    <div>
+                        <span v-init="sponsor?.user_count_sponsor"></span>
+                        USDT
+                    </div>
                     <div class="main ml8">
                         <van-icon name="arrow" />
                     </div>
@@ -94,7 +105,10 @@
             <div class="box mt20 flex jb ac" @click="routerPush('/home/award')">
                 <div class="size24 grey">剩余USDT池奖励点</div>
                 <div class="size26 bold flex ac">
-                    <div>100 USDT</div>
+                    <div>
+                        <span v-init="sponsor?.user_residue_usdt_reward_point"></span>
+                        USDT
+                    </div>
                     <div class="main ml8">
                         <van-icon name="arrow" />
                     </div>
@@ -103,7 +117,10 @@
             <div class="box mt20 flex jb ac" @click="routerPush('/home/award')">
                 <div class="size24 grey">剩余PE池奖励点</div>
                 <div class="size26 bold flex ac">
-                    <div>100 USDT</div>
+                    <div>
+                        <span v-init="sponsor?.user_residue_pe_reward_point"></span>
+                        USDT
+                    </div>
                     <div class="main ml8">
                         <van-icon name="arrow" />
                     </div>
@@ -127,28 +144,95 @@
                 </div>
             </div>
             <div class="scroll mt40 mb48">
-                <div class="mt40 size36 bold lh60">标题标题</div>
-                <div class="size24 mt30" v-html="'公告内容'"></div>
+                <div class="size36 bold lh60">{{ notice?.title }}</div>
+                <div class="size24 mt30" v-html="notice?.content"></div>
             </div>
-            <div class="mainBtn">知道了</div>
+            <div class="mainBtn" @click="read">知道了</div>
         </div>
     </van-popup>
 </template>
 
 <script setup lang="ts">
-import { appName } from '@/config';
+import { appName, tokenName } from '@/config';
 import ShinyText from '@/components/VueBits/ShinyText.vue'
-import { ref } from 'vue';
+import { computed, ref, watchEffect } from 'vue';
 import { routerPush } from '@/router';
+import { apiGet } from '@/utils/request';
+import { computedAdd, computedDiv, computedSub } from '@/utils';
 
-const progress = ref(0)
-const progress1 = ref(0)
-setTimeout(() => {
-    progress.value = 30
-    progress1.value = 100
-}, 1000);
+/**
+ * 余额
+ */
+const balance_usdt = ref('0')
+const balance_token = ref('0')
+apiGet('/api/users/my').then((res:any)=>{
+    balance_usdt.value = res.balance_usdt
+    balance_token.value = `${computedAdd(res.jt_balance_token, res.dt_balance_token)}`
+})
+const usdt = computed(()=>{
+    if(balance_usdt.value){
+        const arr = balance_usdt.value.split('.')
+        return [arr[0], `.${arr[1]}`]
+    }else return [0, '.000000']
+})
+const token = computed(()=>{
+    if(balance_token.value){
+        const arr = balance_token.value.split('.')
+        return [arr[0], `.${arr[1]}`]
+    }else return [0, '.000000']
+})
 
+/**
+ * 赞助
+ */
+const sponsor = ref()
+apiGet('/api/sponsor').then(res=>sponsor.value=res)
+const progress_usdt = ref(0)
+const progress_token = ref(0)
+watchEffect(()=>{
+    const usdt_sponsor_amount = sponsor.value?.usdt_sponsor_amount
+    const pe_sponsor_amount = sponsor.value?.pe_sponsor_amount
+    if(usdt_sponsor_amount && pe_sponsor_amount){
+        const total = computedAdd(usdt_sponsor_amount, pe_sponsor_amount)
+        if(total==0){
+            progress_usdt.value = 0
+            progress_token.value = 0
+        }else{
+            if(usdt_sponsor_amount==0){
+                progress_usdt.value = 0
+                progress_token.value = 100
+            }else if(pe_sponsor_amount==0){
+                progress_usdt.value = 100
+                progress_token.value = 0
+            }else{
+                progress_usdt.value = Math.floor(computedDiv(usdt_sponsor_amount, total) * 10000) / 100
+                progress_token.value = computedSub(100, progress_usdt.value)
+            }
+        }
+    }
+})
+
+/**
+ * 公告
+ */
+const notices = ref()
+apiGet('/api/notices',{
+    page_no:1,
+    page_size:5
+}).then((res:any)=>notices.value=res.notices)
+
+/**
+ * 弹窗公告
+ */
 const show = ref(false)
+const notice = ref()
+apiGet('/api/notices/pop').then((res:any)=>{
+    if(res.is_show){
+        notice.value = res.notice
+        show.value = true
+    }
+})
+const read = () => apiGet(`/api/notices/${notice.value?.id}/read`).then(()=>show.value=false)
 </script>
 
 <style lang="scss" scoped>
@@ -275,26 +359,21 @@ const show = ref(false)
         border-radius: 19px;
         overflow: hidden;
         position: relative;
+        background-color: #3030304D;
         .leftLine{
             height: 38px;
             background-color: $green;
-            line-height: 38px;
-            padding-left: 20px;
             transition: all 2s;
             position: absolute;
             left: 0;
             top: 0;
-            z-index: 1;
         }
         .rightLine{
             height: 38px;
             background-color: $main-color;
-            line-height: 38px;
-            padding-right: 20px;
-            text-align: right;
             transition: all 2s;
             position: absolute;
-            left: 0;
+            right: 0;
             top: 0;
         }
     }
