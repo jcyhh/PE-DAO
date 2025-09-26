@@ -37,3 +37,5 @@ export type Api =
 | '/api/referral_code/is_referral'  // 是否有生成邀请码权限
 | '/api/order/upgrade_nft'          // 升级nft
 | '/api/sponsor'                    // 赞助信息
+| '/api/sponsor/list'               // 赞助列表
+| '/api/coinage'                    // 铸币信息

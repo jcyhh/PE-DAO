@@ -104,10 +104,12 @@ export function initNumber(value:number | bigint){
     if(value){
         const num = Number(value)
         // 使用 Intl.NumberFormat 格式化数字，包含千分位分隔符和两位小数
+        // 先使用 toFixed(2) 进行裁剪，然后格式化
+        const roundedNum = Math.floor(num * 100) / 100; // 裁剪到两位小数
         text = new Intl.NumberFormat('en-US', {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2
-        }).format(num)
+        }).format(roundedNum)
     }else{
         text = '0.00'
     }
@@ -129,34 +131,38 @@ export function initAddress(value:string){
 export function initTime(timestamp:string){
     if(!timestamp)return '--'
     const date = new Date(timestamp); // 将时间戳转换为 Date 对象
-    // const now = new Date(); // 当前时间
-
-    // 获取日期信息
-    // const isToday = date.toDateString() === now.toDateString();
-    // const isYesterday = date.toDateString() === new Date(now.setDate(now.getDate() - 1)).toDateString();
 
     const hours = date.getHours().toString().padStart(2, '0');
     const minutes = date.getMinutes().toString().padStart(2, '0');
     const month = (date.getMonth() + 1).toString().padStart(2, '0'); // 月份从 0 开始
     const day = date.getDate().toString().padStart(2, '0');
 
-    // if (isToday) {
-    //     return `${hours}:${minutes}`;
-    // } else if (isYesterday) {
-    //     return `${t('昨天')} ${hours}:${minutes}`;
-    // } else {
-    //     const year = date.getFullYear();
-    //     const month = (date.getMonth() + 1).toString().padStart(2, '0'); // 月份从 0 开始
-    //     const day = date.getDate().toString().padStart(2, '0');
-
-    //     // 判断是否在当前年份内
-    //     if (year === now.getFullYear()) {
-    //         return `${month}-${day} ${hours}:${minutes}`;
-    //     } else {
-    //         return `${year}-${month}-${day} ${hours}:${minutes}`;
-    //     }
-    // }
-
-
     return `${month}/${day} ${hours}:${minutes}`
+}
+
+export function initDate(timestamp:string){
+    if(!timestamp)return '--'
+    const date = new Date(timestamp); // 将时间戳转换为 Date 对象
+
+    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // 月份从 0 开始
+    const day = date.getDate().toString().padStart(2, '0');
+
+    return `${month}/${day}`
+}
+
+/**
+ * 判断传入的日期是否是当天
+ * @param {string} dateString - 日期字符串，格式如 '2025-10-01'
+ * @returns {boolean} 是否是当天
+ */
+export function isToday(dateString: string): boolean {
+    if (!dateString) return false;
+    
+    const inputDate = new Date(dateString);
+    const today = new Date();
+    
+    // 比较年、月、日
+    return inputDate.getFullYear() === today.getFullYear() &&
+           inputDate.getMonth() === today.getMonth() &&
+           inputDate.getDate() === today.getDate();
 }

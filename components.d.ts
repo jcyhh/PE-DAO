@@ -11,6 +11,7 @@ declare module 'vue' {
     CusDate: typeof import('./src/components/CusDate/index.vue')['default']
     CusEmpty: typeof import('./src/components/CusEmpty/index.vue')['default']
     CusLang: typeof import('./src/components/CusLang/index.vue')['default']
+    CusLoading: typeof import('./src/components/CusLoading/index.vue')['default']
     CusNav: typeof import('./src/components/CusNav/index.vue')['default']
     CusPicker: typeof import('./src/components/CusPicker/index.vue')['default']
     CusProgress: typeof import('./src/components/CusProgress/index.vue')['default']

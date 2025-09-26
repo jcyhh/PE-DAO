@@ -42,7 +42,7 @@
                     </div>
                     <div class="size28" v-init="usdt"></div>
                 </div>
-                <div class="mainBtn mt60">立即赞助</div>
+                <div class="mainBtn mt60" v-scale v-delay="{fun:submit}">立即赞助</div>
                 <div class="flex jc mt40">
                     <div class="flex ac main size24" @click="routerPush('/home/sponsorLog')">
                         <div class="mr8">赞助记录</div>
@@ -64,10 +64,14 @@ import CusTab from '@/components/CusTab/index.vue'
 import ShinyText from '@/components/VueBits/ShinyText.vue'
 import { routerPush } from '@/router';
 import { useRoute } from 'vue-router';
-import { apiGet } from '@/utils/request';
+import { apiGet, apiPost } from '@/utils/request';
 import { computedMul } from '@/utils';
+import { message } from '@/utils/message';
+import { useEthers } from '@/dapp';
 
 const { query } = useRoute()
+
+const { getSign } = useEthers()
 
 const showRule = ref(false)
 
@@ -76,8 +80,8 @@ const defaultCur = query.type ? 1 : 0
 const current = ref(defaultCur)
 
 const tabs = computed(()=>([
-    {name:'USDT 赞助', value:0},
-    {name:'PE 赞助', value:0}
+    {name:'USDT 赞助', value:1},
+    {name:'PE 赞助', value:2}
 ]))
 
 const amount = ref(500)
@@ -92,6 +96,18 @@ const usdt = computed(()=>{
         else return computedMul(amount.value, token_price.value)
     }else return 0
 })
+
+const submit = async () => {
+    if(!amount.value)return message('请输入赞助价值')
+    const signInfo = await getSign('Sponsor')
+    apiPost('/api/sponsor',{
+        u_amount:amount.value,
+        type: tabs.value[current.value].value,
+        ...signInfo
+    }).then(()=>{
+        message('赞助成功', 'success')
+    })
+}
 </script>
 
 <style lang="scss" scoped>

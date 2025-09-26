@@ -26,19 +26,19 @@
                 <div class="mainCard mt24 flex jb ac">
                     <div class="flex ac">
                         <img src="@/assets/pe.png" class="img46 mr12">
-                        <div class="size28">PE</div>
+                        <div class="size28">{{ tokenName }}</div>
                     </div>
-                    <div class="size28">0.00</div>
+                    <div class="size28" v-init="info?.user_coinage_limit"></div>
                 </div>
                 <div class="size24 grey mb30 mt30">铸币数量</div>
                 <div class="mainCard mt24 flex ac">
                     <div class="flex ac">
                         <img src="@/assets/pe.png" class="img46 mr12">
-                        <div class="size28">PE</div>
+                        <div class="size28">{{ tokenName }}</div>
                     </div>
                     <input type="number" v-model="amount" placeholder="请输入铸币数量" class="size28 flex1 tr">
                     <div class="line ml16 mr16 flex0"></div>
-                    <div class="bold size24 font2">
+                    <div class="bold size24 font2" @click="inputAll">
                         <ShinyText text="全部"></ShinyText>
                     </div>
                 </div>
@@ -81,10 +81,22 @@ import CusNav from '@/components/CusNav/index.vue'
 import { ref } from 'vue';
 import ShinyText from '@/components/VueBits/ShinyText.vue'
 import { routerPush } from '@/router';
+import { apiGet } from '@/utils/request';
+import { isToday } from '@/utils';
+import { tokenName } from '@/config';
 
 const showRule = ref(false)
 
 const amount = ref()
+
+const info = ref()
+const nowIsToday = ref(false)
+apiGet('/api/coinage').then((res:any)=>{
+    info.value = res
+    nowIsToday.value = isToday(res.coinage_at)
+})
+
+const inputAll = () => amount.value = info.value?.user_coinage_limit || 0
 </script>
 
 <style lang="scss" scoped>

@@ -7,14 +7,14 @@ export const useDappStore = defineStore('dapp', () => {
 
     const address = ref('') // 钱包地址
 
-    const updateAddress = (addr:string) => address.value = addr
-
     const updateHasMetaMask = (value:number) => hasMetaMask.value = value
+
+    const loading = ref(false) // 是否开启loading
 
     return {
         address,
+        loading,
         hasMetaMask,
-        updateAddress,
         updateHasMetaMask
     }
 })

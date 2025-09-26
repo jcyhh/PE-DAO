@@ -1,10 +1,11 @@
-import { initNumber, initAddress, initPhone, initTime } from '@/utils'
+import { initNumber, initAddress, initPhone, initTime, initDate } from '@/utils'
 
 enum FilterType {
     Address = 'address',
     Phone = 'phone',
     Num = 'num',
-    Time = 'time'
+    Time = 'time',
+    Date = 'date'
 }
 
 function format(type: FilterType, data: any) {
@@ -12,6 +13,7 @@ function format(type: FilterType, data: any) {
     else if (type == FilterType.Address) return initAddress(data)
     else if (type == FilterType.Phone) return initPhone(data)
     else if (type == FilterType.Time) return initTime(data)
+    else if (type == FilterType.Date) return initDate(data)
 }
 
 export default {

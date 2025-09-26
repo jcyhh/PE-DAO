@@ -6,19 +6,19 @@
             <img src="@/assets/usdt.png" class="img48">
         </div>
         <div class="bold tc size48 mt28">
-            <div class="linearTxt">989098000</div>
+            <div class="linearTxt" v-init="100"></div>
         </div>
         <div class="tc size24 mt20">总市值(USDT)</div>
         <div class="mainCard mt50 flex jb ac">
             <div class="size24 opc6">累计发放共创激励价值</div>
-            <div class="size28 bold">1000 USDT</div>
+            <div class="size28 bold"><span v-init="info?.count_income"></span> USDT</div>
         </div>
         <div class="flex jb ac mt40 size24">
             <div class="flex ac">
                 <img src="@/assets/imgs/clock.png" class="img30 mr12">
                 <div>下次铸币时间</div>
             </div>
-            <div class="main">08月01日 17:50:00</div>
+            <div class="main" v-init:date="info?.coinage_at"></div>
         </div>
         <div class="card mt80">
             <div class="bold size32">
@@ -26,12 +26,12 @@
             </div>
             <div class="flex jb ac mt40">
                 <div>
-                    <div class="linearNum size40 bold">1000</div>
+                    <div class="linearNum size40 bold" v-init="info?.count_coinage_amount"></div>
                     <div class="size24 mt20">铸币池总额</div>
                 </div>
                 <div>
                     <div class="size24 opc6">我铸造的币</div>
-                    <div class="size26 bold mt20">888 USDT</div>
+                    <div class="size26 bold mt20"><span v-init="info?.user_coinage_amount"></span> USDT</div>
                 </div>
             </div>
             <div class="flex ac mt60">
@@ -39,13 +39,14 @@
                 <img src="@/assets/imgs/rule.png" class="img26 ml10">
             </div>
             <div class="flex jb ac mt20">
-                <div>100</div>
+                <div class="size26 bold" v-init="info?.user_coinage_limit"></div>
                 <div class="flex ac size24 main">
                     <div>点击查看</div>
                     <van-icon name="arrow" />
                 </div>
             </div>
-            <div class="mainBtn mt60" @click="routerPush('/create/cast')">去铸币</div>
+            <div class="mainBtn mt60" @click="routerPush('/create/cast')" v-if="nowIsToday">去铸币</div>
+            <div class="disableBtn mt60" v-else>去铸币</div>
         </div>
 
         <div class="mainCard">
@@ -63,12 +64,12 @@
                     <div class="flex ac mt40 mb40">
                         <div class="ball ball1 mr12"></div>
                         <div class="mr20 size24 opc6">流通总量</div>
-                        <div>100 PE</div>
+                        <div>150 PE</div>
                     </div>
                     <div class="flex ac">
                         <div class="ball ball2 mr12"></div>
                         <div class="mr20 size24 opc6">流通总量</div>
-                        <div>100 PE</div>
+                        <div>220 PE</div>
                     </div>
                 </div>
             </div>
@@ -114,7 +115,7 @@
             <div class="flex mt60">
                 <div class="flex1">
                     <div class="bold">
-                        <span class="size28">8000</span>
+                        <span class="size28">898,900</span>
                         <span class="size20 ml10">PE</span>
                     </div>
                     <div class="size24 opc6 mt16">销毁总量</div>
@@ -143,7 +144,7 @@
             <div class="flex mt60">
                 <div class="flex1">
                     <div class="bold">
-                        <span class="size28">3000</span>
+                        <span class="size28">3,150,000</span>
                         <span class="size20 ml10">枚/月</span>
                     </div>
                     <div class="size24 opc6 mt16">实时铸币速度</div>
@@ -165,8 +166,17 @@
 <script setup lang="ts">
 import ShinyText from '@/components/VueBits/ShinyText.vue'
 import { routerPush } from '@/router';
+import { isToday } from '@/utils';
+import { apiGet } from '@/utils/request';
 import * as echarts from 'echarts';
 import { onMounted, ref } from 'vue';
+
+const info = ref()
+const nowIsToday = ref(false)
+apiGet('/api/coinage').then((res:any)=>{
+    info.value = res
+    nowIsToday.value = isToday(res.coinage_at)
+})
 
 const chartRef = ref()
 
@@ -184,21 +194,21 @@ const option = {
             radius: '80%',
             data: [
                 { 
-                    value: 1048, 
+                    value: 100, 
                     name: '流通总量',
                     itemStyle: {
                         color: '#0059FF'
                     }
                 },
                 { 
-                    value: 735, 
+                    value: 150, 
                     name: '销毁总量',
                     itemStyle: {
                         color: '#C348FF'
                     }
                 },
                 { 
-                    value: 580, 
+                    value: 220, 
                     name: '铸币池待铸',
                     itemStyle: {
                         color: '#03EEA9'
