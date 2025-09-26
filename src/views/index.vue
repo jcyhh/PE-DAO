@@ -1,4 +1,7 @@
 <template>
+    <div class="lang">
+        <CusLang></CusLang>
+    </div>
     <div class="start flex jc ac">
         <img src="@/assets/common/start.png" class="startImg animate__animated animate__bounceInRight" />
     </div>
@@ -27,6 +30,7 @@ import { useDappStore } from '@/store';
 import { apiGet, apiPost } from '@/utils/request';
 import { storeToRefs } from 'pinia';
 import { ref, watch } from 'vue';
+import CusLang from '@/components/CusLang/index.vue';
 
 const { getSign, connectWallet } = useEthers()
 

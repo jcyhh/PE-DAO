@@ -42,14 +42,14 @@
                         <ShinyText text="全部"></ShinyText>
                     </div>
                 </div>
-                <div class="size24 mt30 main">实时铸币价格:1.89 USD</div>
+                <div class="size24 mt30 main">实时铸币价格 : <span v-init="token_price"></span> USD</div>
                 <div class="size24 gray mt40">赞助价值</div>
                 <div class="mainCard mt24 flex jb ac">
                     <div class="flex ac">
                         <img src="@/assets/usd.png" class="img46 mr12">
                         <div class="size28">USD</div>
                     </div>
-                    <div class="size28">0.00</div>
+                    <div class="size28" v-init="total"></div>
                 </div>
                 <div class="size24 gray mt40">支付数量</div>
                 <div class="mainCard mt24 flex jb ac">
@@ -57,11 +57,11 @@
                         <img src="@/assets/usdt.png" class="img46 mr12">
                         <div class="size28">USDT</div>
                     </div>
-                    <div class="size28">0.00</div>
+                    <div class="size28" v-init="usdt"></div>
                 </div>
                 <div class="size24 mt30">支付数量=铸币数量x铸币价格 x80%</div>
 
-                <div class="mainBtn mt60">开始铸币</div>
+                <div class="mainBtn mt60" v-scale v-delay="{fun:submit}">开始铸币</div>
                 <div class="flex jc mt40">
                     <div class="flex ac main size24" @click="routerPush('/create/castLog')">
                         <div class="mr8">铸币记录</div>
@@ -78,12 +78,16 @@
 
 <script setup lang="ts">
 import CusNav from '@/components/CusNav/index.vue'
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import ShinyText from '@/components/VueBits/ShinyText.vue'
 import { routerPush } from '@/router';
-import { apiGet } from '@/utils/request';
-import { isToday } from '@/utils';
+import { apiGet, apiPost } from '@/utils/request';
+import { computedMul, isToday } from '@/utils';
 import { tokenName } from '@/config';
+import { message } from '@/utils/message';
+import { useEthers } from '@/dapp';
+
+const { getSign } = useEthers()
 
 const showRule = ref(false)
 
@@ -91,12 +95,38 @@ const amount = ref()
 
 const info = ref()
 const nowIsToday = ref(false)
-apiGet('/api/coinage').then((res:any)=>{
-    info.value = res
-    nowIsToday.value = isToday(res.coinage_at)
-})
+const loadData = () => {
+    apiGet('/api/coinage').then((res:any)=>{
+        info.value = res
+        nowIsToday.value = isToday(res.coinage_at)
+    })
+}
+loadData()
+
+const token_price = ref()
+apiGet('/api/token_price').then((res:any)=>token_price.value=res.token_price)
 
 const inputAll = () => amount.value = info.value?.user_coinage_limit || 0
+
+const total = computed(()=>{
+    if(token_price.value && amount.value)return computedMul(token_price.value, amount.value)
+    else return 0
+})
+
+const usdt = computed(()=>computedMul(total.value, 0.8))
+
+const submit = async () => {
+    if(!amount.value)return message('请输入铸币数量')
+    const signInfo = await getSign('Coinage')
+    apiPost('/api/coinage',{
+        amount: amount.value,
+        ...signInfo
+    }).then(()=>{
+        message('铸币成功', 'success')
+        amount.value = ''
+        loadData()
+    })
+}
 </script>
 
 <style lang="scss" scoped>

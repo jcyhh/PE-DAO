@@ -6,55 +6,62 @@
         <div class="card">
             <div class="tc size26">总业绩(USD)</div>
             <div class="tc size48 bold mt12">
-                <ShinyText text="8000"></ShinyText>
+                <ShinyText :text="initNumber(info?.sponsor_team_kpi)"></ShinyText>
             </div>
         </div>
         <div class="flex mt30">
             <div class="flex1 cell">
-                <div class="size28 bold">5000</div>
+                <div class="size28 bold" v-init="info?.referral_kpi"></div>
                 <div class="size20 mt10 gray">直推业绩(USD)</div>
             </div>
             <div class="flex1 cell ml20">
-                <div class="size28 bold">5000</div>
+                <div class="size28 bold" v-init="info?.jt_kpi"></div>
                 <div class="size20 mt10 gray">间推业绩(USD)</div>
             </div>
         </div>
     </div>
     
     <div class="head">
-        <CusTab :list="tabs" @change="$event => current = $event"></CusTab>
+        <CusTab :list="tabs" @change="tabClick"></CusTab>
     </div>
 
-    <div class="pl30 pr30">
-
-        <div class="node mb30" v-for="(item,index) in 5" :key="index">
-            <div class="flex jb ac">
-                <div class="size24 gray">用户地址</div>
-                <div class="size28">0xd205e6...b268B</div>
+    <van-pull-refresh class="list" v-bind="props">
+        <van-list class="list" v-bind="listProps">
+            <div class="pl30 pr30">
+                <div class="node mb30" v-for="(item,index) in list" :key="index">
+                    <div class="flex jb ac">
+                        <div class="size24 gray">用户地址</div>
+                        <div class="size28">{{ item.nickname }}</div>
+                    </div>
+                    <div class="flex jb ac mt30">
+                        <div class="size24 opc6">邀请类型</div>
+                        <div class="size28 main">{{ item.type == 1 ? '直推' : '间推' }}</div>
+                    </div>
+                    <div class="flex jb ac mt30">
+                        <div class="size24 opc6">个人赞助</div>
+                        <div class="size28" v-init="item.sponsor_kpi"></div>
+                    </div>
+                    <div class="flex jb ac mt30">
+                        <div class="size24 opc6">社区赞助</div>
+                        <div class="size28" v-init="item.sponsor_team_kpi"></div>
+                    </div>
+                    <div class="flex jb ac mt30">
+                        <div class="size24 opc6">账户级别</div>
+                        <div class="flex ac">
+                            <img src="@/assets/imgs/9.png" class="img48 mr10 aniRotate">
+                            <div class="size28">{{ item.level?.name }}</div>
+                        </div>
+                    </div>
+                    <div class="flex jb ac mt30">
+                        <div class="size24 opc6">注册时间</div>
+                        <div class="size28" v-init:time="item.created_at"></div>
+                    </div>
+                </div>
             </div>
-            <div class="flex jb ac mt30">
-                <div class="size24 opc6">邀请类型</div>
-                <div class="size28 main">直推</div>
-            </div>
-            <div class="flex jb ac mt30">
-                <div class="size24 opc6">个人赞助</div>
-                <div class="size28">100</div>
-            </div>
-            <div class="flex jb ac mt30">
-                <div class="size24 opc6">社区赞助</div>
-                <div class="size28">100</div>
-            </div>
-            <div class="flex jb ac mt30">
-                <div class="size24 opc6">账户级别</div>
-                <div class="size28">1星</div>
-            </div>
-            <div class="flex jb ac mt30">
-                <div class="size24 opc6">注册时间</div>
-                <div class="size28">08-01 17:50:00</div>
-            </div>
-        </div>
-
-    </div>
+            <CusEmpty v-if="list?.length==0"></CusEmpty>
+        </van-list>
+    </van-pull-refresh>
+    
 
 </template>
 
@@ -63,12 +70,30 @@ import CusNav from '@/components/CusNav/index.vue'
 import { computed, ref } from 'vue';
 import CusTab from '@/components/CusTab/index.vue'
 import ShinyText from '@/components/VueBits/ShinyText.vue'
+import { apiGet } from '@/utils/request';
+import { initNumber } from '@/utils';
+import { useLoadList } from '@/hooks/useLoadList';
+import { usePullRefresh } from '@/hooks/usePullRefresh';
+import CusEmpty from '@/components/CusEmpty/index.vue'
 
 const current = ref(0)
 const tabs = computed(()=>([
-    {name:'直推用户(88)', value:0},
-    {name:'间推用户(990)', value:0}
+    {name:`直推用户(${info.value?.referral_count})`, value:1},
+    {name:`间推用户(${info.value?.jt_count})`, value:2}
 ]))
+const tabClick = (index:number) => {
+    current.value = index
+    loadList()
+}
+
+const info = ref()
+apiGet('/api/users/my').then(res=>info.value=res)
+
+const params = computed(()=>({type:tabs.value[current.value].value}))
+
+const { list, props: listProps, loadList } = useLoadList('/api/users/my/referrals', 'referrals', params)
+const { props } = usePullRefresh(loadList)
+loadList()
 </script>
 
 <style lang="scss" scoped>
@@ -104,5 +129,8 @@ const tabs = computed(()=>([
     border: 1px solid #C4C4C433;
     border-radius: 20px;
     padding: 30px;
+}
+.list{
+    min-height: calc(100vh - 260px);
 }
 </style>

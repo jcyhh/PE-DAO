@@ -12,21 +12,21 @@
                     <div class="font1 linearTxt size32 bold" v-init:address="address"></div>
                     <img src="@/assets/layout/copy.png" class="img48" v-copy="address">
                 </div>
-                <div class="opc6 size24 mt12">{{ userInfo?.created_at }}</div>
-                <!-- <div class="flex jb ac mt50">
+                <div class="opc6 size24 mt12" v-init:time="userInfo?.created_at"></div>
+                <div class="flex jb ac mt50">
                     <div class="size24">{{ $t('账户等级') }}</div>
                     <div class="flex ac">
-                        <img src="@/assets/imgs/9.png" class="img48 aniRotate mr8" v-for="(item,index) in 5" :key="index">
-                        <div class="size24">1星</div>
+                        <img src="@/assets/imgs/9.png" class="img48 aniRotate mr8">
+                        <div class="size24">{{ userInfo?.level?.name }}</div>
                     </div>
-                </div> -->
+                </div>
                 <div class="box flex jb ac">
                     <div class="size24">{{ $t('推荐码') }}</div>
                     <div class="flex ac size24" v-if="userInfo?.referral_code" v-copy="userInfo?.referral_code">
                         <div class="opc6 mr10">{{ userInfo?.referral_code }}</div>
                         <img src="@/assets/imgs/copy.png" class="img32">
                     </div>
-                    <div class="flex ac size24" v-else @click="jump('/home/index')">
+                    <div class="flex ac size24" v-else @click="jump('/cure/index')">
                         <div class="opc6 mr10">{{ $t('解锁推荐特权') }}</div>
                         <van-icon name="arrow" />
                     </div>

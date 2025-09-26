@@ -40,6 +40,10 @@ export default [
         component: () => import('@/views/share/log.vue')
     },
     {
+        path:'/share/code',
+        component: () => import('@/views/share/code.vue')
+    },
+    {
         path:'/news/:id',
         component: () => import('@/views/news/detail.vue')
     },

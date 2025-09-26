@@ -42,6 +42,7 @@
                     </div>
                 </div>
             </div>
+            <CusEmpty v-if="list?.length==0"></CusEmpty>
         </van-list>
     </van-pull-refresh>
 
@@ -56,6 +57,7 @@ import { computed, ref } from 'vue'
 import { useLoadList } from '@/hooks/useLoadList';
 import { usePullRefresh } from '@/hooks/usePullRefresh';
 import { tokenName } from '@/config';
+import CusEmpty from '@/components/CusEmpty/index.vue'
 
 const params = computed(()=>({
     start_at: start_at.value,

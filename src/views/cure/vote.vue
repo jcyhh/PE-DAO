@@ -6,21 +6,15 @@
             <ShinyText text="正在投票中..."></ShinyText>
         </div>
 
-        <div class="card mt40">
-            <div class="size32 bold lh60">提案 #TGP-2024-015-优化Gas费用的资金分配方案 </div>
+        <div class="card mt40" v-for="(item,index) in votes" :key="index" @click="routerPush(`/cure/vote/${item.id}`)">
+            <div class="size32 bold lh60">{{ item.title }}</div>
             <div class="flex mt24">
-                <div class="flex ac size24 blue" @click="routerPush(`/cure/vote/id`)">
+                <div class="flex ac size24 blue">
                     <div class="mr5">投票详情</div>
                     <van-icon name="arrow" />
                 </div>
             </div>
-            <div class="size26 lh52 mt40">
-                本提案建议将本季度国库中预留的「Gas费补贴」预算(共计50,000 USDC)的
-                <span class="green">20%</span>
-                (即 10,000 USDC)用于
-                <span class="main">回购并销毁社区治理代币</span>
-                ，其余80%继续用于补贴用户链上交互成本。
-            </div>
+            <div class="size26 lh52 mt24 rich" v-html="item.content"></div>
             <div class="flex jb ae size28 bold">
                 <div class="agree">赞成</div>
                 <img src="@/assets/imgs/14.png" class="pic14">
@@ -32,28 +26,31 @@
             <ShinyText text="投票已完成"></ShinyText>
         </div>
 
-        <div class="item mb40" v-for="(item,index) in 3" :key="index">
-            <div class="flex ac">
-                <img src="@/assets/imgs/17.png" class="img52 mr10">
-                <div class="size26 bold red">未通过</div>
+        <van-list class="list" v-bind="props">
+            <div class="item mb40" v-for="(item,index) in list" :key="index" @click="routerPush(`/cure/vote/${item.id}`)">
+                <div class="flex ac" v-if="item.result==0">
+                    <img src="@/assets/imgs/17.png" class="img52 mr10">
+                    <div class="size26 bold red">未通过</div>
+                </div>
+                <div class="flex ac" v-else>
+                    <img src="@/assets/imgs/18.png" class="img52 mr10">
+                    <div class="size26 bold red">已通过</div>
+                </div>
+                <div class="size32 bold lh60 mt20">{{ item.title }}</div>
+                <div class="size26 lh52 mt24 rich" v-html="item.content"></div>
+                <div class="flex jb size24 mt40">
+                    <div class="green">赞成</div>
+                    <div class="main">反对</div>
+                </div>
+                <div class="progress flex jb ac mt30 size18">
+                    <div class="rel pl30">{{ getProgress(item.agree_count, item.total_count) }}%</div>
+                    <div class="rel pr30">{{ getProgress(item.disagree_count, item.total_count) }}%</div>
+                    <div class="leftLine" :style="{width:`${getProgress(item.agree_count, item.total_count)}%`}"></div>
+                    <div class="rightLine" :style="{width:`${getProgress(item.disagree_count, item.total_count)}%`}"></div>
+                </div>
             </div>
-            <div class="size32 bold lh60 mt20">提案 #TGP-2024-015-优化Gas费用的资金分配方案 </div>
-            <div class="size26 lh52 mt24">
-                本提案建议将本季度国库中预留的「Gas费补贴」预算(共计50,000 USDC)的
-                <span class="green">20%</span>
-                (即 10,000 USDC)用于
-                <span class="main">回购并销毁社区治理代币</span>
-                ，其余80%继续用于补贴用户链上交互成本。 
-            </div>
-            <div class="flex jb size24 mt40">
-                <div class="green">赞成</div>
-                <div class="main">反对</div>
-            </div>
-            <div class="rate flex jb size18 bold mt24">
-                <div class="rateAgree flex1">30%</div>
-                <div class="rateReject flex1">70%</div>
-            </div>
-        </div>
+            <CusEmpty v-if="list?.length==0"></CusEmpty>
+        </van-list>
 
     </div>
 </template>
@@ -62,6 +59,28 @@
 import ShinyText from '@/components/VueBits/ShinyText.vue'
 import CusNav from '@/components/CusNav/index.vue'
 import { routerPush } from '@/router'
+import { useLoadList } from '@/hooks/useLoadList';
+import CusEmpty from '@/components/CusEmpty/index.vue'
+import { computed, ref } from 'vue';
+import { computedDiv } from '@/utils';
+import { apiGet } from '@/utils/request';
+
+const params = computed(()=>({status:2}))
+
+const { list, props, loadList } = useLoadList('/api/votes', 'votes', params)
+loadList()
+
+const votes = ref<any>([])
+apiGet('/api/votes',{
+    page_no:1,
+    page_size:50,
+    status:1
+}).then((res:any)=>votes.value=res.votes)
+
+const getProgress = (a:any, b:any) => {
+    if(a==0)return 0
+    return Math.floor(computedDiv(a, b) * 10000) / 100
+}
 </script>
 
 <style lang="scss" scoped>
@@ -145,6 +164,30 @@ import { routerPush } from '@/router'
             line-height: 38px;
             padding-right: 30px;
             text-align: right;
+        }
+    }
+
+    .progress{
+        height: 38px;
+        border-radius: 19px;
+        overflow: hidden;
+        position: relative;
+        background-color: #3030304D;
+        .leftLine{
+            height: 38px;
+            background-color: $green;
+            transition: all 2s;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+        .rightLine{
+            height: 38px;
+            background-color: $main-color;
+            transition: all 2s;
+            position: absolute;
+            right: 0;
+            top: 0;
         }
     }
 }

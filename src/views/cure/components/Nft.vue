@@ -1,41 +1,35 @@
 <template>
     <div class="pl30 pr30">
-        <div class="item mb40" v-for="(item,index) in 3" :key="index">
+        <div class="item mb40" v-for="(item,index) in list" :key="index">
             <div class="gap30"></div>
-            <img src="@/assets/usdt.png" class="nftImg">
+            <img :src="item.img_url" class="nftImg">
             <div class="box">
-                <div class="flex jb ac">
-                    <div class="pl170 size28 bold">名称</div>
-                    <div class="flex ac">
-                        <img src="@/assets/imgs/rule.png" class="img26 mr10">
-                        <div class="main size24">规则</div>
-                    </div>
-                </div>
+                <div class="pl170 size28 bold">{{ $t('身份') }}-{{ item.name }}</div>
                 <div class="flex jb ae mt64">
                     <div>
-                        <div class="size40 bold">500</div>
-                        <div class="blue size20 mt4">售卖价格(USDT)</div>
+                        <div class="size40 bold" v-init="item.price"></div>
+                        <div class="blue size20 mt4">{{ $t('售卖价格') }}(USDT)</div>
                     </div>
-                    <div class="btn">立即购买</div>
+                    <div class="btn" @click="open(item)">{{ $t('立即购买') }}</div>
                 </div>
                 <div class="flex jb ac mt50">
                     <div class="size24">{{ $t('等级权益') }}</div>
                     <div class="flex ac">
                         <img src="@/assets/imgs/9.png" class="img40 mr10 aniRotate">
-                        <div class="size24 bold">1星</div>
+                        <div class="size24 bold">{{ item.level_equity }}</div>
                     </div>
                 </div>
                 <div class="flex jb ac mt30">
                     <div class="size24 opc6">{{ $t('空投代币比例') }}</div>
-                    <div class="size26">40%</div>
+                    <div class="size26">{{ Number(item.token_rate) }}%</div>
                 </div>
                 <div class="flex jb ac mt30">
                     <div class="size24 opc6">{{ $t('释放周期') }}</div>
-                    <div class="size26">100{{ $t('天') }}</div>
+                    <div class="size26">{{ item.release_days }}{{ $t('天') }}</div>
                 </div>
                 <div class="flex jb ac mt30">
                     <div class="size24 opc6">{{ $t('释放方式') }}</div>
-                    <div class="size26">40%</div>
+                    <div class="size26">{{ Number(item.release_rate) }}%</div>
                 </div>
             </div>
         </div>
@@ -45,34 +39,37 @@
         <div class="pop" @click="showRule=false">
             <div class="flex jb ac">
                 <div class="bold size32 font2">
-                    <ShinyText text="成为名称"></ShinyText>
+                    <ShinyText :text="`${$t('成功')}-${info?.name}`"></ShinyText>
                 </div>
                 <van-icon name="cross" :size="25" color="#999999" @click="show=false" />
             </div>
             <div class="content mt60">
                 <div class="size20 bold">
-                    <span class="size40 mr10">500</span>
+                    <span class="size40 mr10" v-init="info?.price"></span>
                     <span>USDT</span>
                 </div>
-                <div class="size20 blue mt20">支付金额(USDT)</div>
+                <div class="size20 blue mt20">{{ $t('售卖价格') }}(USDT)</div>
                 <div class="flex jb size24 mt60">
-                    <div class="opc6">空投代币比例</div>
-                    <div>40%</div>
+                    <div class="opc6">{{ $t('空投代币比例') }}</div>
+                    <div>{{ Number(info.token_rate) }}%</div>
                 </div>
                 <div class="flex jb size24 mt30">
-                    <div class="opc6">释放周期</div>
-                    <div>8个月</div>
+                    <div class="opc6">{{ $t('释放周期') }}</div>
+                    <div>{{ info.release_days }}{{ $t('天') }}</div>
                 </div>
                 <div class="flex jb size24 mt30">
-                    <div class="opc6">释放方式</div>
-                    <div>10%</div>
+                    <div class="opc6">{{ $t('释放方式') }}</div>
+                    <div>{{ Number(info.release_rate) }}%</div>
                 </div>
                 <div class="flex jb size24 mt30">
-                    <div class="opc6">等级权益</div>
-                    <div>1星</div>
+                    <div class="opc6">{{ $t('等级权益') }}</div>
+                    <div class="flex ac">
+                        <img src="@/assets/imgs/9.png" class="img40 mr10 aniRotate">
+                        <div class="size26 bold">{{ info?.level_equity }}</div>
+                    </div>
                 </div>
                 <div class="inp mt40 flex">
-                    <input type="text" placeholder="请输入邀请码" class="size28 flex1">
+                    <input type="text" v-model="inviteCode" :placeholder="$t('请输入邀请码')" class="size28 flex1">
                 </div>
                 <div class="mt24 flex">
                     <div class="flex ac" @click.stop="showRule=true">
@@ -81,22 +78,69 @@
                     </div>
                 </div>
                 <div class="rule size20 lh40 animate__animated animate__zoomIn anitl ani3" v-if="showRule">
-                    1.购买NFT成为组织者或者捐赠成为共识者。<br>
+                    1.购买NFT成为组织者。<br>
                     2.若已身处DAO中，您也可在治理通过后为好友生成专属推荐码。
                 </div>
                 <div class="size20 yellow lh48 mt30">{{ $t('提示...') }}</div>
             </div>
             
-            <div class="mainBtn mt40">确认</div>
+            <div class="mainBtn mt40" v-scale v-delay="{fun:submit}">确认</div>
         </div>
     </van-popup>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref } from 'vue'
+import { apiGet, apiPost } from '@/utils/request'
+import { useEthers } from '@/dapp'
+import { useBiz } from '@/dapp/contract/biz/useBiz'
+import { useErc20 } from '@/dapp/contract/erc20/useErc20'
+import { message } from '@/utils/message'
+import { t } from '@/locale'
 
 const show = ref(false)
 const showRule = ref(false)
+
+const { getSign, checkGas, connectWallet } = useEthers()
+connectWallet()
+
+const { writeMint, writeDonate } = useBiz()
+
+const { approve } = useErc20()
+
+const list = ref<any[]>([]) // nft列表
+const info = ref() // 当前要铸造的nft信息
+const inviteCode = ref() // 邀请码
+
+apiGet('/api/nft').then((res:any)=>list.value=res.nft)
+
+const open = (data:any) => {
+    inviteCode.value = ''
+    info.value = data
+    show.value = true
+}
+
+// 铸造nft
+const submit = async () => {
+    if(!inviteCode.value)return message(t('请输入邀请码'))
+
+    const gasEnough = await checkGas(); // 检测ETH
+    if(!gasEnough)return;
+
+    await approve(info.value.price); // 授权U
+    
+    const signInfo:any = await getSign('Order') // 签名
+
+    apiPost('/api/order/nft',{
+        nft_id: info.value.id,
+        ref: inviteCode.value,
+        ...signInfo
+    }).then(async (res:any)=>{
+        const { id, price, expired_at, sign } = res
+        await writeMint(id, price, expired_at, sign) // 铸造
+        show.value = false
+    })
+}
 </script>
 
 <style lang="scss" scoped>

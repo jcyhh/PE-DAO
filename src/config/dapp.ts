@@ -24,7 +24,8 @@ export type SignMessage =
 | 'Saving' 
 | 'TokenOrder' 
 | 'Upgrade'
-| 'Sponsor'
+| 'Sponsor' // 赞助
+| 'Coinage' // 铸币
 
 // BSC主网信息
 export const bscMainnet = {

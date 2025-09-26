@@ -18,7 +18,7 @@ const { params } = useRoute()
 
 const info = ref()
 
-if(params?.id)apiGet(`/api/notices/${params?.id as any}`).then(res=>info.value=res)
+if(params?.id)apiGet(`/api/notices/${params?.id}`).then(res=>info.value=res)
 </script>
 
 <style lang="scss" scoped>

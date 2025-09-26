@@ -11,22 +11,16 @@
             </div>
         </div>
 
-        <div class="card mt40">
-            <div class="size32 bold lh60">提案 #TGP-2024-015-优化Gas费用的资金分配方案 </div>
+        <div class="card mt40" v-if="voteInfo">
+            <div class="size32 bold lh60">{{ voteInfo?.title }}</div>
             <div class="flex mt24">
-                <div class="flex ac size24 blue" @click="routerPush(`/cure/vote/id`)">
+                <div class="flex ac size24 blue" @click="routerPush(`/cure/vote/${voteInfo?.id}`)">
                     <div class="mr5">投票详情</div>
                     <van-icon name="arrow" />
                 </div>
             </div>
-            <div class="size26 lh52 mt40">
-                本提案建议将本季度国库中预留的「Gas费补贴」预算(共计50,000 USDC)的
-                <span class="green">20%</span>
-                (即 10,000 USDC)用于
-                <span class="main">回购并销毁社区治理代币</span>
-                ，其余80%继续用于补贴用户链上交互成本。
-            </div>
-            <div class="flex jb ae size28 bold">
+            <div class="size26 lh52 mt40 rich" v-html="voteInfo?.content"></div>
+            <div class="flex jb ae size28 bold" @click="routerPush(`/cure/vote/${voteInfo?.id}`)">
                 <div class="agree">赞成</div>
                 <img src="@/assets/imgs/14.png" class="pic14">
                 <div class="reject">反对</div>
@@ -50,6 +44,7 @@ import { computed, ref } from 'vue'
 import { routerPush } from '@/router'
 import Nft from './components/Nft.vue'
 import MyNft from './components/MyNft.vue'
+import { apiGet } from '@/utils/request'
 
 const current = ref(0)
 const tabs = computed(()=>([
@@ -57,8 +52,15 @@ const tabs = computed(()=>([
     {name:'我的NFT', value:0}
 ]))
 
-const show = ref(false)
-const showRule = ref(false)
+const voteInfo = ref()
+apiGet('/api/votes',{
+    page_no:1,
+    page_size:1,
+    status:1
+}).then((res:any)=>{
+    if(res.votes.length>0)voteInfo.value=res.votes[0]
+    else voteInfo.value = null
+})
 </script>
 
 <style lang="scss" scoped>
