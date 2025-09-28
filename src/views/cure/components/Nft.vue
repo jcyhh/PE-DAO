@@ -90,23 +90,34 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { apiGet, apiPost } from '@/utils/request'
 import { useEthers } from '@/dapp'
 import { useBiz } from '@/dapp/contract/biz/useBiz'
 import { useErc20 } from '@/dapp/contract/erc20/useErc20'
 import { message } from '@/utils/message'
 import { t } from '@/locale'
+import { useDappStore } from '@/store'
+import { storeToRefs } from 'pinia'
 
 const show = ref(false)
 const showRule = ref(false)
 
-const { getSign, checkGas, connectWallet } = useEthers()
-connectWallet()
+const dappStore = useDappStore()
+const { address } = storeToRefs(dappStore)
 
-const { writeMint, writeDonate } = useBiz()
+const { getSign, checkGas } = useEthers()
 
-const { approve } = useErc20()
+const { writeMint, init:initBiz } = useBiz()
+
+const { approve, init:initErc20 } = useErc20()
+
+watch(address, val => {
+    if(val){
+        initBiz(),
+        initErc20()
+    }
+}, {immediate:true})
 
 const list = ref<any[]>([]) // nft列表
 const info = ref() // 当前要铸造的nft信息

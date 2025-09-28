@@ -96,7 +96,7 @@
                 <div class="size24 opc6">已领取赞助奖励</div>
                 <div class="size26"><span v-init="stats?.jt_withdraw_amount"></span> {{ tokenName }}</div>
             </div>
-            <div class="mainBtn mt48">领取赞助奖励</div>
+            <div class="mainBtn mt48" @click="showZanZu=true">领取赞助奖励</div>
         </div>
         <div class="item mb30">
             <div class="flex jb ac">
@@ -111,7 +111,7 @@
                 <div class="size24 opc6">已领取布道奖励</div>
                 <div class="size26"><span v-init="stats?.dt_withdraw_amount"></span> {{ tokenName }}</div>
             </div>
-            <div class="mainBtn mt48">领取布道奖励</div>
+            <div class="mainBtn mt48" @click="showBuDao=true">领取布道奖励</div>
         </div>
         <div class="flex jb ac mt80 mb40">
             <div class="bold size32 font2">
@@ -166,26 +166,102 @@
     </div>
 
     <div class="gap60"></div>
+
+    <van-popup v-model:show="showZanZu" style="background-color: transparent !important;" :close-on-click-overlay="false" overlay-class="cusMask">
+        <div class="pop">
+            <div class="flex jb ac">
+                <div class="size32 bold">领取赞助奖励</div>
+                <van-icon name="cross" color="#999999" :size="25" @click="showZanZu=false" />
+            </div>
+            <div class="mt60 size24">{{ $t('领取收益手续费为') }} {{ jt_token_fee }}% {{ $t('，确认现在领取收益吗？') }}</div>
+            <div class="mainBtn mt40" v-scale v-delay="{fun:submitZanZu}">{{ $t('确认') }}</div>
+        </div>
+    </van-popup>
+
+    <van-popup v-model:show="showBuDao" style="background-color: transparent !important;" :close-on-click-overlay="false" overlay-class="cusMask">
+        <div class="pop">
+            <div class="flex jb ac">
+                <div class="size32 bold">领取布道奖励</div>
+                <van-icon name="cross" color="#999999" :size="25" @click="showBuDao=false" />
+            </div>
+            <div class="mt60 size24">{{ $t('领取收益手续费为') }} {{ dt_token_fee }}% {{ $t('，确认现在领取收益吗？') }}</div>
+            <div class="mainBtn mt40" v-scale v-delay="{fun:submitBuDao}">{{ $t('确认') }}</div>
+        </div>
+    </van-popup>
 </template>
 
 <script setup lang="ts">
 import ShinyText from '@/components/VueBits/ShinyText.vue'
 import { tokenName } from '@/config';
+import { useEthers } from '@/dapp';
+import { useBiz } from '@/dapp/contract/biz/useBiz';
 import { routerPush } from '@/router';
 import { useDappStore } from '@/store';
 import { initNumber } from '@/utils';
-import { apiGet } from '@/utils/request';
+import { apiGet, apiPost } from '@/utils/request';
 import { storeToRefs } from 'pinia';
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 
 const useStore = useDappStore()
 const { address } = storeToRefs(useStore)
+
+const { getSign, checkGas } = useEthers()
+
+const { writeClaim, init } = useBiz()
+
+watch(address, val => {
+    if(val){
+        init()
+    }
+}, {immediate:true})
+
+const showZanZu = ref(false)
+const showBuDao = ref(false)
+
+const dt_token_fee = ref(0)
+const jt_token_fee = ref(0)
+apiGet('/api/withdraw/fee').then((res:any)=>{
+    dt_token_fee.value = res.dt_token_fee
+    jt_token_fee.value = res.jt_token_fee
+})
 
 const info = ref()
 apiGet('/api/users/my').then(res=>info.value=res)
 
 const stats = ref()
 apiGet('/api/users/my/income').then(res=>stats.value=res)
+
+const submitZanZu = async () => {
+    const gasEnough = await checkGas(); // 检测ETH
+    if(!gasEnough)return;
+
+    const signInfo:any = await getSign('Claim') // 签名
+
+    apiPost('/api/withdraw',{
+        ccy:'jt_balance_token',
+        ...signInfo
+    }).then(async (res:any)=>{
+        const { id, token, sign_amount, expired_at, sign } = res.info
+        await writeClaim(id, token, sign_amount, expired_at, sign)
+        showZanZu.value = false
+    })
+}
+
+const submitBuDao = async () => {
+    const gasEnough = await checkGas(); // 检测ETH
+    if(!gasEnough)return;
+
+    const signInfo:any = await getSign('Claim') // 签名
+
+    apiPost('/api/withdraw',{
+        ccy:'dt_balance_token',
+        ...signInfo
+    }).then(async (res:any)=>{
+        const { id, token, sign_amount, expired_at, sign } = res.info
+        await writeClaim(id, token, sign_amount, expired_at, sign)
+        showBuDao.value = false
+    })
+}
 </script>
 
 <style lang="scss" scoped>
@@ -232,5 +308,12 @@ apiGet('/api/users/my/income').then(res=>stats.value=res)
         margin: 0 25px;
         flex-shrink: 0;
     }
+}
+.pop{
+    width: 590px;
+    padding: 30px 30px 40px 30px;
+    border: 1px solid #FFFFFF80;
+    border-radius: 20px;
+    background: linear-gradient(52deg, #1C1F1D, #080908);
 }
 </style>

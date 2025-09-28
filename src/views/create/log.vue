@@ -31,7 +31,7 @@
                     </div>
                     <div class="flex jb ac mt30">
                         <div class="size24 opc6">铸造时间</div>
-                        <div class="size28" v-init="item.created_at"></div>
+                        <div class="size28" v-init:time="item.created_at"></div>
                     </div>
                     <div class="flex jb ac mt30">
                         <div class="size24 opc6">交易哈希</div>

@@ -36,7 +36,7 @@
                         <img src="@/assets/pe.png" class="img46 mr12">
                         <div class="size28">{{ tokenName }}</div>
                     </div>
-                    <input type="number" v-model="amount" placeholder="请输入铸币数量" class="size28 flex1 tr">
+                    <input type="number" v-model="inputAmount" placeholder="请输入铸币数量" class="size28 flex1 tr">
                     <div class="line ml16 mr16 flex0"></div>
                     <div class="bold size24 font2" @click="inputAll">
                         <ShinyText text="全部"></ShinyText>
@@ -78,7 +78,7 @@
 
 <script setup lang="ts">
 import CusNav from '@/components/CusNav/index.vue'
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 import ShinyText from '@/components/VueBits/ShinyText.vue'
 import { routerPush } from '@/router';
 import { apiGet, apiPost } from '@/utils/request';
@@ -86,12 +86,30 @@ import { computedMul, isToday } from '@/utils';
 import { tokenName } from '@/config';
 import { message } from '@/utils/message';
 import { useEthers } from '@/dapp';
+import { useDappStore } from '@/store'
+import { storeToRefs } from 'pinia'
+import { useBizV2 } from '@/dapp/contract/bizV2/useBizV2';
+import { useErc20 } from '@/dapp/contract/erc20/useErc20';
 
-const { getSign } = useEthers()
+const dappStore = useDappStore()
+const { address } = storeToRefs(dappStore)
+
+const { getSign, checkGas } = useEthers()
+
+const { writeMint, init:initBizV2 } = useBizV2()
+
+const { approve:approveUsdt, init:initUsdt } = useErc20(import.meta.env.VITE_BIZ_V2)
+
+watch(address, val => {
+    if(val){
+        initBizV2(),
+        initUsdt()
+    }
+}, {immediate:true})
 
 const showRule = ref(false)
 
-const amount = ref()
+const inputAmount = ref()
 
 const info = ref()
 const nowIsToday = ref(false)
@@ -106,24 +124,32 @@ loadData()
 const token_price = ref()
 apiGet('/api/token_price').then((res:any)=>token_price.value=res.token_price)
 
-const inputAll = () => amount.value = info.value?.user_coinage_limit || 0
+const inputAll = () => inputAmount.value = info.value?.user_coinage_limit || 0
 
 const total = computed(()=>{
-    if(token_price.value && amount.value)return computedMul(token_price.value, amount.value)
+    if(token_price.value && inputAmount.value)return computedMul(token_price.value, inputAmount.value)
     else return 0
 })
 
 const usdt = computed(()=>computedMul(total.value, 0.8))
 
 const submit = async () => {
-    if(!amount.value)return message('请输入铸币数量')
+    if(!inputAmount.value)return message('请输入铸币数量')
+
+    const gasEnough = await checkGas(); // 检测ETH
+    if(!gasEnough)return;
+
+    await approveUsdt(inputAmount.value); // 授权U
+
     const signInfo = await getSign('Coinage')
+
     apiPost('/api/coinage',{
-        amount: amount.value,
+        amount: inputAmount.value,
         ...signInfo
-    }).then(()=>{
-        message('铸币成功', 'success')
-        amount.value = ''
+    }).then(async (res:any) => {
+        const { id, usdt_amount, pe_amount, lp_to, expired_at, sign } = res
+        await writeMint(id, usdt_amount, pe_amount, lp_to, expired_at, sign)
+        inputAmount.value = ''
         loadData()
     })
 }

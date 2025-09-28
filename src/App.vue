@@ -16,6 +16,7 @@ import { routerReplace } from './router';
 import { useDappStore } from './store';
 import { storeToRefs } from 'pinia';
 import CusLoading from '@/components/CusLoading/index.vue'
+import { delToken } from './config/storage';
 
 const dappStore = useDappStore()
 const { hasMetaMask, address, loading } = storeToRefs(dappStore)
@@ -52,6 +53,7 @@ const removeListener = () => {
 // 回调：账户切换、断开钱包链接、网络切换
 const handlerChanged = async () => {    
     address.value = ''
+    delToken()
     removeListener();
     routerReplace(startPath)
     await init();

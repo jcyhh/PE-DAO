@@ -95,10 +95,15 @@ import { useNft } from '@/dapp/contract/nft/useNft';
 import { useBiz } from '@/dapp/contract/biz/useBiz';
 import { useErc20 } from '@/dapp/contract/erc20/useErc20';
 import { apiGet, apiPost } from '@/utils/request';
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
+import { useDappStore } from '@/store';
+import { storeToRefs } from 'pinia';
 
 const { list, props, loadList } = useLoadList('/api/order', 'orders')
 loadList()
+
+const dappStore = useDappStore()
+const { address } = storeToRefs(dappStore)
 
 const nfts = ref<any[]>([])
 const maxId = ref()
@@ -124,14 +129,21 @@ const openpop = (data: any) => {
     show.value = true
 }
 
-const { getSign, checkGas, connectWallet } = useEthers()
-connectWallet()
+const { getSign, checkGas } = useEthers()
 
-const { writeUpgrade } = useBiz()
+const { writeUpgrade, init:initBiz } = useBiz()
 
-const { readIsApprovedForAll, writeSetApprovalForAll } = useNft()
+const { readIsApprovedForAll, writeSetApprovalForAll, init:initNft } = useNft()
 
-const { approve } = useErc20()
+const { approve, init:initErc20 } = useErc20()
+
+watch(address, val => {
+    if(val){
+        initBiz(),
+        initNft(),
+        initErc20()
+    }
+}, {immediate:true})
 
 const submit = async () => {
     const gasEnough = await checkGas(); // 检测ETH

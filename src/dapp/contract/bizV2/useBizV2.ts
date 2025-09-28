@@ -5,7 +5,7 @@ import { getGasLimit } from '@/config/dapp'
 import { message } from '@/utils/message'
 import { t } from '@/locale'
 
-export function useBiz (contractAddress: string = import.meta.env.VITE_BIZ) {
+export function useBizV2 (contractAddress: string = import.meta.env.VITE_BIZ_V2) {
     let contract:any = null // 合约
 
     const { connectWallet, showDappLoading, hideDappLoading } = useEthers()
@@ -16,25 +16,7 @@ export function useBiz (contractAddress: string = import.meta.env.VITE_BIZ) {
         contract = new ethers.Contract(contractAddress, abi, provider).connect(signer)
     }
 
-    // [写]提取
-    const writeClaim = async (...arg: any[]) => {
-        console.log(arg);
-        try {
-            showDappLoading()
-            const estimatedGas = await contract.claim.estimateGas(...arg);
-            const result = await contract.claim(...arg, { gasLimit: getGasLimit(estimatedGas)})
-            await result.wait();
-            hideDappLoading()
-            message(t('提取成功'),'success')
-        } catch (error) {
-            console.log(error);
-            hideDappLoading()
-            message(t('操作失败'), 'fail')
-            throw new Error('操作失败')
-        }
-    }
-
-    // [写]铸造“共识者”nft
+    // [写]
     const writeDonate = async (...arg: any[]) => {
         console.log(arg);
         try {
@@ -43,7 +25,7 @@ export function useBiz (contractAddress: string = import.meta.env.VITE_BIZ) {
             const result = await contract.donate(...arg, { gasLimit: getGasLimit(estimatedGas)})
             await result.wait();
             hideDappLoading()
-            message(t('恭喜，赞助成功，您已成为PE-DAO共识者！'),'success')
+            message(t('操作成功'),'success')
         } catch (error) {
             console.log(error);
             hideDappLoading()
@@ -52,7 +34,7 @@ export function useBiz (contractAddress: string = import.meta.env.VITE_BIZ) {
         }
     }
 
-    // [写]铸造nft
+    // [写]
     const writeMint = async (...arg: any[]) => {
         console.log(arg);
         try {
@@ -61,7 +43,7 @@ export function useBiz (contractAddress: string = import.meta.env.VITE_BIZ) {
             const result = await contract.mint(...arg, { gasLimit: getGasLimit(estimatedGas)})
             await result.wait();
             hideDappLoading()
-            message(t('恭喜，购买成功，您已成为PE-DAO组织成员！'),'success')
+            message(t('操作成功'),'success')
         } catch (error) {
             console.log(error);
             hideDappLoading()
@@ -70,29 +52,9 @@ export function useBiz (contractAddress: string = import.meta.env.VITE_BIZ) {
         }
     }
 
-    // [写]升级
-    const writeUpgrade = async (...arg: any[]) => {
-        console.log(arg);
-        try {
-            showDappLoading()
-            const estimatedGas = await contract.upgrade.estimateGas(...arg);
-            const result = await contract.upgrade(...arg, { gasLimit: getGasLimit(estimatedGas)})
-            await result.wait();
-            hideDappLoading()
-            message(t('操作成功'),'success')
-        } catch (error) {
-            console.log(error);
-            hideDappLoading()
-            message(t('操作失败'), 'fail')
-            throw new Error('升级失败')
-        }
-    }
-
     return {
         init,
-        writeClaim,
-        writeDonate,
         writeMint,
-        writeUpgrade
+        writeDonate
     }
 }

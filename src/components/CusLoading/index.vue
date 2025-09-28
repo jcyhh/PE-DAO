@@ -30,8 +30,6 @@ const emits = defineEmits(['update:modelValue'])
 const show = ref(false)
 
 watch(() => props.modelValue, (newVal) => {
-    console.log(newVal);
-    
     if (newVal) show.value = true
     else setTimeout(() => show.value = false, 800)
 })

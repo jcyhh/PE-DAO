@@ -19,7 +19,7 @@
             <div class="mainCard">
                 <div class="size24 grey mb30">赞助数量</div>
                 <div class="flex wrap jb size26">
-                    <div class="item flex jc ac mb20" :class="amount==item?'itemAct':''" v-for="(item,index) in list" :key="index" @click="amount=item">{{ item }} USD</div>
+                    <div class="item flex jc ac mb20" :class="inputAmount==item?'itemAct':''" v-for="(item,index) in list" :key="index" @click="inputAmount=item">{{ item }} USD</div>
                 </div>
                 <div class="gap10"></div>
                 <div class="size24 grey mb30">赞助价值</div>
@@ -28,7 +28,7 @@
                         <img src="@/assets/usd.png" class="img46 mr12">
                         <div class="size28">USD</div>
                     </div>
-                    <input type="number" v-model="amount" placeholder="请输入赞助价值" class="size28 flex1 tr">
+                    <input type="number" v-model="inputAmount" placeholder="请输入赞助价值" class="size28 flex1 tr">
                     <div class="line ml16 mr16 flex0"></div>
                     <div class="bold size24 font2">
                         <ShinyText text="全部"></ShinyText>
@@ -59,7 +59,7 @@
 
 <script setup lang="ts">
 import CusNav from '@/components/CusNav/index.vue'
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 import CusTab from '@/components/CusTab/index.vue'
 import ShinyText from '@/components/VueBits/ShinyText.vue'
 import { routerPush } from '@/router';
@@ -68,10 +68,31 @@ import { apiGet, apiPost } from '@/utils/request';
 import { computedMul } from '@/utils';
 import { message } from '@/utils/message';
 import { useEthers } from '@/dapp';
+import { useBizV2 } from '@/dapp/contract/bizV2/useBizV2';
+import { useDappStore } from '@/store'
+import { storeToRefs } from 'pinia'
+import { useErc20 } from '@/dapp/contract/erc20/useErc20';
 
 const { query } = useRoute()
 
-const { getSign } = useEthers()
+const dappStore = useDappStore()
+const { address } = storeToRefs(dappStore)
+
+const { getSign, checkGas } = useEthers()
+
+const { writeDonate, init:initBizV2 } = useBizV2()
+
+const { approve:approveUsdt, init:initUsdt } = useErc20(import.meta.env.VITE_BIZ_V2)
+
+const { approve:approvePe, init:initPe } = useErc20(import.meta.env.VITE_BIZ_V2, import.meta.env.VITE_PE)
+
+watch(address, val => {
+    if(val){
+        initPe(),
+        initUsdt(),
+        initBizV2()
+    }
+}, {immediate:true})
 
 const showRule = ref(false)
 
@@ -84,27 +105,37 @@ const tabs = computed(()=>([
     {name:'PE 赞助', value:2}
 ]))
 
-const amount = ref(500)
+const inputAmount = ref(500)
 const list = [500, 1000, 2000, 3000, 5000, 100000]
 
 const token_price = ref()
 apiGet('/api/token_price').then((res:any)=>token_price.value = res.token_price)
 
 const usdt = computed(()=>{
-    if(amount.value){
-        if(current.value==0)return amount.value
-        else return computedMul(amount.value, token_price.value)
+    if(inputAmount.value){
+        if(current.value==0)return inputAmount.value
+        else return computedMul(inputAmount.value, token_price.value)
     }else return 0
 })
 
 const submit = async () => {
-    if(!amount.value)return message('请输入赞助价值')
+    if(!inputAmount.value)return message('请输入赞助价值')
+
+    const gasEnough = await checkGas(); // 检测ETH
+    if(!gasEnough)return;
+
+    if(current.value==0)await approveUsdt(inputAmount.value); // 授权U
+    else await approvePe(inputAmount.value); // 授权PE
+
     const signInfo = await getSign('Sponsor')
+
     apiPost('/api/sponsor',{
-        u_amount:amount.value,
+        u_amount:inputAmount.value,
         type: tabs.value[current.value].value,
         ...signInfo
-    }).then(()=>{
+    }).then(async (res:any)=>{
+        const { id, pay_type, amount, to, expired_at, sign } = res
+        await writeDonate(id, pay_type, amount, to, expired_at, sign)
         message('赞助成功', 'success')
     })
 }
