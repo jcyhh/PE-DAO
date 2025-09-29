@@ -167,7 +167,7 @@ const balance_usdt = ref('0')
 const balance_token = ref('0')
 apiGet('/api/users/my').then((res:any)=>{
     balance_usdt.value = res.balance_usdt
-    balance_token.value = `${computedAdd(res.jt_balance_token, res.dt_balance_token)}`
+    balance_token.value = `${computedAdd(res.jt_balance_token, res.dt_balance_token).toFixed(6)}`
 })
 const usdt = computed(()=>{
     if(balance_usdt.value){

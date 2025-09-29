@@ -36,9 +36,13 @@
                 </div>
                 <div class="size24 grey mt30">实际支付</div>
                 <div class="mainCard mt24 flex jb ac">
-                    <div class="flex ac">
+                    <div class="flex ac" v-if="current==0">
                         <img src="@/assets/usdt.png" class="img46 mr12">
                         <div class="size28">USDT</div>
+                    </div>
+                    <div class="flex ac" v-else>
+                        <img src="@/assets/pe.png" class="img46 mr12">
+                        <div class="size28">{{ tokenName }}</div>
                     </div>
                     <div class="size28" v-init="usdt"></div>
                 </div>
@@ -72,6 +76,7 @@ import { useBizV2 } from '@/dapp/contract/bizV2/useBizV2';
 import { useDappStore } from '@/store'
 import { storeToRefs } from 'pinia'
 import { useErc20 } from '@/dapp/contract/erc20/useErc20';
+import { tokenName } from '@/config';
 
 const { query } = useRoute()
 
@@ -127,7 +132,7 @@ const submit = async () => {
     if(current.value==0)await approveUsdt(inputAmount.value); // 授权U
     else await approvePe(inputAmount.value); // 授权PE
 
-    const signInfo = await getSign('Sponsor')
+    const signInfo = await getSign('SponsorOrder')
 
     apiPost('/api/sponsor',{
         u_amount:inputAmount.value,

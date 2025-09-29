@@ -16,11 +16,9 @@ declare module 'vue' {
     CusPicker: typeof import('./src/components/CusPicker/index.vue')['default']
     CusProgress: typeof import('./src/components/CusProgress/index.vue')['default']
     CusTab: typeof import('./src/components/CusTab/index.vue')['default']
-    CusTitle: typeof import('./src/components/CusTitle/index.vue')['default']
     Demo: typeof import('./src/components/CusLang/demo.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
-    ShinyBtn: typeof import('./src/components/VueBits/ShinyBtn.vue')['default']
     ShinyText: typeof import('./src/components/VueBits/ShinyText.vue')['default']
     VanCalendar: typeof import('vant/es')['Calendar']
     VanIcon: typeof import('vant/es')['Icon']
@@ -29,6 +27,5 @@ declare module 'vue' {
     VanPullRefresh: typeof import('vant/es')['PullRefresh']
     VanSwipe: typeof import('vant/es')['Swipe']
     VanSwipeItem: typeof import('vant/es')['SwipeItem']
-    VueBits: typeof import('./src/components/VueBits/index.vue')['default']
   }
 }
