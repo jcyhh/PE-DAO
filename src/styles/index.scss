@@ -89,6 +89,9 @@ img{
 	word-wrap: break-word;
 	line-break: anywhere;
 }
+.nobr{
+    white-space: nowrap;
+}
 .rel{
     position: relative;
     z-index: 1;

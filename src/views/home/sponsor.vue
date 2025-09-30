@@ -1,12 +1,12 @@
 <template>
     <div class="sponsor" @click="showRule = false">
-        <CusNav title="赞助">
+        <CusNav :title="$t('赞助')">
             <img src="@/assets/imgs/rule.png" class="img26 mr10">
-            <div class="main size24" @click.stop="showRule = true">规则</div>
+            <div class="main size24" @click.stop="showRule = true">{{ $t('规则') }}</div>
         </CusNav>
 
         <div class="rule size20 lh40 animate__animated animate__zoomIn anitr ani3" v-if="showRule">
-            赞助100U加入PE项目共创，获得价值100U初始流动性权益及分享共识者资格
+            {{ $t('赞助100U加入PE项目共创，获得价值100U初始流动性权益及分享共识者资格') }}
         </div>
         
         <div class="head">
@@ -17,24 +17,24 @@
         
         <div class="pl30 pr30">
             <div class="mainCard">
-                <div class="size24 grey mb30">赞助数量</div>
+                <div class="size24 grey mb30">{{ $t('赞助数量') }}</div>
                 <div class="flex wrap jb size26">
                     <div class="item flex jc ac mb20" :class="inputAmount==item?'itemAct':''" v-for="(item,index) in list" :key="index" @click="inputAmount=item">{{ item }} USD</div>
                 </div>
                 <div class="gap10"></div>
-                <div class="size24 grey mb30">赞助价值</div>
+                <div class="size24 grey mb30">{{ $t('赞助价值') }}</div>
                 <div class="mainCard mt24 flex ac">
                     <div class="flex ac">
                         <img src="@/assets/usd.png" class="img46 mr12">
                         <div class="size28">USD</div>
                     </div>
-                    <input type="number" v-model="inputAmount" placeholder="请输入赞助价值" class="size28 flex1 tr">
+                    <input type="number" v-model="inputAmount" :placeholder="$t('请输入赞助价值')" class="size28 flex1 tr">
                     <div class="line ml16 mr16 flex0"></div>
                     <div class="bold size24 font2">
-                        <ShinyText text="全部"></ShinyText>
+                        <ShinyText :text="$t('全部')"></ShinyText>
                     </div>
                 </div>
-                <div class="size24 grey mt30">实际支付</div>
+                <div class="size24 grey mt30">{{ $t('实际支付') }}</div>
                 <div class="mainCard mt24 flex jb ac">
                     <div class="flex ac" v-if="current==0">
                         <img src="@/assets/usdt.png" class="img46 mr12">
@@ -46,10 +46,10 @@
                     </div>
                     <div class="size28" v-init="usdt"></div>
                 </div>
-                <div class="mainBtn mt60" v-scale v-delay="{fun:submit}">立即赞助</div>
+                <div class="mainBtn mt60" v-scale v-delay="{fun:submit}">{{ $t('立即赞助') }}</div>
                 <div class="flex jc mt40">
                     <div class="flex ac main size24" @click="routerPush('/home/sponsorLog')">
-                        <div class="mr8">赞助记录</div>
+                        <div class="mr8">{{ $t('赞助记录') }}</div>
                         <van-icon name="arrow" />
                     </div>
                 </div>
@@ -69,7 +69,7 @@ import ShinyText from '@/components/VueBits/ShinyText.vue'
 import { routerPush } from '@/router';
 import { useRoute } from 'vue-router';
 import { apiGet, apiPost } from '@/utils/request';
-import { computedMul } from '@/utils';
+import { computedDiv } from '@/utils';
 import { message } from '@/utils/message';
 import { useEthers } from '@/dapp';
 import { useBizV2 } from '@/dapp/contract/bizV2/useBizV2';
@@ -77,6 +77,7 @@ import { useDappStore } from '@/store'
 import { storeToRefs } from 'pinia'
 import { useErc20 } from '@/dapp/contract/erc20/useErc20';
 import { tokenName } from '@/config';
+import { t } from '@/locale';
 
 const { query } = useRoute()
 
@@ -106,8 +107,8 @@ const defaultCur = query.type ? 1 : 0
 const current = ref(defaultCur)
 
 const tabs = computed(()=>([
-    {name:'USDT 赞助', value:1},
-    {name:'PE 赞助', value:2}
+    {name:'USDT ' + t('赞助'), value:1},
+    {name:'PE ' + t('赞助'), value:2}
 ]))
 
 const inputAmount = ref(500)
@@ -119,12 +120,12 @@ apiGet('/api/token_price').then((res:any)=>token_price.value = res.token_price)
 const usdt = computed(()=>{
     if(inputAmount.value){
         if(current.value==0)return inputAmount.value
-        else return computedMul(inputAmount.value, token_price.value)
+        else return computedDiv(inputAmount.value, token_price.value)
     }else return 0
 })
 
 const submit = async () => {
-    if(!inputAmount.value)return message('请输入赞助价值')
+    if(!inputAmount.value)return message(t('请输入赞助价值'))
 
     const gasEnough = await checkGas(); // 检测ETH
     if(!gasEnough)return;
@@ -141,7 +142,7 @@ const submit = async () => {
     }).then(async (res:any)=>{
         const { id, pay_type, amount, to, expired_at, sign } = res
         await writeDonate(id, pay_type, amount, to, expired_at, sign)
-        message('赞助成功', 'success')
+        message(t('赞助成功'), 'success')
     })
 }
 </script>

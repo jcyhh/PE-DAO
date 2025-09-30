@@ -44,7 +44,7 @@ export function computedDiv(a:number|string, b:number|string) {
     try {
         f = Number(b).toString().split(".")[1].length
     } catch (g) { }
-    return c = Number(Number(a).toString().replace(".", "")), d = Number(Number(a).toString().replace(".", "")), computedMul(c /
+    return c = Number(Number(a).toString().replace(".", "")), d = Number(Number(b).toString().replace(".", "")), computedMul(c /
         d, Math.pow(10, f - e))
 }
 

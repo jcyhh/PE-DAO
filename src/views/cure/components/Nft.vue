@@ -74,17 +74,17 @@
                 <div class="mt24 flex">
                     <div class="flex ac" @click.stop="showRule=true">
                         <img src="@/assets/imgs/rule.png" class="img26 mr10">
-                        <div class="size20 main">如何获得邀请码?</div>
+                        <div class="size20 main">{{ $t('如何获得邀请码?') }}</div>
                     </div>
                 </div>
                 <div class="rule size20 lh40 animate__animated animate__zoomIn anitl ani3" v-if="showRule">
-                    1.购买NFT成为组织者。<br>
-                    2.若已身处DAO中，您也可在治理通过后为好友生成专属推荐码。
+                    1.{{ $t('购买NFT成为组织者。') }}<br>
+                    2.{{ $t('若已身处DAO中，您也可在治理通过后为好友生成专属推荐码。') }}
                 </div>
                 <div class="size20 yellow lh48 mt30">{{ $t('提示...') }}</div>
             </div>
             
-            <div class="mainBtn mt40" v-scale v-delay="{fun:submit}">确认</div>
+            <div class="mainBtn mt40" v-scale v-delay="{fun:submit}">{{ $t('确认') }}</div>
         </div>
     </van-popup>
 </template>

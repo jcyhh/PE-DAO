@@ -1,10 +1,10 @@
 <template>
-    <CusNav title="布道成果"></CusNav>
+    <CusNav :title="$t('布道成果')"></CusNav>
 
     <div class="pl30 pr30 pt40">
 
         <div class="card">
-            <div class="tc size26">总业绩(USD)</div>
+            <div class="tc size26">{{ $t('总业绩') }}(USD)</div>
             <div class="tc size48 bold mt12">
                 <ShinyText :text="initNumber(info?.sponsor_team_kpi)"></ShinyText>
             </div>
@@ -12,11 +12,11 @@
         <div class="flex mt30">
             <div class="flex1 cell">
                 <div class="size28 bold" v-init="info?.referral_kpi"></div>
-                <div class="size20 mt10 gray">直推业绩(USD)</div>
+                <div class="size20 mt10 gray">{{ $t('直推业绩') }}(USD)</div>
             </div>
             <div class="flex1 cell ml20">
                 <div class="size28 bold" v-init="info?.jt_kpi"></div>
-                <div class="size20 mt10 gray">间推业绩(USD)</div>
+                <div class="size20 mt10 gray">{{ $t('间推业绩') }}(USD)</div>
             </div>
         </div>
     </div>
@@ -30,30 +30,30 @@
             <div class="pl30 pr30">
                 <div class="node mb30" v-for="(item,index) in list" :key="index">
                     <div class="flex jb ac">
-                        <div class="size24 gray">用户地址</div>
+                        <div class="size24 gray">{{ $t('用户地址') }}</div>
                         <div class="size28">{{ item.nickname }}</div>
                     </div>
                     <div class="flex jb ac mt30">
-                        <div class="size24 opc6">邀请类型</div>
-                        <div class="size28 main">{{ item.type == 1 ? '直推' : '间推' }}</div>
+                        <div class="size24 opc6">{{ $t('邀请类型') }}</div>
+                        <div class="size28 main">{{ item.type == 1 ? t('直推') : t('间推') }}</div>
                     </div>
                     <div class="flex jb ac mt30">
-                        <div class="size24 opc6">个人赞助</div>
+                        <div class="size24 opc6">{{ $t('个人赞助') }}</div>
                         <div class="size28" v-init="item.sponsor_kpi"></div>
                     </div>
                     <div class="flex jb ac mt30">
-                        <div class="size24 opc6">社区赞助</div>
+                        <div class="size24 opc6">{{ $t('社区赞助') }}</div>
                         <div class="size28" v-init="item.sponsor_team_kpi"></div>
                     </div>
                     <div class="flex jb ac mt30">
-                        <div class="size24 opc6">账户级别</div>
+                        <div class="size24 opc6">{{ $t('账户级别') }}</div>
                         <div class="flex ac">
                             <img src="@/assets/imgs/9.png" class="img48 mr10 aniRotate">
                             <div class="size28">{{ item.level?.name }}</div>
                         </div>
                     </div>
                     <div class="flex jb ac mt30">
-                        <div class="size24 opc6">注册时间</div>
+                        <div class="size24 opc6">{{ $t('注册时间') }}</div>
                         <div class="size28" v-init:time="item.created_at"></div>
                     </div>
                 </div>
@@ -75,11 +75,12 @@ import { initNumber } from '@/utils';
 import { useLoadList } from '@/hooks/useLoadList';
 import { usePullRefresh } from '@/hooks/usePullRefresh';
 import CusEmpty from '@/components/CusEmpty/index.vue'
+import { t } from '@/locale';
 
 const current = ref(0)
 const tabs = computed(()=>([
-    {name:`直推用户(${info.value?.referral_count})`, value:1},
-    {name:`间推用户(${info.value?.jt_count})`, value:2}
+    {name:`${t('直推用户')} (${info.value?.referral_count})`, value:1},
+    {name:`${t('间推用户')} (${info.value?.jt_count})`, value:2}
 ]))
 const tabClick = (index:number) => {
     current.value = index

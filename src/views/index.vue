@@ -5,7 +5,7 @@
     <div class="start flex jc ac">
         <img src="@/assets/common/start.png" class="startImg animate__animated animate__bounceInRight" />
     </div>
-    <div class="size28 mt30 grey tips animate__animated animate__fadeInUp" v-if="hasMetaMask==2">请安装 MateMask !</div>
+    <div class="size28 mt30 grey tips animate__animated animate__fadeInUp" v-if="hasMetaMask==2">{{ $t('请安装') }} MateMask !</div>
 
     <van-popup v-model:show="show" style="background-color: transparent !important;" :close-on-click-overlay="false" overlay-class="cusMask">
         <div class="bind">

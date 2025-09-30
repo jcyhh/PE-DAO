@@ -1,10 +1,10 @@
 <template>
-    <CusNav title="铸币记录"></CusNav>
+    <CusNav :title="$t('铸币记录')"></CusNav>
     <div class="head">
         <div class="filter flex jb ac" @click="showDate=true">
             <img src="@/assets/imgs/clock.png" class="img36">
             <div class="size28 opc6" v-if="start_at&&end_at"><span v-init:date="start_at"></span> ~ <span v-init:date="end_at"></span></div>
-            <div class="size28 opc6" v-else>选择时间</div>
+            <div class="size28 opc6" v-else>{{ $t('选择时间') }}</div>
             <van-icon name="arrow" color="#C348FF" :size="15" />
         </div>
     </div>
@@ -16,25 +16,25 @@
             <div class="pl30 pr30">
                 <div class="node mb30" v-for="(item,index) in list" :key="index">
                     <div class="size40 bold" v-init="item.u_amount"></div>
-                    <div class="blue size24 mt4">铸币价值(USD)</div>
+                    <div class="blue size24 mt4">{{ $t('铸币价值') }}(USD)</div>
                     <div class="flex jb ac mt50">
-                        <div class="size24">铸造数量</div>
+                        <div class="size24">{{ $t('铸造数量') }}</div>
                         <div class="size28 bold"><span v-init="item.amount"></span> {{ tokenName }}</div>
                     </div>
                     <div class="flex jb ac mt30">
-                        <div class="size24 opc6">消耗铸币权</div>
+                        <div class="size24 opc6">{{ $t('消耗铸币权') }}</div>
                         <div class="size28"><span v-init="item.amount"></span> {{ tokenName }}</div>
                     </div>
                     <div class="flex jb ac mt30">
-                        <div class="size24 opc6">实际支付</div>
+                        <div class="size24 opc6">{{ $t('实际支付') }}</div>
                         <div class="size28"><span v-init="item.pay_u_amount"></span> USDT</div>
                     </div>
                     <div class="flex jb ac mt30">
-                        <div class="size24 opc6">铸造时间</div>
+                        <div class="size24 opc6">{{ $t('铸造时间') }}</div>
                         <div class="size28" v-init:time="item.created_at"></div>
                     </div>
                     <div class="flex jb ac mt30">
-                        <div class="size24 opc6">交易哈希</div>
+                        <div class="size24 opc6">{{ $t('交易哈希') }}</div>
                         <div class="size28 tr br hash">{{ item.deal_id || '--' }}</div>
                     </div>
                 </div>

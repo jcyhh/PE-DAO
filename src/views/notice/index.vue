@@ -1,5 +1,5 @@
 <template>
-    <cusNav title="公告列表"></cusNav>
+    <cusNav :title="$t('公告列表')"></cusNav>
     <van-pull-refresh class="fullPage" v-bind="props">
         <van-list class="fullPage" v-bind="listProps">
             <div class="pl30 pr30 pt30">

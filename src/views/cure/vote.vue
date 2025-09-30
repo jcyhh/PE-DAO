@@ -1,46 +1,46 @@
 <template>
-    <CusNav title="投票列表"></CusNav>
+    <CusNav :title="$t('投票列表')"></CusNav>
     <div class="pl30 pr30 pt40">
 
         <div class="bold size32 font2">
-            <ShinyText text="正在投票中..."></ShinyText>
+            <ShinyText :text="$t('正在投票中...')"></ShinyText>
         </div>
 
         <div class="card mt40" v-for="(item,index) in votes" :key="index" @click="routerPush(`/cure/vote/${item.id}`)">
             <div class="size32 bold lh60">{{ item.title }}</div>
             <div class="flex mt24">
                 <div class="flex ac size24 blue">
-                    <div class="mr5">投票详情</div>
+                    <div class="mr5">{{ $t('投票详情') }}</div>
                     <van-icon name="arrow" />
                 </div>
             </div>
             <div class="size26 lh52 mt24 rich" v-html="item.content"></div>
             <div class="flex jb ae size28 bold">
-                <div class="agree">赞成</div>
+                <div class="agree">{{ $t('赞成') }}</div>
                 <img src="@/assets/imgs/14.png" class="pic14">
-                <div class="reject">反对</div>
+                <div class="reject">{{ $t('反对') }}</div>
             </div>
         </div>
 
         <div class="bold size32 font2 mt80 mb40">
-            <ShinyText text="投票已完成"></ShinyText>
+            <ShinyText :text="$t('投票已完成')"></ShinyText>
         </div>
 
         <van-list class="list" v-bind="props">
             <div class="item mb40" v-for="(item,index) in list" :key="index" @click="routerPush(`/cure/vote/${item.id}`)">
                 <div class="flex ac" v-if="item.result==0">
                     <img src="@/assets/imgs/17.png" class="img52 mr10">
-                    <div class="size26 bold red">未通过</div>
+                    <div class="size26 bold red">{{ $t('未通过') }}</div>
                 </div>
                 <div class="flex ac" v-else>
                     <img src="@/assets/imgs/18.png" class="img52 mr10">
-                    <div class="size26 bold red">已通过</div>
+                    <div class="size26 bold red">{{ $t('已通过') }}</div>
                 </div>
                 <div class="size32 bold lh60 mt20">{{ item.title }}</div>
                 <div class="size26 lh52 mt24 rich" v-html="item.content"></div>
                 <div class="flex jb size24 mt40">
-                    <div class="green">赞成</div>
-                    <div class="main">反对</div>
+                    <div class="green">{{ $t('赞成') }}</div>
+                    <div class="main">{{ $t('反对') }}</div>
                 </div>
                 <div class="progress flex jb ac mt30 size18">
                     <div class="rel pl30">{{ getProgress(item.agree_count, item.total_count) }}%</div>

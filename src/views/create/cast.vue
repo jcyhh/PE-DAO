@@ -2,27 +2,27 @@
     <div class="sponsor" @click="showRule = false">
         <CusNav title="铸币">
             <img src="@/assets/imgs/rule.png" class="img26 mr10">
-            <div class="main size24" @click.stop="showRule = true">规则</div>
+            <div class="main size24" @click.stop="showRule = true">{{ $t('规则') }}</div>
         </CusNav>
 
         <div class="rule size20 lh40 animate__animated animate__zoomIn anitr ani3" v-if="showRule">
-            铸币规则：<br>
-            铸造周期<br>
-            每份铸币权仅生效1次，有效期至：<br>
-            [2025/12/31 23:59 UTC] ｜ <倒计时组件：28天><br>
-            数量计算公式<br>
-            [您的铸造量] = [基础额度] × [权重系数]<br>
-            ▸ 基础额度 = 当前释放池总量 / 有效铸币权总数<br>
-            ▸ 系数范围 = 0.8~1.5（基于获得权益时的质押时长）<br>
-            成本说明<br>
-            需支付网络Gas费 ≈ 1.2~ 3.5（实时估算）
+            {{ $t('铸币规则') }} :<br>
+            {{ $t('铸造周期') }}<br>
+            {{ $t('每份铸币权仅生效1次，有效期至') }} :<br>
+            [2025/12/31 23:59 UTC]<br>
+            {{ $t('数量计算公式') }}<br>
+            {{ $t('[您的铸造量] = [基础额度] × [权重系数]') }}<br>
+            ▸ {{ $t('基础额度 = 当前释放池总量 / 有效铸币权总数') }}<br>
+            ▸ {{ $t('系数范围 = 0.8~1.5（基于获得权益时的质押时长）') }}<br>
+            {{ $t('成本说明') }}<br>
+            {{ $t('需支付网络Gas费 ≈ 1.2~ 3.5（实时估算）') }}
         </div>
 
         <div class="gap40"></div>
         
         <div class="pl30 pr30">
             <div class="mainCard">
-                <div class="size24 grey">可用铸币权</div>
+                <div class="size24 grey">{{ $t('可用铸币权') }}</div>
                 <div class="mainCard mt24 flex jb ac">
                     <div class="flex ac">
                         <img src="@/assets/pe.png" class="img46 mr12">
@@ -30,20 +30,20 @@
                     </div>
                     <div class="size28" v-init="info?.user_coinage_limit"></div>
                 </div>
-                <div class="size24 grey mb30 mt30">铸币数量</div>
+                <div class="size24 grey mb30 mt30">{{ $t('铸币数量') }}</div>
                 <div class="mainCard mt24 flex ac">
                     <div class="flex ac">
                         <img src="@/assets/pe.png" class="img46 mr12">
                         <div class="size28">{{ tokenName }}</div>
                     </div>
-                    <input type="number" v-model="inputAmount" placeholder="请输入铸币数量" class="size28 flex1 tr">
+                    <input type="number" v-model="inputAmount" :placeholder="$t('请输入铸币数量')" class="size28 flex1 tr">
                     <div class="line ml16 mr16 flex0"></div>
                     <div class="bold size24 font2" @click="inputAll">
                         <ShinyText text="全部"></ShinyText>
                     </div>
                 </div>
-                <div class="size24 mt30 main">实时铸币价格 : <span v-init="token_price"></span> USD</div>
-                <div class="size24 gray mt40">赞助价值</div>
+                <div class="size24 mt30 main">{{ $t('实时铸币价格') }} : <span v-init="token_price"></span> USD</div>
+                <div class="size24 gray mt40">{{ $t('赞助价值') }}</div>
                 <div class="mainCard mt24 flex jb ac">
                     <div class="flex ac">
                         <img src="@/assets/usd.png" class="img46 mr12">
@@ -51,7 +51,7 @@
                     </div>
                     <div class="size28" v-init="total"></div>
                 </div>
-                <div class="size24 gray mt40">支付数量</div>
+                <div class="size24 gray mt40">{{ $t('支付数量') }}</div>
                 <div class="mainCard mt24 flex jb ac">
                     <div class="flex ac">
                         <img src="@/assets/usdt.png" class="img46 mr12">
@@ -59,12 +59,12 @@
                     </div>
                     <div class="size28" v-init="usdt"></div>
                 </div>
-                <div class="size24 mt30">支付数量=铸币数量x铸币价格 x80%</div>
+                <div class="size24 mt30">{{ $t('支付数量=铸币数量x铸币价格 x80%') }}</div>
 
-                <div class="mainBtn mt60" v-scale v-delay="{fun:submit}">开始铸币</div>
+                <div class="mainBtn mt60" v-scale v-delay="{fun:submit}">{{ $t('开始铸币') }}</div>
                 <div class="flex jc mt40">
                     <div class="flex ac main size24" @click="routerPush('/create/castLog')">
-                        <div class="mr8">铸币记录</div>
+                        <div class="mr8">{{ $t('铸币记录') }}</div>
                         <van-icon name="arrow" />
                     </div>
                 </div>
@@ -90,6 +90,7 @@ import { useDappStore } from '@/store'
 import { storeToRefs } from 'pinia'
 import { useBizV2 } from '@/dapp/contract/bizV2/useBizV2';
 import { useErc20 } from '@/dapp/contract/erc20/useErc20';
+import { t } from '@/locale';
 
 const dappStore = useDappStore()
 const { address } = storeToRefs(dappStore)
@@ -134,7 +135,7 @@ const total = computed(()=>{
 const usdt = computed(()=>computedMul(total.value, 0.8))
 
 const submit = async () => {
-    if(!inputAmount.value)return message('请输入铸币数量')
+    if(!inputAmount.value)return message(t('请输入铸币数量'))
 
     const gasEnough = await checkGas(); // 检测ETH
     if(!gasEnough)return;

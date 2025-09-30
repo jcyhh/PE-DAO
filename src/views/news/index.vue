@@ -3,7 +3,7 @@
         <van-list class="fullPage" v-bind="listProps">
             <div class="pl30 pr30 pt40">
                 <div class="bold size32 font2 mb40">
-                    <ShinyText text="新闻公告"></ShinyText>
+                    <ShinyText :text="$t('新闻公告')"></ShinyText>
                 </div>
                 <div class="card mb30" v-for="(item,index) in list" :key="index" @click="routerPush(`/news/${item.id}`)">
                     <div class="flex ast">
@@ -16,7 +16,7 @@
                     <div class="flex jb ac mt30">
                         <div class="flex ac">
                             <img src="@/assets/pe.png" class="img30 mr10">
-                            <div class="size24 main">官方公告</div>
+                            <div class="size24 main">{{ $t('官方公告') }}</div>
                         </div>
                         <div class="size24 opc6" v-init:time="item.updated_at"></div>
                     </div>

@@ -8,154 +8,154 @@
         <div class="bold tc size48 mt28">
             <div class="linearTxt" v-init="100"></div>
         </div>
-        <div class="tc size24 mt20">总市值(USDT)</div>
+        <div class="tc size24 mt20">{{ $t('总市值') }}(USDT)</div>
         <div class="mainCard mt50 flex jb ac">
-            <div class="size24 opc6">累计发放共创激励价值</div>
+            <div class="size24 opc6">{{ $t('累计发放共创激励价值') }}</div>
             <div class="size28 bold"><span v-init="info?.count_income"></span> USDT</div>
         </div>
         <div class="flex jb ac mt40 size24">
             <div class="flex ac">
                 <img src="@/assets/imgs/clock.png" class="img30 mr12">
-                <div>下次铸币时间</div>
+                <div>{{ $t('下次铸币时间') }}</div>
             </div>
             <div class="main" v-init:date="info?.coinage_at"></div>
         </div>
         <div class="card mt80">
             <div class="bold size32">
-                <ShinyText text="铸币"></ShinyText>
+                <ShinyText :text="$t('铸币')"></ShinyText>
             </div>
             <div class="flex jb ac mt40">
                 <div>
                     <div class="linearNum size40 bold" v-init="info?.count_coinage_amount"></div>
-                    <div class="size24 mt20">铸币池总额</div>
+                    <div class="size24 mt20">{{ $t('铸币池总额') }}</div>
                 </div>
                 <div>
-                    <div class="size24 opc6">我铸造的币</div>
+                    <div class="size24 opc6">{{ $t('我铸造的币') }}</div>
                     <div class="size26 bold mt20"><span v-init="info?.user_coinage_amount"></span> USDT</div>
                 </div>
             </div>
             <div class="flex ac mt60">
-                <div class="size24 opc6">我的铸币权</div>
+                <div class="size24 opc6">{{ $t('我的铸币权') }}</div>
                 <img src="@/assets/imgs/rule.png" class="img26 ml10">
             </div>
             <div class="flex jb ac mt20">
                 <div class="size26 bold" v-init="info?.user_coinage_limit"></div>
-                <div class="flex ac size24 main">
-                    <div>点击查看</div>
+                <div class="flex ac size24 main" @click="routerPush('/create/castLog')">
+                    <div>{{ $t('点击查看') }}</div>
                     <van-icon name="arrow" />
                 </div>
             </div>
-            <div class="mainBtn mt60" @click="routerPush('/create/cast')" v-if="nowIsToday">去铸币</div>
-            <div class="disableBtn mt60" v-else>去铸币</div>
+            <div class="mainBtn mt60" @click="routerPush('/create/cast')" v-if="nowIsToday">{{ $t('去铸币') }}</div>
+            <div class="disableBtn mt60" v-else>{{ $t('去铸币') }}</div>
         </div>
 
         <div class="mainCard">
             <div class="bold size32">
-                <ShinyText text="PE激励代币总览"></ShinyText>
+                <ShinyText :text="`${tokenName} ${$t('激励代币总览')}`"></ShinyText>
             </div>
             <div class="flex ac">
                 <div ref="chartRef" class="chartBox"></div>
                 <div class="ml20">
                     <div class="flex ac">
                         <div class="ball mr12"></div>
-                        <div class="mr20 size24 opc6">流通总量</div>
-                        <div>100 PE</div>
+                        <div class="mr20 size24 opc6">{{ $t('流通总量') }}</div>
+                        <div class="nobr">100 PE</div>
                     </div>
                     <div class="flex ac mt40 mb40">
                         <div class="ball ball1 mr12"></div>
-                        <div class="mr20 size24 opc6">流通总量</div>
-                        <div>150 PE</div>
+                        <div class="mr20 size24 opc6">{{ $t('销毁总量') }}</div>
+                        <div class="nobr">150 PE</div>
                     </div>
                     <div class="flex ac">
                         <div class="ball ball2 mr12"></div>
-                        <div class="mr20 size24 opc6">流通总量</div>
-                        <div>220 PE</div>
+                        <div class="mr20 size24 opc6">{{ $t('铸币池待铸') }}</div>
+                        <div class="nobr">220 PE</div>
                     </div>
                 </div>
             </div>
             <div class="mainCard mt60 flex ac">
                 <img src="@/assets/pe.png" class="img72 mr30">
                 <div>
-                    <div class="size28 bold">PE Coin</div>
-                    <div class="size24 opc6 mt10">币种名称</div>
+                    <div class="size28 bold">{{ tokenName }} Coin</div>
+                    <div class="size24 opc6 mt10">{{ $t('币种名称') }}</div>
                 </div>
             </div>
             <div class="flex mt60">
                 <div class="flex1">
                     <div class="bold">
                         <span class="size28">2.1</span>
-                        <span class="size20 ml10">亿</span>
+                        <span class="size20 ml10">{{ $t('亿') }}</span>
                     </div>
-                    <div class="size24 opc6 mt16">发行总量</div>
+                    <div class="size24 opc6 mt16">{{ $t('发行总量') }}</div>
                 </div>
                 <div class="flex1">
                     <div class="bold">
                         <span class="size28">2100</span>
-                        <span class="size20 ml10">万</span>
+                        <span class="size20 ml10">{{ $t('万') }}</span>
                     </div>
-                    <div class="size24 opc6 mt16">初始发行</div>
+                    <div class="size24 opc6 mt16">{{ $t('初始发行') }}</div>
                 </div>
             </div>
             <div class="flex mt60">
                 <div class="flex1">
                     <div class="bold">
                         <span class="size28">500</span>
-                        <span class="size20 ml10">万</span>
+                        <span class="size20 ml10">{{ $t('万') }}</span>
                     </div>
-                    <div class="size24 opc6 mt16">流通总量</div>
+                    <div class="size24 opc6 mt16">{{ $t('流通总量') }}</div>
                 </div>
                 <div class="flex1">
                     <div class="bold">
                         <span class="size28">1.89</span>
-                        <span class="size20 ml10">亿</span>
+                        <span class="size20 ml10">{{ $t('亿') }}</span>
                     </div>
-                    <div class="size24 opc6 mt16">铸币池待铸</div>
+                    <div class="size24 opc6 mt16">{{ $t('铸币池待铸') }}</div>
                 </div>
             </div>
             <div class="flex mt60">
                 <div class="flex1">
                     <div class="bold">
                         <span class="size28">898,900</span>
-                        <span class="size20 ml10">PE</span>
+                        <span class="size20 ml10">{{ tokenName }}</span>
                     </div>
-                    <div class="size24 opc6 mt16">销毁总量</div>
+                    <div class="size24 opc6 mt16">{{ $t('销毁总量') }}</div>
                 </div>
                 <div class="flex1">
                     <div class="bold">
                         <span class="size28">60</span>
-                        <span class="size20 ml10">个月</span>
+                        <span class="size20 ml10">{{ $t('个月') }}</span>
                     </div>
-                    <div class="size24 opc6 mt16">铸币周期</div>
+                    <div class="size24 opc6 mt16">{{ $t('铸币周期') }}</div>
                 </div>
             </div>
             <div class="flex mt60">
                 <div class="flex1">
                     <div class="bold size28 main">0x5768****uyjh</div>
-                    <div class="size24 opc6 mt16">代币合约地址</div>
+                    <div class="size24 opc6 mt16">{{ $t('代币合约地址') }}</div>
                 </div>
                 <div class="flex1">
                     <div class="bold">
                         <span class="size28">0.1</span>
                         <span class="size20 ml10">USDT</span>
                     </div>
-                    <div class="size24 opc6 mt16">实时价格</div>
+                    <div class="size24 opc6 mt16">{{ $t('实时价格') }}</div>
                 </div>
             </div>
             <div class="flex mt60">
                 <div class="flex1">
                     <div class="bold">
                         <span class="size28">3,150,000</span>
-                        <span class="size20 ml10">枚/月</span>
+                        <span class="size20 ml10">{{ $t('枚/月') }}</span>
                     </div>
-                    <div class="size24 opc6 mt16">实时铸币速度</div>
+                    <div class="size24 opc6 mt16">{{ $t('实时铸币速度') }}</div>
                 </div>
                 <div class="flex1">
                     <div class="bold">
-                        <span class="size20">第</span>
+                        <span class="size20">{{ $t('第') }}</span>
                         <span class="size28 ml10">8</span>
-                        <span class="size20 ml10">个月</span>
+                        <span class="size20 ml10">{{ $t('个月') }}</span>
                     </div>
-                    <div class="size24 opc6 mt16">实时铸币周期</div>
+                    <div class="size24 opc6 mt16">{{ $t('实时铸币周期') }}</div>
                 </div>
             </div>
         </div>
@@ -165,6 +165,8 @@
 
 <script setup lang="ts">
 import ShinyText from '@/components/VueBits/ShinyText.vue'
+import { tokenName } from '@/config';
+import { t } from '@/locale';
 import { routerPush } from '@/router';
 import { isToday } from '@/utils';
 import { apiGet } from '@/utils/request';
@@ -195,21 +197,21 @@ const option = {
             data: [
                 { 
                     value: 100, 
-                    name: '流通总量',
+                    name: t('流通总量'),
                     itemStyle: {
                         color: '#0059FF'
                     }
                 },
                 { 
                     value: 150, 
-                    name: '销毁总量',
+                    name: t('销毁总量'),
                     itemStyle: {
                         color: '#C348FF'
                     }
                 },
                 { 
                     value: 220, 
-                    name: '铸币池待铸',
+                    name: t('铸币池待铸'),
                     itemStyle: {
                         color: '#03EEA9'
                     }

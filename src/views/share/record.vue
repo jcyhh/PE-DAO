@@ -1,5 +1,5 @@
 <template>
-    <CusNav title="领取记录"></CusNav>
+    <CusNav :title="$t('领取记录')"></CusNav>
 
     <div class="head flex">
         <div class="filter flex1 flex jb ac" @click="picker.open(current)">
@@ -10,7 +10,7 @@
         <div class="filter flex1 ml20 flex jb ac" @click="showDate = true">
             <img src="@/assets/imgs/clock.png" class="img36">
             <div class="size28 opc6" v-if="start_at && end_at"><span v-init:date="start_at"></span> ~ <span v-init:date="end_at"></span></div>
-            <div class="size28 opc6" v-else>选择时间</div>
+            <div class="size28 opc6" v-else>{{ $t('选择时间') }}</div>
             <van-icon name="arrow" color="#C348FF" :size="15" />
         </div>
     </div>
@@ -23,26 +23,26 @@
 
                 <div class="node mb30" v-for="(item, index) in list" :key="index">
                     <div class="flex jb ac">
-                        <div class="size24">数量</div>
+                        <div class="size24">{{ $t('数量') }}</div>
                         <div class="size28 bold" v-init="item.amount"></div>
                     </div>
                     <div class="flex jb ac mt30">
-                        <div class="size24 opc6">币种</div>
+                        <div class="size24 opc6">{{ $t('币种') }}</div>
                         <div class="size28 flex ac">
                             <div>{{ tokenName }}</div>
                             <img src="@/assets/pe.png" class="img26 ml10">
                         </div>
                     </div>
                     <div class="flex jb ac mt30">
-                        <div class="size24 opc6">领取时间</div>
+                        <div class="size24 opc6">{{ $t('领取时间') }}</div>
                         <div class="size28" v-init:time="item.created_at"></div>
                     </div>
                     <div class="flex jb ac mt30" v-if="item.status==2">
-                        <div class="size24 opc6">到账时间</div>
+                        <div class="size24 opc6">{{ $t('到账时间') }}</div>
                         <div class="size28" v-init:time="item.updated_at"></div>
                     </div>
                     <div class="flex jb ac mt30">
-                        <div class="size24 opc6">交易哈希</div>
+                        <div class="size24 opc6">{{ $t('交易哈希') }}</div>
                         <div class="size28 tr br hash">{{ item.deal_id || '--' }}</div>
                     </div>
                 </div>
@@ -68,6 +68,7 @@ import { usePullRefresh } from '@/hooks/usePullRefresh';
 import { tokenName } from '@/config';
 import CusEmpty from '@/components/CusEmpty/index.vue'
 import CusPicker from '@/components/CusPicker/index.vue';
+import { t } from '@/locale';
 
 const params = computed(() => ({
     start_at: start_at.value,
@@ -92,8 +93,8 @@ const onDateChange = (vals:any) => {
 const picker = ref()
 const current = ref(0)
 const pickerList = computed(() => ([
-    { name: '赞助奖励', value: 'jt_balance_token' },
-    { name: '布道奖励', value: 'dt_balance_token' }
+    { name: t('赞助奖励'), value: 'jt_balance_token' },
+    { name: t('布道奖励'), value: 'dt_balance_token' }
 ]))
 const pickerChange = (index:number) => {
     current.value = index

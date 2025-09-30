@@ -3,10 +3,10 @@
 
         <div class="flex jb ac">
             <div class="bold size32 font2">
-                <ShinyText text="投票"></ShinyText>
+                <ShinyText :text="$t('投票')"></ShinyText>
             </div>
             <div class="flex ac size24 main" @click="routerPush('/cure/vote')">
-                <div class="mr5">查看全部</div>
+                <div class="mr5">{{ $t('查看全部') }}</div>
                 <van-icon name="arrow" />
             </div>
         </div>
@@ -15,15 +15,15 @@
             <div class="size32 bold lh60">{{ voteInfo?.title }}</div>
             <div class="flex mt24">
                 <div class="flex ac size24 blue" @click="routerPush(`/cure/vote/${voteInfo?.id}`)">
-                    <div class="mr5">投票详情</div>
+                    <div class="mr5">{{ $t('投票详情') }}</div>
                     <van-icon name="arrow" />
                 </div>
             </div>
             <div class="size26 lh52 mt40 rich" v-html="voteInfo?.content"></div>
             <div class="flex jb ae size28 bold" @click="routerPush(`/cure/vote/${voteInfo?.id}`)">
-                <div class="agree">赞成</div>
+                <div class="agree">{{ $t('赞成') }}</div>
                 <img src="@/assets/imgs/14.png" class="pic14">
-                <div class="reject">反对</div>
+                <div class="reject">{{ $t('反对') }}</div>
             </div>
         </div>
 
@@ -45,11 +45,12 @@ import { routerPush } from '@/router'
 import Nft from './components/Nft.vue'
 import MyNft from './components/MyNft.vue'
 import { apiGet } from '@/utils/request'
+import { t } from '@/locale'
 
 const current = ref(0)
 const tabs = computed(()=>([
-    {name:'治理NFT', value:0},
-    {name:'我的NFT', value:0}
+    {name:t('治理NFT'), value:0},
+    {name:t('我的NFT'), value:0}
 ]))
 
 const voteInfo = ref()

@@ -1,5 +1,5 @@
 <template>
-    <CusNav title="奖励点"></CusNav>
+    <CusNav :title="$t('奖励点')"></CusNav>
     
     <div class="head">
         <CusTab :list="tabs" @change="tabsClick"></CusTab>
@@ -11,11 +11,11 @@
             <div class="pl30 pr30">
                 <div class="node mb30" v-for="(item,index) in list" :key="index">
                     <div class="flex jb ac">
-                        <div class="size24">数量</div>
+                        <div class="size24">{{ $t('数量') }}</div>
                         <div class="size28 bold" v-init="item.reward_point"></div>
                     </div>
                     <div class="flex jb ac mt30">
-                        <div class="size24 opc6">币种</div>
+                        <div class="size24 opc6">{{ $t('币种') }}</div>
                         <div class="size28 flex ac" v-if="item.type==1">
                             <div>USDT</div>
                             <img src="@/assets/usdt.png" class="img26 ml5">
@@ -26,11 +26,11 @@
                         </div>
                     </div>
                     <div class="flex jb ac mt30">
-                        <div class="size24 opc6">时间</div>
+                        <div class="size24 opc6">{{ $t('时间') }}</div>
                         <div class="size28" v-init:time="item.created_at"></div>
                     </div>
                     <div class="flex jb ac mt30">
-                        <div class="size24 opc6">交易哈希</div>
+                        <div class="size24 opc6">{{ $t('交易哈希') }}</div>
                         <div class="size28 tr br hash lh40">{{ item.deal_id || '--' }}</div>
                     </div>
                 </div>
@@ -46,11 +46,12 @@ import CusTab from '@/components/CusTab/index.vue'
 import { useLoadList } from '@/hooks/useLoadList';
 import { usePullRefresh } from '@/hooks/usePullRefresh';
 import { tokenName } from '@/config';
+import { t } from '@/locale';
 
 const current = ref(0)
 const tabs = computed(()=>([
-    {name:'USDT 池奖励点', value:1},
-    {name:'PE 池奖励点', value:2}
+    {name:`USDT ${t('池奖励点')}`, value:1},
+    {name:`${tokenName} ${t('池奖励点')}`, value:2}
 ]))
 
 const params = computed(()=>({type: tabs.value[current.value].value}))

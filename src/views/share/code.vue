@@ -1,5 +1,5 @@
 <template>
-    <CusNav title="邀请码"></CusNav>
+    <CusNav :title="$t('邀请码')"></CusNav>
 
     <div class="head">
         <CusTab :list="tabs" @change="tabsClick"></CusTab>

@@ -5,15 +5,6 @@
                 <div class="gap30"></div>
                 <img :src="item.nft.img_url" class="nftImg">
                 <div class="box">
-                    <!-- <div class="flex jb">
-                        <div class="pl170 size28 bold">{{ $t('身份') }}-{{ item.nft.name }}</div>
-                        <div class="pt10">
-                            <div class="progress">
-                                <div class="progressBox" :style="{width:`${0}%`}"></div>
-                            </div>
-                            <div class="tr size24 opc6 mt24">进度 0%</div>
-                        </div>
-                    </div> -->
                     <div class="pl170 size28 bold">{{ $t('身份') }}-{{ item.nft.name }}</div>
                     <div class="flex jb ae mt64">
                         <div>

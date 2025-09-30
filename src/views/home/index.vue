@@ -26,14 +26,14 @@
         </div>
 
         <div class="bold size32 font2 mt80">
-            <ShinyText text="DAO资产总览"></ShinyText>
+            <ShinyText :text="$t('DAO资产总览')"></ShinyText>
         </div>
     </div>
 
     <div class="flex jb mt40 pl30 pr30 animate__animated animate__fadeInUp">
         <div class="assetCard flex col jc ac">
             <img src="@/assets/usdt.png" class="img48">
-            <div class="grey size24 mt24">USDT 资产</div>
+            <div class="grey size24 mt24">USDT {{ $t('资产') }}</div>
             <div class="size36 bold mt32">
                 <span v-init="usdt[0]" v-if="usdt[0]!='0'"></span>
                 <span v-else>0</span>
@@ -42,7 +42,7 @@
         </div>
         <div class="assetCard flex col jc ac">
             <img src="@/assets/pe.png" class="img48 rel3">
-            <div class="grey size24 mt24">{{ tokenName }} 资产</div>
+            <div class="grey size24 mt24">{{ tokenName }} {{ $t('资产') }}</div>
             <div class="size36 bold mt32">
                 <span v-init="token[0]" v-if="token[0]!='0'"></span>
                 <span v-else>0</span>
@@ -53,7 +53,7 @@
 
     <div class="pl30 pr30 mt80">
         <div class="bold size32 font2">
-            <ShinyText text="赞助池"></ShinyText>
+            <ShinyText :text="$t('赞助池')"></ShinyText>
         </div>
 
         <div class="card mt40">
@@ -64,17 +64,17 @@
                 <div class="box flex1 mr30">
                     <img src="@/assets/usdt.png" class="img40">
                     <div class="size28 bold mt20 mb10" v-init="sponsor?.usdt_sponsor_amount"></div>
-                    <div class="grey size20">USDT 赞助总量</div>
+                    <div class="grey size20">USDT {{ $t('赞助总量') }}</div>
                 </div>
                 <div class="box flex1">
                     <img src="@/assets/pe.png" class="img40">
                     <div class="size28 bold mt20 mb10" v-init="sponsor?.pe_sponsor_amount"></div>
-                    <div class="grey size20">{{ tokenName }} 赞助总量</div>
+                    <div class="grey size20">{{ tokenName }} {{ $t('赞助总量') }}</div>
                 </div>
             </div>
             <div class="flex jb size20 mt32">
-                <div class="green">USDT 赞助{{ progress_usdt }}%</div>
-                <div class="main">{{ tokenName }} 赞助{{ progress_token }}%</div>
+                <div class="green">USDT {{ $t('赞助') }}{{ progress_usdt }}%</div>
+                <div class="main">{{ tokenName }} {{ $t('赞助') }}{{ progress_token }}%</div>
             </div>
             <div class="line mt20"></div>
             <div class="progress flex jb ac mt30 size18">
@@ -84,16 +84,16 @@
                 <div class="rightLine" :style="{width:`${progress_token}%`}"></div>
             </div>
             <div class="flex jb size24 mt60">
-                <div class="leftBtn" @click="routerPush('/home/sponsor')">USDT赞助</div>
-                <div class="rightBtn" @click="routerPush('/home/sponsor', {type:'token'})">PE赞助</div>
+                <div class="leftBtn" @click="routerPush('/home/sponsor')">USDT {{ $t('赞助') }}</div>
+                <div class="rightBtn" @click="routerPush('/home/sponsor', {type:'token'})">{{ tokenName }} {{ $t('赞助') }}</div>
             </div>
             <div class="bold size32 font2 mt80">
-                <ShinyText text="我的赞助"></ShinyText>
+                <ShinyText :text="$t('我的赞助')"></ShinyText>
             </div>
             <div class="box mt40 flex jb ac" @click="routerPush('/home/award')">
-                <div class="size24 grey">总赞助价值</div>
-                <div class="size26 bold flex ac">
-                    <div>
+                <div class="size24 grey">{{ $t('总赞助价值') }}</div>
+                <div class="size26 bold flex ac flex0 ml30">
+                    <div class="nobr">
                         <span v-init="sponsor?.user_count_sponsor"></span>
                         USDT
                     </div>
@@ -103,9 +103,9 @@
                 </div>
             </div>
             <div class="box mt20 flex jb ac" @click="routerPush('/home/award')">
-                <div class="size24 grey">剩余USDT池奖励点</div>
-                <div class="size26 bold flex ac">
-                    <div>
+                <div class="size24 grey">{{ $t('剩余USDT池奖励点') }}</div>
+                <div class="size26 bold flex ac flex0 ml30">
+                    <div class="nobr">
                         <span v-init="sponsor?.user_residue_usdt_reward_point"></span>
                         USDT
                     </div>
@@ -115,9 +115,9 @@
                 </div>
             </div>
             <div class="box mt20 flex jb ac" @click="routerPush('/home/award')">
-                <div class="size24 grey">剩余PE池奖励点</div>
-                <div class="size26 bold flex ac">
-                    <div>
+                <div class="size24 grey">{{ $t('剩余PE池奖励点') }}</div>
+                <div class="size26 bold flex ac flex0 ml30">
+                    <div class="nobr">
                         <span v-init="sponsor?.user_residue_pe_reward_point"></span>
                         USDT
                     </div>
@@ -137,7 +137,7 @@
         <div class="pop">
             <div class="flex jb ac">
                 <div class="bold size32 font2">
-                    <ShinyText text="最新公告"></ShinyText>
+                    <ShinyText :text="$t('最新公告')"></ShinyText>
                 </div>
                 <div class="grey" @click="show=false">
                     <van-icon name="cross" :size="25" />
@@ -147,7 +147,7 @@
                 <div class="size36 bold lh60">{{ notice?.title }}</div>
                 <div class="size24 mt30" v-html="notice?.content"></div>
             </div>
-            <div class="mainBtn" @click="read">知道了</div>
+            <div class="mainBtn" @click="read">{{ $t('知道了') }}</div>
         </div>
     </van-popup>
 </template>
