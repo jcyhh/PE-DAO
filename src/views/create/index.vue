@@ -13,6 +13,14 @@
             <div class="size24 opc6">{{ $t('累计发放共创激励价值') }}</div>
             <div class="size28 bold"><span v-init="info?.count_income"></span> USDT</div>
         </div>
+        <div class="mainCard mt30 flex jb ac">
+            <div class="size24 opc6">{{ $t('待领取铸币') }}</div>
+            <div class="flex ac">
+                <div class="size28 bold"><span v-init="info?.coinage_balance_token"></span> {{ tokenName }}</div>
+                <div class="btn ml30" @click="show=true" v-if="info?.coinage_balance_token > 0">{{ $t('领取') }}</div>
+                <div class="btn ml30" style="background: #FFFFFF33;color: #999999;" v-else>{{ $t('领取') }}</div>
+            </div>
+        </div>
         <div class="flex jb ac mt40 size24">
             <div class="flex ac">
                 <img src="@/assets/imgs/clock.png" class="img30 mr12">
@@ -96,7 +104,7 @@
                 </div>
                 <div class="flex1">
                     <div class="bold">
-                        <span class="size28">2100</span>
+                        <span class="size28">8400</span>
                         <span class="size20 ml10">{{ $t('万') }}</span>
                     </div>
                     <div class="size24 opc6 mt16">{{ $t('初始发行') }}</div>
@@ -165,6 +173,17 @@
         </div>
     </div>
     <div class="gap60"></div>
+
+    <van-popup v-model:show="show" style="background-color: transparent !important;" :close-on-click-overlay="false" overlay-class="cusMask">
+        <div class="pop">
+            <div class="flex jb ac">
+                <div class="size32 bold">{{ $t('领取') }}</div>
+                <van-icon name="cross" color="#999999" :size="25" @click="show=false" />
+            </div>
+            <div class="mt60 size24">{{ $t('确认现在领取吗？') }}</div>
+            <div class="mainBtn mt40" v-scale v-delay="{fun:submit}">{{ $t('确认') }}</div>
+        </div>
+    </van-popup>
 </template>
 
 <script setup lang="ts">
@@ -173,9 +192,13 @@ import { tokenName } from '@/config';
 import { t } from '@/locale';
 import { routerPush } from '@/router';
 import { computedAdd, computedMul, isToday } from '@/utils';
-import { apiGet } from '@/utils/request';
+import { apiGet, apiPost } from '@/utils/request';
 import * as echarts from 'echarts';
-import { computed, nextTick, ref } from 'vue';
+import { computed, nextTick, ref, watch } from 'vue';
+import { storeToRefs } from 'pinia';
+import { useDappStore } from '@/store';
+import { useEthers } from '@/dapp';
+import { useBiz } from '@/dapp/contract/biz/useBiz';
 
 const token_price = ref()
 apiGet('/api/token_price').then((res: any) => token_price.value = res.token_price)
@@ -248,6 +271,37 @@ apiGet('/api/coinage').then(async (res: any) => {
     const myChart = echarts.init(chartRef.value);
     option && myChart.setOption(option);
 })
+
+const useStore = useDappStore()
+const { address } = storeToRefs(useStore)
+
+const { getSign, checkGas } = useEthers()
+
+const { writeClaim, init } = useBiz()
+
+const show = ref(false)
+
+watch(address, val => {
+    if(val){
+        init()
+    }
+}, {immediate:true})
+
+const submit = async () => {
+    const gasEnough = await checkGas(); // 检测ETH
+    if(!gasEnough)return;
+
+    const signInfo:any = await getSign('Claim') // 签名
+
+    apiPost('/api/withdraw',{
+        ccy:'coinage_balance_token',
+        ...signInfo
+    }).then(async (res:any)=>{
+        const { id, token, sign_amount, expired_at, sign } = res.info
+        await writeClaim(id, token, sign_amount, expired_at, sign)
+        show.value = false
+    })
+}
 </script>
 
 <style lang="scss" scoped>
@@ -298,5 +352,13 @@ apiGet('/api/coinage').then(async (res: any) => {
 
 .ball2 {
     background-color: #03EEA9;
+}
+
+.pop{
+    width: 590px;
+    padding: 30px 30px 40px 30px;
+    border: 1px solid #FFFFFF80;
+    border-radius: 20px;
+    background: linear-gradient(52deg, #1C1F1D, #080908);
 }
 </style>
