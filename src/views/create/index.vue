@@ -6,7 +6,7 @@
             <img src="@/assets/usdt.png" class="img48">
         </div>
         <div class="bold tc size48 mt28">
-            <div class="linearTxt" v-init="100"></div>
+            <div class="linearTxt" v-init="total"></div>
         </div>
         <div class="tc size24 mt20">{{ $t('总市值') }}(USDT)</div>
         <div class="mainCard mt50 flex jb ac">
@@ -27,7 +27,7 @@
             <div class="flex jb ac mt40">
                 <div>
                     <div class="linearNum size40 bold" v-init="info?.count_coinage_amount"></div>
-                    <div class="size24 mt20">{{ $t('铸币池总额') }}</div>
+                    <div class="size24 mt20">{{ $t('铸币池总铸币权') }}</div>
                 </div>
                 <div>
                     <div class="size24 opc6">{{ $t('我铸造的币') }}</div>
@@ -55,21 +55,27 @@
             </div>
             <div class="flex ac">
                 <div ref="chartRef" class="chartBox"></div>
-                <div class="ml20">
-                    <div class="flex ac">
-                        <div class="ball mr12"></div>
-                        <div class="mr20 size24 opc6">{{ $t('流通总量') }}</div>
-                        <div class="nobr">100 PE</div>
+                <div class="flex1">
+                    <div class="flex ac jb">
+                        <div class="flex ac">
+                            <div class="ball mr12 flex0"></div>
+                            <div class="size24 opc6">{{ $t('流通总量') }}</div>
+                        </div>
+                        <div class="tr size24"><span v-init="info?.lt_count"></span> {{ tokenName }}</div>
                     </div>
-                    <div class="flex ac mt40 mb40">
-                        <div class="ball ball1 mr12"></div>
-                        <div class="mr20 size24 opc6">{{ $t('销毁总量') }}</div>
-                        <div class="nobr">150 PE</div>
+                    <div class="flex ac jb mt40 mb40">
+                        <div class="flex ac">
+                            <div class="ball ball1 mr12 flex0"></div>
+                            <div class="size24 opc6">{{ $t('销毁总量') }}</div>
+                        </div>
+                        <div class="tr size24"><span v-init="info?.xh_count"></span> {{ tokenName }}</div>
                     </div>
-                    <div class="flex ac">
-                        <div class="ball ball2 mr12"></div>
-                        <div class="mr20 size24 opc6">{{ $t('铸币池待铸') }}</div>
-                        <div class="nobr">220 PE</div>
+                    <div class="flex ac jb">
+                        <div class="flex ac">
+                            <div class="ball ball2 mr12 flex0"></div>
+                            <div class="size24 opc6">{{ $t('铸币池待铸') }}</div>
+                        </div>
+                        <div class="tr size24"><span v-init="info?.dq_count_not_coinage"></span> {{ tokenName }}</div>
                     </div>
                 </div>
             </div>
@@ -99,15 +105,13 @@
             <div class="flex mt60">
                 <div class="flex1">
                     <div class="bold">
-                        <span class="size28">500</span>
-                        <span class="size20 ml10">{{ $t('万') }}</span>
+                        <span class="size28" v-init="info?.lt_count"></span>
                     </div>
                     <div class="size24 opc6 mt16">{{ $t('流通总量') }}</div>
                 </div>
                 <div class="flex1">
                     <div class="bold">
-                        <span class="size28">1.89</span>
-                        <span class="size20 ml10">{{ $t('亿') }}</span>
+                        <span class="size28" v-init="info?.dq_count_not_coinage"></span>
                     </div>
                     <div class="size24 opc6 mt16">{{ $t('铸币池待铸') }}</div>
                 </div>
@@ -115,7 +119,7 @@
             <div class="flex mt60">
                 <div class="flex1">
                     <div class="bold">
-                        <span class="size28">898,900</span>
+                        <span class="size28" v-init="info?.xh_count"></span>
                         <span class="size20 ml10">{{ tokenName }}</span>
                     </div>
                     <div class="size24 opc6 mt16">{{ $t('销毁总量') }}</div>
@@ -135,7 +139,7 @@
                 </div>
                 <div class="flex1">
                     <div class="bold">
-                        <span class="size28">0.1</span>
+                        <span class="size28" v-init="info?.token_price"></span>
                         <span class="size20 ml10">USDT</span>
                     </div>
                     <div class="size24 opc6 mt16">{{ $t('实时价格') }}</div>
@@ -152,7 +156,7 @@
                 <div class="flex1">
                     <div class="bold">
                         <span class="size20">{{ $t('第') }}</span>
-                        <span class="size28 ml10">8</span>
+                        <span class="size28 ml10">{{ info?.cycle }}</span>
                         <span class="size20 ml10">{{ $t('个月') }}</span>
                     </div>
                     <div class="size24 opc6 mt16">{{ $t('实时铸币周期') }}</div>
@@ -168,71 +172,79 @@ import ShinyText from '@/components/VueBits/ShinyText.vue'
 import { tokenName } from '@/config';
 import { t } from '@/locale';
 import { routerPush } from '@/router';
-import { isToday } from '@/utils';
+import { computedAdd, computedMul, isToday } from '@/utils';
 import { apiGet } from '@/utils/request';
 import * as echarts from 'echarts';
-import { onMounted, ref } from 'vue';
+import { computed, nextTick, ref } from 'vue';
 
-const info = ref()
-const nowIsToday = ref(false)
-apiGet('/api/coinage').then((res:any)=>{
-    info.value = res
-    nowIsToday.value = isToday(res.coinage_at)
+const token_price = ref()
+apiGet('/api/token_price').then((res: any) => token_price.value = res.token_price)
+
+const balance_token = ref()
+apiGet('/api/users/my').then((res: any) => {
+    balance_token.value = computedAdd(res.jt_balance_token, res.dt_balance_token)
+})
+
+const total = computed(() => {
+    if (token_price.value && balance_token.value) return computedMul(token_price.value, balance_token.value)
+    else return 0
 })
 
 const chartRef = ref()
-
-const option = {
-    tooltip: {
-        trigger: 'item',
-        position: (point:any) => [point[0] + 20, point[1] - 20]
-    },
-    legend: {
-        show:false
-    },
-    series: [
-        {
-            type: 'pie',
-            radius: '80%',
-            data: [
-                { 
-                    value: 100, 
-                    name: t('流通总量'),
-                    itemStyle: {
-                        color: '#0059FF'
+const info = ref()
+const nowIsToday = ref(false)
+apiGet('/api/coinage').then(async (res: any) => {
+    info.value = res
+    nowIsToday.value = isToday(res.coinage_at)
+    const option = {
+        tooltip: {
+            trigger: 'item',
+            position: (point: any) => [point[0] + 20, point[1] - 20]
+        },
+        legend: {
+            show: false
+        },
+        series: [
+            {
+                type: 'pie',
+                radius: '80%',
+                data: [
+                    {
+                        value: Number(res.lt_count),
+                        name: t('流通总量'),
+                        itemStyle: {
+                            color: '#0059FF'
+                        }
+                    },
+                    {
+                        value: Number(res.xh_count),
+                        name: t('销毁总量'),
+                        itemStyle: {
+                            color: '#C348FF'
+                        }
+                    },
+                    {
+                        value: Number(res.dq_count_not_coinage),
+                        name: t('铸币池待铸'),
+                        itemStyle: {
+                            color: '#03EEA9'
+                        }
                     }
+                ],
+                label: {
+                    show: false
                 },
-                { 
-                    value: 150, 
-                    name: t('销毁总量'),
+                emphasis: {
                     itemStyle: {
-                        color: '#C348FF'
+                        shadowBlur: 10,
+                        shadowOffsetX: 0,
+                        shadowColor: 'rgba(0, 0, 0, 0.5)'
                     }
-                },
-                { 
-                    value: 220, 
-                    name: t('铸币池待铸'),
-                    itemStyle: {
-                        color: '#03EEA9'
-                    }
-                }
-            ],
-            label: {
-                show: false
-            },
-            emphasis: {
-                itemStyle: {
-                    shadowBlur: 10,
-                    shadowOffsetX: 0,
-                    shadowColor: 'rgba(0, 0, 0, 0.5)'
                 }
             }
-        }
-    ]
-};
-
-
-onMounted(()=>{
+        ]
+    };
+    await nextTick()
     const myChart = echarts.init(chartRef.value);
     option && myChart.setOption(option);
 })
@@ -268,20 +280,23 @@ onMounted(()=>{
     }
 }
 
-.chartBox{
-    width: 300px;
-    height: 300px;
+.chartBox {
+    width: 250px;
+    height: 250px;
 }
-.ball{
+
+.ball {
     width: 16px;
     height: 16px;
     border-radius: 50%;
     background-color: #0059FF;
 }
-.ball1{
+
+.ball1 {
     background-color: #C348FF;
 }
-.ball2{
+
+.ball2 {
     background-color: #03EEA9;
 }
 </style>

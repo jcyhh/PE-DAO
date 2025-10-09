@@ -11,8 +11,8 @@
                             <div class="size40 bold" v-init="item.nft.price"></div>
                             <div class="blue size20 mt4">{{ $t('购买价格') }}(USDT)</div>
                         </div>
-                        <div class="disableBtn pl30 pr30" v-if="item.nft.id==maxId">{{ $t('已满级') }}</div>
-                        <div class="btn" @click="openpop(item)" v-else>{{ $t('升级') }}</div>
+                        <!-- <div class="disableBtn pl30 pr30" v-if="item.nft.id==maxId">{{ $t('已满级') }}</div>
+                        <div class="btn" @click="openpop(item)" v-else>{{ $t('升级') }}</div> -->
                     </div>
                     <div class="flex jb ac mt50">
                         <div class="size24">{{ $t('等级权益') }}</div>
@@ -113,12 +113,12 @@ const total = computed(() => {
         return computedSub(updateInfo.value[current.value].price, nowNft.value.nft.price)
     } else return 0
 })
-const openpop = (data: any) => {
-    nowNft.value = data
-    const nftid = data.nft.id
-    updateInfo.value = nfts.value.filter(item => item.id > nftid)
-    show.value = true
-}
+// const openpop = (data: any) => {
+//     nowNft.value = data
+//     const nftid = data.nft.id
+//     updateInfo.value = nfts.value.filter(item => item.id > nftid)
+//     show.value = true
+// }
 
 const { getSign, checkGas } = useEthers()
 

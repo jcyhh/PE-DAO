@@ -29,29 +29,31 @@
 
     </div>
 
-    <div class="head">
+    <!-- <div class="head">
         <CusTab :list="tabs" @change="$event => current = $event"></CusTab>
     </div>
 
     <Nft v-if="current==0"></Nft>
-    <MyNft v-else></MyNft>
+    <MyNft v-else></MyNft> -->
+    <MyNft></MyNft>
 </template>
 
 <script setup lang="ts">
 import ShinyText from '@/components/VueBits/ShinyText.vue'
-import CusTab from '@/components/CusTab/index.vue'
-import { computed, ref } from 'vue'
+// import CusTab from '@/components/CusTab/index.vue'
+// import { computed, ref } from 'vue'
+import { ref } from 'vue'
 import { routerPush } from '@/router'
-import Nft from './components/Nft.vue'
+// import Nft from './components/Nft.vue'
 import MyNft from './components/MyNft.vue'
 import { apiGet } from '@/utils/request'
-import { t } from '@/locale'
+// import { t } from '@/locale'
 
-const current = ref(0)
-const tabs = computed(()=>([
-    {name:t('治理NFT'), value:0},
-    {name:t('我的NFT'), value:0}
-]))
+// const current = ref(0)
+// const tabs = computed(()=>([
+//     {name:t('治理NFT'), value:0},
+//     {name:t('我的NFT'), value:0}
+// ]))
 
 const voteInfo = ref()
 apiGet('/api/votes',{

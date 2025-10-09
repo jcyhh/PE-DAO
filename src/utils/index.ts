@@ -39,12 +39,12 @@ export function computedDiv(a:number|string, b:number|string) {
     var c, d, e = 0,
         f = 0;
     try {
-        e = Number(a).toString().split(".")[1].length
+        e = a.toString().split(".")[1].length
     } catch (g) { }
     try {
-        f = Number(b).toString().split(".")[1].length
+        f = b.toString().split(".")[1].length
     } catch (g) { }
-    return c = Number(Number(a).toString().replace(".", "")), d = Number(Number(b).toString().replace(".", "")), computedMul(c /
+    return c = Number(a.toString().replace(".", "")), d = Number(b.toString().replace(".", "")), computedMul(c /
         d, Math.pow(10, f - e))
 }
 

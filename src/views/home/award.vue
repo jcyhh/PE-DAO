@@ -25,6 +25,14 @@
                             <img src="@/assets/pe.png" class="img26 ml5">
                         </div>
                     </div>
+                    <div class="flex jb ac mt30" v-if="current==1">
+                        <div class="size24 opc6">{{ $t('赞助价值') }}</div>
+                        <div class="size28 bold" v-init="item.u_amount"></div>
+                    </div>
+                    <div class="flex jb ac mt30" v-if="current==1">
+                        <div class="size24 opc6">{{ $t('赞助价格') }}</div>
+                        <div class="size28 bold" v-init="item.token_price"></div>
+                    </div>
                     <div class="flex jb ac mt30">
                         <div class="size24 opc6">{{ $t('时间') }}</div>
                         <div class="size28" v-init:time="item.created_at"></div>
@@ -47,6 +55,7 @@ import { useLoadList } from '@/hooks/useLoadList';
 import { usePullRefresh } from '@/hooks/usePullRefresh';
 import { tokenName } from '@/config';
 import { t } from '@/locale';
+import { apiGet } from '@/utils/request';
 
 const current = ref(0)
 const tabs = computed(()=>([
@@ -64,6 +73,9 @@ const tabsClick = (index:number) => {
     current.value = index
     loadList()
 }
+
+const token_price = ref()
+apiGet('/api/token_price').then((res:any)=>token_price.value = res.token_price)
 </script>
 
 <style lang="scss" scoped>

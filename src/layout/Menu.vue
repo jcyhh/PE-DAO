@@ -26,7 +26,7 @@
                         <div class="opc6 mr10">{{ userInfo?.referral_code }}</div>
                         <img src="@/assets/imgs/copy.png" class="img32">
                     </div>
-                    <div class="flex ac size24" v-else @click="jump('/cure/index')">
+                    <div class="flex ac size24" v-else @click="jump('/home/sponsor')">
                         <div class="opc6 mr10">{{ $t('解锁推荐特权') }}</div>
                         <van-icon name="arrow" />
                     </div>

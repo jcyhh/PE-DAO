@@ -35,7 +35,7 @@
             <img src="@/assets/usdt.png" class="img48">
             <div class="grey size24 mt24">USDT {{ $t('资产') }}</div>
             <div class="size36 bold mt32">
-                <span v-init="usdt[0]" v-if="usdt[0]!='0'"></span>
+                <span v-if="usdt[0]!='0'">{{ usdt[0] }}</span>
                 <span v-else>0</span>
             </div>
             <div class="size24 main mt10">{{ usdt[1] }}</div>
@@ -44,7 +44,7 @@
             <img src="@/assets/pe.png" class="img48 rel3">
             <div class="grey size24 mt24">{{ tokenName }} {{ $t('资产') }}</div>
             <div class="size36 bold mt32">
-                <span v-init="token[0]" v-if="token[0]!='0'"></span>
+                <span v-if="token[0]!='0'">{{ token[0] }}</span>
                 <span v-else>0</span>
             </div>
             <div class="size24 main mt10">{{ token[1] }}</div>
@@ -63,12 +63,12 @@
             <div class="flex">
                 <div class="box flex1 mr30">
                     <img src="@/assets/usdt.png" class="img40">
-                    <div class="size28 bold mt20 mb10" v-init="sponsor?.usdt_sponsor_amount"></div>
+                    <div class="size28 bold mt20 mb10" v-init="sponsor?.residue_usdt_reward_point"></div>
                     <div class="grey size20">USDT {{ $t('赞助总量') }}</div>
                 </div>
                 <div class="box flex1">
                     <img src="@/assets/pe.png" class="img40">
-                    <div class="size28 bold mt20 mb10" v-init="sponsor?.pe_sponsor_amount"></div>
+                    <div class="size28 bold mt20 mb10" v-init="sponsor?.residue_pe_reward_point"></div>
                     <div class="grey size20">{{ tokenName }} {{ $t('赞助总量') }}</div>
                 </div>
             </div>
@@ -158,40 +158,41 @@ import ShinyText from '@/components/VueBits/ShinyText.vue'
 import { computed, ref, watchEffect } from 'vue';
 import { routerPush } from '@/router';
 import { apiGet } from '@/utils/request';
-import { computedAdd, computedDiv, computedSub } from '@/utils';
-
-/**
- * 余额
- */
-const balance_usdt = ref('0')
-const balance_token = ref('0')
-apiGet('/api/users/my').then((res:any)=>{
-    balance_usdt.value = res.balance_usdt
-    balance_token.value = `${computedAdd(res.jt_balance_token, res.dt_balance_token).toFixed(6)}`
-})
-const usdt = computed(()=>{
-    if(balance_usdt.value){
-        const arr = balance_usdt.value.split('.')
-        return [arr[0], `.${arr[1]}`]
-    }else return [0, '.000000']
-})
-const token = computed(()=>{
-    if(balance_token.value){
-        const arr = balance_token.value.split('.')
-        return [arr[0], `.${arr[1]}`]
-    }else return [0, '.000000']
-})
+import { computedAdd, computedDiv, computedSub, initNumber } from '@/utils';
 
 /**
  * 赞助
  */
 const sponsor = ref()
-apiGet('/api/sponsor').then(res=>sponsor.value=res)
+const balance_usdt = ref('0')
+const balance_token = ref('0')
+apiGet('/api/sponsor').then((res:any)=>{
+    sponsor.value = res
+    balance_usdt.value = res.usdt_sponsor_amount
+    balance_token.value = res.pe_sponsor_amount
+})
+
+const usdt = computed(()=>{
+    if(balance_usdt.value){
+        const arr = balance_usdt.value.split('.')
+        let one = initNumber((Number(arr[0]))).split('.')[0]
+        return [one, `.${arr[1]}`]
+    }else return [0, '.000000']
+})
+const token = computed(()=>{
+    if(balance_token.value){
+        const arr = balance_token.value.split('.')
+        let one = initNumber((Number(arr[0]))).split('.')[0]
+        return [one, `.${arr[1]}`]
+    }else return [0, '.000000']
+})
+
+
 const progress_usdt = ref(0)
 const progress_token = ref(0)
 watchEffect(()=>{
-    const usdt_sponsor_amount = sponsor.value?.usdt_sponsor_amount
-    const pe_sponsor_amount = sponsor.value?.pe_sponsor_amount
+    const usdt_sponsor_amount = sponsor.value?.residue_usdt_reward_point
+    const pe_sponsor_amount = sponsor.value?.residue_pe_reward_point
     if(usdt_sponsor_amount && pe_sponsor_amount){
         const total = computedAdd(usdt_sponsor_amount, pe_sponsor_amount)
         if(total==0){
@@ -205,8 +206,9 @@ watchEffect(()=>{
                 progress_usdt.value = 100
                 progress_token.value = 0
             }else{
-                progress_usdt.value = Math.floor(computedDiv(usdt_sponsor_amount, total) * 10000) / 100
+                progress_usdt.value = Number((computedDiv(usdt_sponsor_amount, total) * 100).toFixed(2))
                 progress_token.value = computedSub(100, progress_usdt.value)
+                
             }
         }
     }

@@ -26,16 +26,20 @@
         </div>
         <div class="flex jb ac mt30">
             <div class="size24">{{ $t('推荐码') }}</div>
-            <div class="size26 flex ac" v-copy="info?.referral_code">
+            <div class="size26 flex ac" v-copy="info?.referral_code" v-if="info?.referral_code">
                 <div class="opc6">{{ info?.referral_code }}</div>
                 <img src="@/assets/imgs/copy.png" class="img24 ml10">
             </div>
+            <div class="flex ac main size26" @click="routerPush('/home/sponsor')" v-else>
+                <div class="mr5">{{ $t('解锁推荐特权') }}</div>
+                <van-icon name="arrow" />
+            </div>
         </div>
-        <div class="cell mt48 flex jb ac size24" @click="routerPush('/share/code')">
+        <!-- <div class="cell mt48 flex jb ac size24" @click="routerPush('/share/code')">
             <div>{{ $t('邀请码') }}</div>
             <van-icon name="arrow" />
-        </div>
-        <div class="flex jb ac mt80">
+        </div> -->
+        <div class="flex jb ac mt40">
             <div class="bold size32 font2">
                 <ShinyText :text="$t('布道成果')"></ShinyText>
             </div>
