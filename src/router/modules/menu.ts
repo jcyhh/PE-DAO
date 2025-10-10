@@ -54,7 +54,7 @@ export default [
         component: Layout,
         redirect: '/news/index',
         meta:{
-            title:'新闻公告'
+            title:'公告'
         },
         children:[{
             path:'index',

@@ -8,46 +8,58 @@
         <div class="bold tc size48 mt28">
             <div class="linearTxt" v-init="total"></div>
         </div>
-        <div class="tc size24 mt20">{{ $t('总市值') }}(USDT)</div>
+        <div class="tc size24 mt20">{{ $t('总市值') }}(USD)</div>
         <div class="mainCard mt50 flex jb ac">
             <div class="size24 opc6">{{ $t('累计发放共创激励价值') }}</div>
-            <div class="size28 bold"><span v-init="info?.count_income"></span> USDT</div>
-        </div>
-        <div class="mainCard mt30 flex jb ac">
-            <div class="size24 opc6">{{ $t('待领取铸币') }}</div>
-            <div class="flex ac">
-                <div class="size28 bold"><span v-init="info?.coinage_balance_token"></span> {{ tokenName }}</div>
-                <div class="btn ml30" @click="show=true" v-if="info?.coinage_balance_token > 0">{{ $t('领取') }}</div>
-                <div class="btn ml30" style="background: #FFFFFF33;color: #999999;" v-else>{{ $t('领取') }}</div>
-            </div>
+            <div class="size28 bold"><span v-init="info?.count_income"></span> USD</div>
         </div>
         <div class="flex jb ac mt40 size24">
             <div class="flex ac">
                 <img src="@/assets/imgs/clock.png" class="img30 mr12">
                 <div>{{ $t('下次铸币时间') }}</div>
             </div>
-            <div class="main" v-init:date="info?.coinage_at"></div>
+            <div class="main">
+                <span v-init:date="info?.coinage_at"></span>
+                <span> 00:00</span>
+            </div>
         </div>
         <div class="card mt80">
             <div class="bold size32">
                 <ShinyText :text="$t('铸币')"></ShinyText>
             </div>
             <div class="flex jb ac mt40">
-                <div>
-                    <div class="linearNum size40 bold" v-init="info?.count_coinage_amount"></div>
-                    <div class="size24 mt20">{{ $t('铸币池总铸币权') }}</div>
+                <div @click="showRule1=true">
+                    <div class="linearNum bold">
+                        <span class="size40" v-init="info?.dq_count_coinage_limit"></span>
+                        <span class="size24 ml10">{{ tokenName }}</span>
+                    </div>
+                    <div class="flex ac mt20 size24">
+                        <div>{{ $t('铸币池总铸币权') }}</div>
+                        <img src="@/assets/imgs/rule.png" class="img26 ml10">
+                    </div>
                 </div>
-                <div>
-                    <div class="size24 opc6">{{ $t('我铸造的币') }}</div>
-                    <div class="size26 bold mt20"><span v-init="info?.user_coinage_amount"></span> USDT</div>
+                <div @click="showRule2=true">
+                    <div class="linearNum bold">
+                        <span class="size40" v-init="info?.user_coinage_limit"></span>
+                        <span class="size24 ml10">{{ tokenName }}</span>
+                    </div>
+                    <div class="flex ac mt20 size24">
+                        <div>{{ $t('我的铸币权') }}</div>
+                        <img src="@/assets/imgs/rule.png" class="img26 ml10">
+                    </div>
                 </div>
             </div>
-            <div class="flex ac mt60">
-                <div class="size24 opc6">{{ $t('我的铸币权') }}</div>
-                <img src="@/assets/imgs/rule.png" class="img26 ml10">
+            <div class="flex mt60">
+                <div class="flex ac" @click="showRule3=true">
+                    <div class="size24 opc6">{{ $t('我铸造的币') }}</div>
+                    <img src="@/assets/imgs/rule.png" class="img26 ml10"></img>
+                </div>
             </div>
             <div class="flex jb ac mt20">
-                <div class="size26 bold" v-init="info?.user_coinage_limit"></div>
+                <div class="size26 bold">
+                    <span v-init="info?.user_coinage_amount"></span>
+                    <span class="ml10">{{ tokenName }}</span>
+                </div>
                 <div class="flex ac size24 main" @click="routerPush('/create/castLog')">
                     <div>{{ $t('点击查看') }}</div>
                     <van-icon name="arrow" />
@@ -57,7 +69,16 @@
             <div class="disableBtn mt60" v-else>{{ $t('去铸币') }}</div>
         </div>
 
-        <div class="mainCard">
+        <div class="mainCard mt30 flex jb ac">
+            <div class="size24 opc6">{{ $t('待领取铸币') }}</div>
+            <div class="flex ac">
+                <div class="size28 bold"><span v-init="info?.coinage_balance_token"></span> {{ tokenName }}</div>
+                <div class="btn ml30" @click="show=true" v-if="info?.coinage_balance_token > 0">{{ $t('领取') }}</div>
+                <div class="btn ml30" style="background: #FFFFFF33;color: #999999;" v-else>{{ $t('领取') }}</div>
+            </div>
+        </div>
+
+        <div class="mainCard mt30">
             <div class="bold size32">
                 <ShinyText :text="`${tokenName} ${$t('激励代币总览')}`"></ShinyText>
             </div>
@@ -81,7 +102,7 @@
                     <div class="flex ac jb">
                         <div class="flex ac">
                             <div class="ball ball2 mr12 flex0"></div>
-                            <div class="size24 opc6">{{ $t('铸币池待铸') }}</div>
+                            <div class="size24 opc6">{{ $t('待铸造') }}</div>
                         </div>
                         <div class="tr size24"><span v-init="info?.dq_count_not_coinage"></span> {{ tokenName }}</div>
                     </div>
@@ -121,14 +142,13 @@
                     <div class="bold">
                         <span class="size28" v-init="info?.dq_count_not_coinage"></span>
                     </div>
-                    <div class="size24 opc6 mt16">{{ $t('铸币池待铸') }}</div>
+                    <div class="size24 opc6 mt16">{{ $t('待铸造') }}</div>
                 </div>
             </div>
             <div class="flex mt60">
                 <div class="flex1">
                     <div class="bold">
                         <span class="size28" v-init="info?.xh_count"></span>
-                        <span class="size20 ml10">{{ tokenName }}</span>
                     </div>
                     <div class="size24 opc6 mt16">{{ $t('销毁总量') }}</div>
                 </div>
@@ -143,12 +163,12 @@
             <div class="flex mt60">
                 <div class="flex1">
                     <div class="bold size28 main">0x5768****uyjh</div>
-                    <div class="size24 opc6 mt16">{{ $t('代币合约地址') }}</div>
+                    <div class="size24 opc6 mt16">{{ $t('合约地址') }}</div>
                 </div>
                 <div class="flex1">
                     <div class="bold">
-                        <span class="size28" v-init="info?.token_price"></span>
-                        <span class="size20 ml10">USDT</span>
+                        <span class="size28">{{ Number(info?.token_price) }}</span>
+                        <span class="size20 ml10">USD</span>
                     </div>
                     <div class="size24 opc6 mt16">{{ $t('实时价格') }}</div>
                 </div>
@@ -156,10 +176,10 @@
             <div class="flex mt60">
                 <div class="flex1">
                     <div class="bold">
-                        <span class="size28">3,150,000</span>
+                        <span class="size28">2,100,000</span>
                         <span class="size20 ml10">{{ $t('枚/月') }}</span>
                     </div>
-                    <div class="size24 opc6 mt16">{{ $t('实时铸币速度') }}</div>
+                    <div class="size24 opc6 mt16">{{ $t('铸币速度') }}</div>
                 </div>
                 <div class="flex1">
                     <div class="bold">
@@ -167,7 +187,7 @@
                         <span class="size28 ml10">{{ info?.cycle }}</span>
                         <span class="size20 ml10">{{ $t('个月') }}</span>
                     </div>
-                    <div class="size24 opc6 mt16">{{ $t('实时铸币周期') }}</div>
+                    <div class="size24 opc6 mt16">{{ $t('铸币周期') }}</div>
                 </div>
             </div>
         </div>
@@ -184,6 +204,39 @@
             <div class="mainBtn mt40" v-scale v-delay="{fun:submit}">{{ $t('确认') }}</div>
         </div>
     </van-popup>
+
+    <van-popup v-model:show="showRule1" style="background-color: transparent !important;" :close-on-click-overlay="false" overlay-class="cusMask">
+        <div class="pop">
+            <div class="flex jb ac">
+                <div class="size32 bold">{{ $t('规则') }}</div>
+                <van-icon name="cross" color="#999999" :size="25" @click="showRule1=false" />
+            </div>
+            <div class="mt60 size24 lh40">{{ $t('规则1') }}</div>
+            <div class="mainBtn mt60"  @click="showRule1=false">{{ $t('确认') }}</div>
+        </div>
+    </van-popup>
+
+    <van-popup v-model:show="showRule2" style="background-color: transparent !important;" :close-on-click-overlay="false" overlay-class="cusMask">
+        <div class="pop">
+            <div class="flex jb ac">
+                <div class="size32 bold">{{ $t('规则') }}</div>
+                <van-icon name="cross" color="#999999" :size="25" @click="showRule2=false" />
+            </div>
+            <div class="mt60 size24 lh40">{{ $t('规则2') }}</div>
+            <div class="mainBtn mt60"  @click="showRule2=false">{{ $t('确认') }}</div>
+        </div>
+    </van-popup>
+
+    <van-popup v-model:show="showRule3" style="background-color: transparent !important;" :close-on-click-overlay="false" overlay-class="cusMask">
+        <div class="pop">
+            <div class="flex jb ac">
+                <div class="size32 bold">{{ $t('规则') }}</div>
+                <van-icon name="cross" color="#999999" :size="25" @click="showRule3=false" />
+            </div>
+            <div class="mt60 size24 lh40">{{ $t('规则3') }}</div>
+            <div class="mainBtn mt60"  @click="showRule3=false">{{ $t('确认') }}</div>
+        </div>
+    </van-popup>
 </template>
 
 <script setup lang="ts">
@@ -191,7 +244,7 @@ import ShinyText from '@/components/VueBits/ShinyText.vue'
 import { tokenName } from '@/config';
 import { t } from '@/locale';
 import { routerPush } from '@/router';
-import { computedAdd, computedMul, isToday } from '@/utils';
+import { computedMul, isToday } from '@/utils';
 import { apiGet, apiPost } from '@/utils/request';
 import * as echarts from 'echarts';
 import { computed, nextTick, ref, watch } from 'vue';
@@ -203,15 +256,14 @@ import { useBiz } from '@/dapp/contract/biz/useBiz';
 const token_price = ref()
 apiGet('/api/token_price').then((res: any) => token_price.value = res.token_price)
 
-const balance_token = ref()
-apiGet('/api/users/my').then((res: any) => {
-    balance_token.value = computedAdd(res.jt_balance_token, res.dt_balance_token)
-})
-
 const total = computed(() => {
-    if (token_price.value && balance_token.value) return computedMul(token_price.value, balance_token.value)
+    if (token_price.value) return computedMul(token_price.value, 2100000000)
     else return 0
 })
+
+const showRule1 = ref(false)
+const showRule2 = ref(false)
+const showRule3 = ref(false)
 
 const chartRef = ref()
 const info = ref()
@@ -231,6 +283,7 @@ apiGet('/api/coinage').then(async (res: any) => {
             {
                 type: 'pie',
                 radius: '80%',
+                minAngle: 10, // 设置最小扇区角度，确保小数据也能显示
                 data: [
                     {
                         value: Number(res.lt_count),

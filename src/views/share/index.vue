@@ -15,8 +15,8 @@
             <img src="@/assets/imgs/20.png" class="img48" v-copy="address">
         </div>
         <div class="flex mt20">
-            <div class="flex ac" v-copy="info?.id">
-                <div class="size24 opc6">DAO-ID: {{ info?.id }}</div>
+            <div class="flex ac" v-copy="info?.dao_id">
+                <div class="size24 opc6">DAO-ID: {{ info?.dao_id }}</div>
                 <img src="@/assets/imgs/copy.png" class="img24 ml10">
             </div>
         </div>

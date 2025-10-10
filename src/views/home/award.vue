@@ -2,7 +2,7 @@
     <CusNav :title="$t('奖励点')"></CusNav>
     
     <div class="head">
-        <CusTab :list="tabs" @change="tabsClick"></CusTab>
+        <CusTab :defaultCur="defaultCur" :list="tabs" @change="tabsClick"></CusTab>
     </div>
 
     <div class="gap160"></div>
@@ -11,38 +11,33 @@
             <div class="pl30 pr30">
                 <div class="node mb30" v-for="(item,index) in list" :key="index">
                     <div class="flex jb ac">
-                        <div class="size24">{{ $t('数量') }}</div>
-                        <div class="size28 bold" v-init="item.reward_point"></div>
+                        <div class="size24">名称</div>
+                        <div class="size24">{{ item.content }}</div>
                     </div>
                     <div class="flex jb ac mt30">
-                        <div class="size24 opc6">{{ $t('币种') }}</div>
-                        <div class="size28 flex ac" v-if="item.type==1">
-                            <div>USDT</div>
-                            <img src="@/assets/usdt.png" class="img26 ml5">
+                        <div class="size24 opc6">{{ $t('数量') }}</div>
+                        <div class="size28 bold green" v-if="item.is_inc">
+                            + <span v-init="item.amount"></span> USD
                         </div>
-                        <div class="size28 flex ac" v-else>
-                            <div>{{ tokenName }}</div>
-                            <img src="@/assets/pe.png" class="img26 ml5">
+                        <div class="size28 bold red" v-else>
+                            - <span v-init="item.amount"></span> USD
                         </div>
                     </div>
-                    <div class="flex jb ac mt30" v-if="current==1">
-                        <div class="size24 opc6">{{ $t('赞助价值') }}</div>
-                        <div class="size28 bold" v-init="item.u_amount"></div>
-                    </div>
-                    <div class="flex jb ac mt30" v-if="current==1">
-                        <div class="size24 opc6">{{ $t('赞助价格') }}</div>
-                        <div class="size28 bold" v-init="item.token_price"></div>
+                    <div class="flex jb ac mt30">
+                        <div class="size24 opc6">{{ $t('价格') }}</div>
+                        <div class="size28">{{ Number(item?.extra?.token_price) }} USD</div>
                     </div>
                     <div class="flex jb ac mt30">
                         <div class="size24 opc6">{{ $t('时间') }}</div>
                         <div class="size28" v-init:time="item.created_at"></div>
                     </div>
                     <div class="flex jb ac mt30">
-                        <div class="size24 opc6">{{ $t('交易哈希') }}</div>
-                        <div class="size28 tr br hash lh40">{{ item.deal_id || '--' }}</div>
+                        <div class="size24 opc6">ID</div>
+                        <div class="size28 tr br hash lh40">{{ item.id || '--' }}</div>
                     </div>
                 </div>
             </div>
+            <CusEmpty v-if="list?.length==0"></CusEmpty>
         </van-list>
     </van-pull-refresh>
 </template>
@@ -56,16 +51,22 @@ import { usePullRefresh } from '@/hooks/usePullRefresh';
 import { tokenName } from '@/config';
 import { t } from '@/locale';
 import { apiGet } from '@/utils/request';
+import CusEmpty from '@/components/CusEmpty/index.vue'
+import { useRoute } from 'vue-router';
 
-const current = ref(0)
+const { query } = useRoute()
+
+const defaultCur = query.cur ? 1 : 0
+
+const current = ref(defaultCur)
 const tabs = computed(()=>([
-    {name:`USDT ${t('池奖励点')}`, value:1},
-    {name:`${tokenName} ${t('池奖励点')}`, value:2}
+    {name:`USDT ${t('池奖励点')}`, value:'usdt_reward_point_balance'},
+    {name:`${tokenName} ${t('池奖励点')}`, value:'pe_reward_point_balance'}
 ]))
 
-const params = computed(()=>({type: tabs.value[current.value].value}))
+const params = computed(()=>({ccy: tabs.value[current.value].value}))
 
-const { list, props: listProps, loadList } = useLoadList('/api/sponsor/list', 'sponsor_order', params)
+const { list, props: listProps, loadList } = useLoadList('/api/users/my/balance_logs', 'balance_logs', params)
 const { props } = usePullRefresh(loadList)
 loadList()
 

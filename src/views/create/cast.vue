@@ -42,8 +42,8 @@
                         <ShinyText text="全部"></ShinyText>
                     </div>
                 </div>
-                <div class="size24 mt30 main">{{ $t('实时铸币价格') }} : <span v-init="token_price"></span> USD</div>
-                <div class="size24 gray mt40">{{ $t('赞助价值') }}</div>
+                <div class="size24 mt30 main">{{ $t('实时铸币价格') }} : {{ Number(token_price) }} USD</div>
+                <div class="size24 gray mt40">{{ $t('铸币价值') }}</div>
                 <div class="mainCard mt24 flex jb ac">
                     <div class="flex ac">
                         <img src="@/assets/usd.png" class="img46 mr12">
@@ -123,7 +123,7 @@ const loadData = () => {
 loadData()
 
 const token_price = ref()
-apiGet('/api/token_price').then((res:any)=>token_price.value=res.token_price)
+apiGet('/api/token_price').then((res:any)=>token_price.value=res.coinage_token_price)
 
 const inputAll = () => inputAmount.value = info.value?.user_coinage_limit || 0
 

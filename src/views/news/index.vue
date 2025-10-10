@@ -3,7 +3,7 @@
         <van-list class="fullPage" v-bind="listProps">
             <div class="pl30 pr30 pt40">
                 <div class="bold size32 font2 mb40">
-                    <ShinyText :text="$t('新闻公告')"></ShinyText>
+                    <ShinyText :text="$t('公告')"></ShinyText>
                 </div>
                 <div class="card mb30" v-for="(item,index) in list" :key="index" @click="routerPush(`/news/${item.id}`)">
                     <div class="flex ast">

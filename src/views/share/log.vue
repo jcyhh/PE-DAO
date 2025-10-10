@@ -27,6 +27,10 @@
                         <div class="size28 bold" v-init="item.amount"></div>
                     </div>
                     <div class="flex jb ac mt30">
+                        <div class="size24 opc6">{{ $t('名称') }}</div>
+                        <div class="size28">{{ item.content }}</div>
+                    </div>
+                    <div class="flex jb ac mt30">
                         <div class="size24 opc6">{{ $t('币种') }}</div>
                         <div class="size28 flex ac">
                             <div>{{ tokenName }}</div>

@@ -63,7 +63,7 @@ export function computedAdd(a:number|string, b:number|string) {
         c = 0
     }
     try {
-        d = Number(a).toString().split(".")[1].length
+        d = Number(b).toString().split(".")[1].length
     } catch (f) {
         d = 0
     }
@@ -84,7 +84,7 @@ export function computedSub(a:number|string, b:number|string) {
         c = 0
     }
     try {
-        d = Number(a).toString().split(".")[1].length
+        d = Number(b).toString().split(".")[1].length
     } catch (f) {
         d = 0
     }
@@ -98,7 +98,7 @@ export function isIOS() {
     return isIPhone || isIPad || /iPod/i.test(ua);
 }
 
-// 格式化数字
+// 格式化数字（保留两位小数）
 export function initNumber(value:number | bigint){
     let text:string = ''
     if(value){
@@ -112,6 +112,24 @@ export function initNumber(value:number | bigint){
         }).format(roundedNum)
     }else{
         text = '0.00'
+    }
+    return text
+}
+
+// 格式化数字（保留六位小数）
+export function initNum(value:number | bigint){
+    let text:string = ''
+    if(value){
+        const num = Number(value)
+        // 使用 Intl.NumberFormat 格式化数字，包含千分位分隔符和六位小数
+        // 先使用 Math.floor 进行裁剪，然后格式化
+        const roundedNum = Math.floor(num * 1000000) / 1000000; // 裁剪到六位小数
+        text = new Intl.NumberFormat('en-US', {
+            minimumFractionDigits: 6,
+            maximumFractionDigits: 6
+        }).format(roundedNum)
+    }else{
+        text = '0.000000'
     }
     return text
 }

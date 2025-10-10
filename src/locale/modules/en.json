@@ -219,5 +219,18 @@
     "赞助价格": "Sponsorship Price",
     "铸币池总铸币权": "Total Minting Rights in Pool",
     "领取": "Claim",
-    "待领取铸币": "Pending Minting Claim"
+    "待领取铸币": "Pending Minting Claim",
+    "待铸造": "Pending Minting",
+    "合约地址": "Contract Address",
+    "铸币速度": "Minting Speed",
+    "规则1": "Total minting rights of all accounts from the last minting date to now",
+    "规则2": "Total PE earnings of this account from the last minting date to now",
+    "规则3": "New minting is released in 7 days with release speed of (20%, 20%, 15%, 15%, 10%, 10%, 10%)",
+    "公告": "Announcement",
+    "余额": "Balance",
+    "刷新成功": "Refresh Successful",
+    "投票失败，您的地址无治理权": "Voting failed, your address does not have governance rights",
+    "获得奖励点": "Get Reward Points",
+    "赞助PE-DAO，即刻获得赞助价值200%的奖励点，以及分享共识者资格。": "Sponsor PE-DAO to immediately get 200% of sponsorship value in reward points, as well as share consensus member qualification.",
+    "价格": "Price"
 }

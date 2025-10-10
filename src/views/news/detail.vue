@@ -1,5 +1,5 @@
 <template>
-    <CusNav :title="$t('新闻详情')"></CusNav>
+    <CusNav :title="$t('公告详情')"></CusNav>
     <div class="pl30 pr30 pt40">
 
         <div class="size36 bold lh60">{{ info?.title }}</div>

@@ -13,11 +13,12 @@
 
         <div class="card mt40" v-if="voteInfo">
             <div class="size32 bold lh60">{{ voteInfo?.title }}</div>
-            <div class="flex mt24">
+            <div class="flex jb ac mt24">
                 <div class="flex ac size24 blue" @click="routerPush(`/cure/vote/${voteInfo?.id}`)">
                     <div class="mr5">{{ $t('投票详情') }}</div>
                     <van-icon name="arrow" />
                 </div>
+                <div class="size26 main" v-if="voteInfo?.has_voted">{{ $t('赞成') }} {{ voteInfo.agree_count}} - {{ $t('反对') }} {{ voteInfo.disagree_count }}</div>
             </div>
             <div class="size26 lh52 mt40 rich" v-html="voteInfo?.content"></div>
             <div class="flex jb ae size28 bold" @click="routerPush(`/cure/vote/${voteInfo?.id}`)">
@@ -47,6 +48,7 @@ import { routerPush } from '@/router'
 // import Nft from './components/Nft.vue'
 import MyNft from './components/MyNft.vue'
 import { apiGet } from '@/utils/request'
+// import { computedDiv, computedSub } from '@/utils'
 // import { t } from '@/locale'
 
 // const current = ref(0)
@@ -64,6 +66,29 @@ apiGet('/api/votes',{
     if(res.votes.length>0)voteInfo.value=res.votes[0]
     else voteInfo.value = null
 })
+
+// const getRate = (a:any, b:any) => {
+//     let rateA = 0
+//     let rateB = 0
+
+//     if(a>0 && b>0){
+//         rateA = Math.floor(computedDiv(a, b) * 10000) / 100
+//         rateB = computedSub(100, rateA)
+//     }else if(a==0 && b==0){
+//         rateA = 0
+//         rateB = 0
+//     }else if(a>0 && b==0){
+//         rateA = 100
+//         rateB = 0
+//     }else if(a==0 && b>0){
+//         rateA = 0
+//         rateB = 100
+//     }
+//     return {
+//         rateA,
+//         rateB
+//     }
+// }
 </script>
 
 <style lang="scss" scoped>

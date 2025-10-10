@@ -22,9 +22,10 @@
             </div>
         </div>
 
-        <div class="flex jb ac mb32" v-if="info?.status==2">
+        <div class="flex jb ac mb32" v-if="info?.user_vote">
             <div class="size24">{{ $t('投票结果') }}</div>
-            <div class="size26 main">{{ $t('赞成') }} {{ progressAgree }}%-{{ $t('反对') }} {{ progressReject }}%</div>
+            <!-- <div class="size26 main">{{ $t('赞成') }} {{ progressAgree }}%-{{ $t('反对') }} {{ progressReject }}%</div> -->
+            <div class="size26 main" v-if="info?.has_voted">{{ $t('赞成') }} {{ info.agree_count}} - {{ $t('反对') }} {{ info.disagree_count }}</div>
         </div>
         <div class="flex jb ac">
             <div class="size24 opc6">{{ $t('投票开始时间') }}</div>
@@ -61,8 +62,8 @@ import ShinyText from '@/components/VueBits/ShinyText.vue'
 import CusNav from '@/components/CusNav/index.vue'
 import { useRoute } from 'vue-router';
 import { apiGet, apiPost } from '@/utils/request';
-import { computed, ref } from 'vue';
-import { computedDiv, computedSub } from '@/utils';
+import { ref } from 'vue';
+// import { computedDiv, computedSub } from '@/utils';
 import { message } from '@/utils/message';
 import { t } from '@/locale';
 
@@ -72,17 +73,21 @@ const info = ref()
 const loadData = () => apiGet(`/api/votes/${params?.id}`).then(res=>info.value=res)
 loadData()
 
-const progressAgree = computed(()=>{
-    if(info.value?.agree_count)return Math.floor(computedDiv(info.value?.agree_count, info.value?.total_count) * 10000) / 100
-    else return 0
-})
+const isCanVote = ref(false)
+apiGet('/api/users/my').then((res:any)=>isCanVote.value=res.is_nft)
 
-const progressReject = computed(()=>{
-    if(info.value?.disagree_count)return computedSub(100, progressAgree.value)
-    else return 0
-})
+// const progressAgree = computed(()=>{
+//     if(info.value?.agree_count)return Math.floor(computedDiv(info.value?.agree_count, info.value?.total_count) * 10000) / 100
+//     else return 0
+// })
+
+// const progressReject = computed(()=>{
+//     if(info.value?.disagree_count)return computedSub(100, progressAgree.value)
+//     else return 0
+// })
 
 const submit = (option:number) => {
+    if(!isCanVote.value)return message(t('投票失败，您的地址无治理权'))
     apiPost('/api/votes/vote',{
         vote_id: params?.id,
         option

@@ -33,6 +33,14 @@
                         </div>
                     </div>
                     <div class="flex jb ac mt30">
+                        <div class="size24 opc6">{{ $t('赞助价格') }}</div>
+                        <div class="size28">{{ Number(item.token_price) }} USD</div>
+                    </div>
+                    <div class="flex jb ac mt30">
+                        <div class="size24 opc6">{{ $t('获得奖励点') }}</div>
+                        <div class="size28"><span v-init="item.reward_point"></span> USD</div>
+                    </div>
+                    <div class="flex jb ac mt30">
                         <div class="size24 opc6">{{ $t('赞助时间') }}</div>
                         <div class="size28" v-init:time="item.created_at"></div>
                     </div>

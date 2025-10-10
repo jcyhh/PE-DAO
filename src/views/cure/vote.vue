@@ -8,11 +8,12 @@
 
         <div class="card mt40" v-for="(item,index) in votes" :key="index" @click="routerPush(`/cure/vote/${item.id}`)">
             <div class="size32 bold lh60">{{ item.title }}</div>
-            <div class="flex mt24">
+            <div class="flex jb ac mt24">
                 <div class="flex ac size24 blue">
                     <div class="mr5">{{ $t('投票详情') }}</div>
                     <van-icon name="arrow" />
                 </div>
+                <div class="size26 main" v-if="item?.has_voted">{{ $t('赞成') }} {{ item.agree_count}} - {{ $t('反对') }} {{ item.disagree_count }}</div>
             </div>
             <div class="size26 lh52 mt24 rich" v-html="item.content"></div>
             <div class="flex jb ae size28 bold">
@@ -28,13 +29,16 @@
 
         <van-list class="list" v-bind="props">
             <div class="item mb40" v-for="(item,index) in list" :key="index" @click="routerPush(`/cure/vote/${item.id}`)">
-                <div class="flex ac" v-if="item.result==0">
-                    <img src="@/assets/imgs/17.png" class="img52 mr10">
-                    <div class="size26 bold red">{{ $t('未通过') }}</div>
-                </div>
-                <div class="flex ac" v-else>
-                    <img src="@/assets/imgs/18.png" class="img52 mr10">
-                    <div class="size26 bold red">{{ $t('已通过') }}</div>
+                <div class="flex jb ac">
+                    <div class="flex ac" v-if="item.result==0">
+                        <img src="@/assets/imgs/17.png" class="img52 mr10">
+                        <div class="size26 bold red">{{ $t('未通过') }}</div>
+                    </div>
+                    <div class="flex ac" v-else>
+                        <img src="@/assets/imgs/18.png" class="img52 mr10">
+                        <div class="size26 bold red">{{ $t('已通过') }}</div>
+                    </div>
+                    <div class="size26 main" v-if="item?.has_voted">{{ $t('赞成') }} {{ item.agree_count}} - {{ $t('反对') }} {{ item.disagree_count }}</div>
                 </div>
                 <div class="size32 bold lh60 mt20">{{ item.title }}</div>
                 <div class="size26 lh52 mt24 rich" v-html="item.content"></div>

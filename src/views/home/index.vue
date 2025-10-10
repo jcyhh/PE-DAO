@@ -63,12 +63,18 @@
             <div class="flex">
                 <div class="box flex1 mr30">
                     <img src="@/assets/usdt.png" class="img40">
-                    <div class="size28 bold mt20 mb10" v-init="sponsor?.residue_usdt_reward_point"></div>
+                    <div class="size28 bold mt20 mb10">
+                        <span v-init="sponsor?.residue_usdt_reward_point"></span>
+                        <span class="size22 ml10">USD</span>
+                    </div>
                     <div class="grey size20">USDT {{ $t('赞助总量') }}</div>
                 </div>
                 <div class="box flex1">
                     <img src="@/assets/pe.png" class="img40">
-                    <div class="size28 bold mt20 mb10" v-init="sponsor?.residue_pe_reward_point"></div>
+                    <div class="size28 bold mt20 mb10">
+                        <span v-init="sponsor?.residue_pe_reward_point"></span>
+                        <span class="size22 ml10">USD</span>
+                    </div>
                     <div class="grey size20">{{ tokenName }} {{ $t('赞助总量') }}</div>
                 </div>
             </div>
@@ -90,12 +96,12 @@
             <div class="bold size32 font2 mt80">
                 <ShinyText :text="$t('我的赞助')"></ShinyText>
             </div>
-            <div class="box mt40 flex jb ac" @click="routerPush('/home/award')">
+            <div class="box mt40 flex jb ac" @click="routerPush('/home/sponsorLog')">
                 <div class="size24 grey">{{ $t('总赞助价值') }}</div>
                 <div class="size26 bold flex ac flex0 ml30">
                     <div class="nobr">
                         <span v-init="sponsor?.user_count_sponsor"></span>
-                        USDT
+                        USD
                     </div>
                     <div class="main ml8">
                         <van-icon name="arrow" />
@@ -107,19 +113,19 @@
                 <div class="size26 bold flex ac flex0 ml30">
                     <div class="nobr">
                         <span v-init="sponsor?.user_residue_usdt_reward_point"></span>
-                        USDT
+                        USD
                     </div>
                     <div class="main ml8">
                         <van-icon name="arrow" />
                     </div>
                 </div>
             </div>
-            <div class="box mt20 flex jb ac" @click="routerPush('/home/award')">
+            <div class="box mt20 flex jb ac" @click="routerPush('/home/award',{cur:1})">
                 <div class="size24 grey">{{ $t('剩余PE池奖励点') }}</div>
                 <div class="size26 bold flex ac flex0 ml30">
                     <div class="nobr">
                         <span v-init="sponsor?.user_residue_pe_reward_point"></span>
-                        USDT
+                        USD
                     </div>
                     <div class="main ml8">
                         <van-icon name="arrow" />
@@ -208,7 +214,6 @@ watchEffect(()=>{
             }else{
                 progress_usdt.value = Number((computedDiv(usdt_sponsor_amount, total) * 100).toFixed(2))
                 progress_token.value = computedSub(100, progress_usdt.value)
-                
             }
         }
     }

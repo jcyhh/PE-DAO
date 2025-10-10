@@ -6,7 +6,7 @@
         </CusNav>
 
         <div class="rule size20 lh40 animate__animated animate__zoomIn anitr ani3" v-if="showRule">
-            {{ $t('赞助100U加入PE项目共创，获得价值100U初始流动性权益及分享共识者资格') }}
+            {{ $t('赞助PE-DAO，即刻获得赞助价值200%的奖励点，以及分享共识者资格。') }}
         </div>
         
         <div class="head">
@@ -22,7 +22,15 @@
                     <div class="item flex jc ac mb20" :class="inputAmount==item?'itemAct':''" v-for="(item,index) in list" :key="index" @click="inputAmount=item">{{ item }} USD</div>
                 </div>
                 <div class="gap10"></div>
-                <div class="size24 grey mb30">{{ $t('赞助价值') }}</div>
+                <div class="flex jb ac size24 grey mb30">
+                    <div>{{ $t('赞助价值') }}</div>
+                    <div>
+                        <span>{{ $t('余额') }} : </span>
+                        <span v-init="balanceUsdt" v-if="current==0"></span>
+                        <span v-init="balanceToken" v-else></span>
+                        <span class="ml10">{{ current==0 ? 'USDT' : tokenName }}</span>
+                    </div>
+                </div>
                 <div class="mainCard mt24 flex ac">
                     <div class="flex ac">
                         <img src="@/assets/usd.png" class="img46 mr12">
@@ -30,11 +38,20 @@
                     </div>
                     <input type="number" v-model="inputAmount" :placeholder="$t('请输入赞助价值')" class="size28 flex1 tr">
                     <div class="line ml16 mr16 flex0"></div>
-                    <div class="bold size24 font2">
+                    <div class="bold size24 font2" @click="inputAll">
                         <ShinyText :text="$t('全部')"></ShinyText>
                     </div>
                 </div>
-                <div class="size24 grey mt30">{{ $t('实际支付') }}</div>
+                <div class="flex jb size24 grey mt30">
+                    <div>{{ $t('实际支付') }}</div>
+                    <div v-if="current==1" @click="loadPrice(true)">
+                        <span>{{ $t('赞助价格') }} : </span>
+                        <span>{{ Number(coinage_token_price) }}</span>
+                        <span class="main ml10 animate__animated animate__rotateIn">
+                            <van-icon name="replay" />
+                        </span>
+                    </div>
+                </div>
                 <div class="mainCard mt24 flex jb ac">
                     <div class="flex ac" v-if="current==0">
                         <img src="@/assets/usdt.png" class="img46 mr12">
@@ -69,7 +86,7 @@ import ShinyText from '@/components/VueBits/ShinyText.vue'
 import { routerPush } from '@/router';
 import { useRoute } from 'vue-router';
 import { apiGet, apiPost } from '@/utils/request';
-import { computedDiv } from '@/utils';
+import { computedDiv, computedMul } from '@/utils';
 import { message } from '@/utils/message';
 import { useEthers } from '@/dapp';
 import { useBizV2 } from '@/dapp/contract/bizV2/useBizV2';
@@ -88,9 +105,9 @@ const { getSign, checkGas } = useEthers()
 
 const { writeDonate, init:initBizV2 } = useBizV2()
 
-const { approve:approveUsdt, init:initUsdt } = useErc20(import.meta.env.VITE_BIZ_V2)
+const { balance:balanceUsdt, readBalance:readBalanceUsdt, approve:approveUsdt, init:initUsdt } = useErc20(import.meta.env.VITE_BIZ_V2)
 
-const { approve:approvePe, init:initPe } = useErc20(import.meta.env.VITE_BIZ_V2, import.meta.env.VITE_PE)
+const { balance:balanceToken, readBalance:readBalanceToken, approve:approvePe, init:initPe } = useErc20(import.meta.env.VITE_BIZ_V2, import.meta.env.VITE_PE)
 
 watch(address, val => {
     if(val){
@@ -113,9 +130,26 @@ const tabs = computed(()=>([
 
 const inputAmount = ref(500)
 const list = [500, 1000, 2000, 3000, 5000, 100000]
+const inputAll = () => {
+    if(current.value == 0){
+        const balance = balanceUsdt.value.toFixed(0)
+        inputAmount.value = Number(balance)
+    }else{
+        const balance = computedMul(balanceToken.value.toFixed(0), token_price.value).toFixed(0)
+        inputAmount.value = Number(balance)
+    }
+}
 
 const token_price = ref()
-apiGet('/api/token_price').then((res:any)=>token_price.value = res.token_price)
+const coinage_token_price = ref()
+const loadPrice = (flag:boolean=false) => {
+    apiGet('/api/token_price').then((res:any)=>{
+        token_price.value = res.token_price
+        coinage_token_price.value = res.coinage_token_price
+        if(flag)message(t('刷新成功'), 'success')
+    })
+}
+loadPrice()
 
 const usdt = computed(()=>{
     if(inputAmount.value){
@@ -142,7 +176,9 @@ const submit = async () => {
     }).then(async (res:any)=>{
         const { id, pay_type, amount, to, expired_at, sign } = res
         await writeDonate(id, pay_type, amount, to, expired_at, sign)
-        message(t('赞助成功'), 'success')
+        inputAmount.value = list[0]
+        readBalanceUsdt()
+        readBalanceToken()
     })
 }
 </script>
