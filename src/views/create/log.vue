@@ -33,7 +33,7 @@
                         <div class="size24 opc6">{{ $t('铸造时间') }}</div>
                         <div class="size28" v-init:time="item.created_at"></div>
                     </div>
-                    <div class="flex jb ac mt30">
+                    <div class="flex jb mt30">
                         <div class="size24 opc6">{{ $t('交易哈希') }}</div>
                         <div class="size28 tr br hash">{{ item.deal_id || '--' }}</div>
                     </div>

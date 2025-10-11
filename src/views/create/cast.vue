@@ -140,7 +140,7 @@ const submit = async () => {
     const gasEnough = await checkGas(); // 检测ETH
     if(!gasEnough)return;
 
-    await approveUsdt(inputAmount.value); // 授权U
+    await approveUsdt(usdt.value); // 授权U
 
     const signInfo = await getSign('Coinage')
 

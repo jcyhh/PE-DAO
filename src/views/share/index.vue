@@ -198,7 +198,7 @@
 import ShinyText from '@/components/VueBits/ShinyText.vue'
 import { tokenName } from '@/config';
 import { useEthers } from '@/dapp';
-import { useBiz } from '@/dapp/contract/biz/useBiz';
+import { useBizV2 } from '@/dapp/contract/bizV2/useBizV2';
 import { routerPush } from '@/router';
 import { useDappStore } from '@/store';
 import { initNumber } from '@/utils';
@@ -211,7 +211,7 @@ const { address } = storeToRefs(useStore)
 
 const { getSign, checkGas } = useEthers()
 
-const { writeClaim, init } = useBiz()
+const { writeClaim, init } = useBizV2()
 
 watch(address, val => {
     if(val){
@@ -233,7 +233,8 @@ const info = ref()
 apiGet('/api/users/my').then(res=>info.value=res)
 
 const stats = ref()
-apiGet('/api/users/my/income').then(res=>stats.value=res)
+const loadIncome = () => apiGet('/api/users/my/income').then(res=>stats.value=res)
+loadIncome()
 
 const submitZanZu = async () => {
     const gasEnough = await checkGas(); // 检测ETH
@@ -248,6 +249,10 @@ const submitZanZu = async () => {
         const { id, token, sign_amount, expired_at, sign } = res.info
         await writeClaim(id, token, sign_amount, expired_at, sign)
         showZanZu.value = false
+        setTimeout(() => {
+            loadIncome()
+        }, 3000);
+        
     })
 }
 
@@ -264,6 +269,9 @@ const submitBuDao = async () => {
         const { id, token, sign_amount, expired_at, sign } = res.info
         await writeClaim(id, token, sign_amount, expired_at, sign)
         showBuDao.value = false
+        setTimeout(() => {
+            loadIncome()
+        }, 3000);
     })
 }
 </script>

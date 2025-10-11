@@ -28,7 +28,7 @@
                 <ShinyText :text="$t('铸币')"></ShinyText>
             </div>
             <div class="flex jb ac mt40">
-                <div @click="showRule1=true">
+                <div @click="showRule1 = true">
                     <div class="linearNum bold">
                         <span class="size40" v-init="info?.dq_count_coinage_limit"></span>
                         <span class="size24 ml10">{{ tokenName }}</span>
@@ -38,7 +38,7 @@
                         <img src="@/assets/imgs/rule.png" class="img26 ml10">
                     </div>
                 </div>
-                <div @click="showRule2=true">
+                <div @click="showRule2 = true">
                     <div class="linearNum bold">
                         <span class="size40" v-init="info?.user_coinage_limit"></span>
                         <span class="size24 ml10">{{ tokenName }}</span>
@@ -50,7 +50,7 @@
                 </div>
             </div>
             <div class="flex mt60">
-                <div class="flex ac" @click="showRule3=true">
+                <div class="flex ac" @click="showRule3 = true">
                     <div class="size24 opc6">{{ $t('我铸造的币') }}</div>
                     <img src="@/assets/imgs/rule.png" class="img26 ml10"></img>
                 </div>
@@ -72,8 +72,8 @@
         <div class="mainCard mt30 flex jb ac">
             <div class="size24 opc6">{{ $t('待领取铸币') }}</div>
             <div class="flex ac">
-                <div class="size28 bold"><span v-init="info?.coinage_balance_token"></span> {{ tokenName }}</div>
-                <div class="btn ml30" @click="show=true" v-if="info?.coinage_balance_token > 0">{{ $t('领取') }}</div>
+                <div class="size28 bold"><span v-init="coinage_balance_token"></span> {{ tokenName }}</div>
+                <div class="btn ml30" @click="show = true" v-if="coinage_balance_token > 0">{{ $t('领取') }}</div>
                 <div class="btn ml30" style="background: #FFFFFF33;color: #999999;" v-else>{{ $t('领取') }}</div>
             </div>
         </div>
@@ -194,47 +194,51 @@
     </div>
     <div class="gap60"></div>
 
-    <van-popup v-model:show="show" style="background-color: transparent !important;" :close-on-click-overlay="false" overlay-class="cusMask">
+    <van-popup v-model:show="show" style="background-color: transparent !important;" :close-on-click-overlay="false"
+        overlay-class="cusMask">
         <div class="pop">
             <div class="flex jb ac">
                 <div class="size32 bold">{{ $t('领取') }}</div>
-                <van-icon name="cross" color="#999999" :size="25" @click="show=false" />
+                <van-icon name="cross" color="#999999" :size="25" @click="show = false" />
             </div>
             <div class="mt60 size24">{{ $t('确认现在领取吗？') }}</div>
-            <div class="mainBtn mt40" v-scale v-delay="{fun:submit}">{{ $t('确认') }}</div>
+            <div class="mainBtn mt40" v-scale v-delay="{ fun: submit }">{{ $t('确认') }}</div>
         </div>
     </van-popup>
 
-    <van-popup v-model:show="showRule1" style="background-color: transparent !important;" :close-on-click-overlay="false" overlay-class="cusMask">
+    <van-popup v-model:show="showRule1" style="background-color: transparent !important;"
+        :close-on-click-overlay="false" overlay-class="cusMask">
         <div class="pop">
             <div class="flex jb ac">
                 <div class="size32 bold">{{ $t('规则') }}</div>
-                <van-icon name="cross" color="#999999" :size="25" @click="showRule1=false" />
+                <van-icon name="cross" color="#999999" :size="25" @click="showRule1 = false" />
             </div>
             <div class="mt60 size24 lh40">{{ $t('规则1') }}</div>
-            <div class="mainBtn mt60"  @click="showRule1=false">{{ $t('确认') }}</div>
+            <div class="mainBtn mt60" @click="showRule1 = false">{{ $t('确认') }}</div>
         </div>
     </van-popup>
 
-    <van-popup v-model:show="showRule2" style="background-color: transparent !important;" :close-on-click-overlay="false" overlay-class="cusMask">
+    <van-popup v-model:show="showRule2" style="background-color: transparent !important;"
+        :close-on-click-overlay="false" overlay-class="cusMask">
         <div class="pop">
             <div class="flex jb ac">
                 <div class="size32 bold">{{ $t('规则') }}</div>
-                <van-icon name="cross" color="#999999" :size="25" @click="showRule2=false" />
+                <van-icon name="cross" color="#999999" :size="25" @click="showRule2 = false" />
             </div>
             <div class="mt60 size24 lh40">{{ $t('规则2') }}</div>
-            <div class="mainBtn mt60"  @click="showRule2=false">{{ $t('确认') }}</div>
+            <div class="mainBtn mt60" @click="showRule2 = false">{{ $t('确认') }}</div>
         </div>
     </van-popup>
 
-    <van-popup v-model:show="showRule3" style="background-color: transparent !important;" :close-on-click-overlay="false" overlay-class="cusMask">
+    <van-popup v-model:show="showRule3" style="background-color: transparent !important;"
+        :close-on-click-overlay="false" overlay-class="cusMask">
         <div class="pop">
             <div class="flex jb ac">
                 <div class="size32 bold">{{ $t('规则') }}</div>
-                <van-icon name="cross" color="#999999" :size="25" @click="showRule3=false" />
+                <van-icon name="cross" color="#999999" :size="25" @click="showRule3 = false" />
             </div>
             <div class="mt60 size24 lh40">{{ $t('规则3') }}</div>
-            <div class="mainBtn mt60"  @click="showRule3=false">{{ $t('确认') }}</div>
+            <div class="mainBtn mt60" @click="showRule3 = false">{{ $t('确认') }}</div>
         </div>
     </van-popup>
 </template>
@@ -247,14 +251,13 @@ import { routerPush } from '@/router';
 import { computedMul, isToday } from '@/utils';
 import { apiGet, apiPost } from '@/utils/request';
 import * as echarts from 'echarts';
-import { computed, nextTick, ref, watch } from 'vue';
+import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useDappStore } from '@/store';
 import { useEthers } from '@/dapp';
-import { useBiz } from '@/dapp/contract/biz/useBiz';
+import { useBizV2 } from '@/dapp/contract/bizV2/useBizV2';
 
 const token_price = ref()
-apiGet('/api/token_price').then((res: any) => token_price.value = res.token_price)
 
 const total = computed(() => {
     if (token_price.value) return computedMul(token_price.value, 2100000000)
@@ -265,12 +268,24 @@ const showRule1 = ref(false)
 const showRule2 = ref(false)
 const showRule3 = ref(false)
 
+const coinage_balance_token = ref()
+
 const chartRef = ref()
 const info = ref()
 const nowIsToday = ref(false)
-apiGet('/api/coinage').then(async (res: any) => {
-    info.value = res
-    nowIsToday.value = isToday(res.coinage_at)
+let myChart: any = null
+
+// 初始化 echarts 实例
+const initChart = () => {
+    if (chartRef.value && !myChart) {
+        myChart = echarts.init(chartRef.value)
+    }
+}
+
+// 更新 echarts 数据
+const updateChartData = (data: any) => {
+    if (!myChart) return
+    
     const option = {
         tooltip: {
             trigger: 'item',
@@ -286,21 +301,21 @@ apiGet('/api/coinage').then(async (res: any) => {
                 minAngle: 10, // 设置最小扇区角度，确保小数据也能显示
                 data: [
                     {
-                        value: Number(res.lt_count),
+                        value: Number(data.lt_count),
                         name: t('流通总量'),
                         itemStyle: {
                             color: '#0059FF'
                         }
                     },
                     {
-                        value: Number(res.xh_count),
+                        value: Number(data.xh_count),
                         name: t('销毁总量'),
                         itemStyle: {
                             color: '#C348FF'
                         }
                     },
                     {
-                        value: Number(res.dq_count_not_coinage),
+                        value: Number(data.dq_count_not_coinage),
                         name: t('铸币池待铸'),
                         itemStyle: {
                             color: '#03EEA9'
@@ -319,42 +334,75 @@ apiGet('/api/coinage').then(async (res: any) => {
                 }
             }
         ]
-    };
-    await nextTick()
-    const myChart = echarts.init(chartRef.value);
-    option && myChart.setOption(option);
-})
+    }
+    myChart.setOption(option)
+}
+
+// 加载铸币数据
+const loadCoinageData = () => {
+    apiGet('/api/coinage').then((res: any) => {
+        info.value = res
+        nowIsToday.value = isToday(res.coinage_at)
+        updateChartData(res)
+    })
+}
+
+const loadData = () => {
+    apiGet('/api/users/my').then((res: any) => {
+        coinage_balance_token.value = res.coinage_balance_token
+    })
+    apiGet('/api/token_price').then((res: any) => token_price.value = res.token_price)
+    loadCoinageData()
+}
+
+
 
 const useStore = useDappStore()
 const { address } = storeToRefs(useStore)
 
 const { getSign, checkGas } = useEthers()
 
-const { writeClaim, init } = useBiz()
+const { writeClaim, init } = useBizV2()
 
 const show = ref(false)
 
 watch(address, val => {
-    if(val){
+    if (val) {
         init()
     }
-}, {immediate:true})
+}, { immediate: true })
 
 const submit = async () => {
     const gasEnough = await checkGas(); // 检测ETH
-    if(!gasEnough)return;
+    if (!gasEnough) return;
 
-    const signInfo:any = await getSign('Claim') // 签名
+    const signInfo: any = await getSign('Claim') // 签名
 
-    apiPost('/api/withdraw',{
-        ccy:'coinage_balance_token',
+    apiPost('/api/withdraw', {
+        ccy: 'coinage_balance_token',
         ...signInfo
-    }).then(async (res:any)=>{
+    }).then(async (res: any) => {
         const { id, token, sign_amount, expired_at, sign } = res.info
         await writeClaim(id, token, sign_amount, expired_at, sign)
         show.value = false
+        setTimeout(() => {
+            loadData()
+        }, 3000);
     })
 }
+
+onMounted(async ()=>{
+    await nextTick()
+    initChart()
+    loadData()
+})
+
+onUnmounted(() => {
+    if (myChart) {
+        myChart.dispose()
+        myChart = null
+    }
+})
 </script>
 
 <style lang="scss" scoped>
@@ -407,7 +455,7 @@ const submit = async () => {
     background-color: #03EEA9;
 }
 
-.pop{
+.pop {
     width: 590px;
     padding: 30px 30px 40px 30px;
     border: 1px solid #FFFFFF80;
