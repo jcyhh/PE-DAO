@@ -59,6 +59,7 @@
                     </div>
                     <div class="size28" v-init="usdt"></div>
                 </div>
+                <div class="size24 mt30 main">{{ $t('余额') }} : <span v-init="balance"></span> USDT</div>
                 <div class="size24 mt30">{{ $t('支付数量=铸币数量x铸币价格 x80%') }}</div>
 
                 <div class="mainBtn mt60" v-scale v-delay="{fun:submit}">{{ $t('开始铸币') }}</div>
@@ -99,7 +100,7 @@ const { getSign, checkGas } = useEthers()
 
 const { writeMint, init:initBizV2 } = useBizV2()
 
-const { approve:approveUsdt, init:initUsdt } = useErc20(import.meta.env.VITE_BIZ_V2)
+const { balance, readBalance, approve:approveUsdt, init:initUsdt } = useErc20(import.meta.env.VITE_BIZ_V2)
 
 watch(address, val => {
     if(val){
@@ -151,7 +152,10 @@ const submit = async () => {
         const { id, usdt_amount, pe_amount, lp_to, expired_at, sign } = res
         await writeMint(id, usdt_amount, pe_amount, lp_to, expired_at, sign)
         inputAmount.value = ''
-        loadData()
+        setTimeout(() => {
+            loadData()
+            readBalance()
+        }, 3000);
     })
 }
 </script>

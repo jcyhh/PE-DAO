@@ -7,15 +7,15 @@
         </div>
 
         <div class="card mt40" v-for="(item,index) in votes" :key="index" @click="routerPush(`/cure/vote/${item.id}`)">
-            <div class="size32 bold lh60">{{ item.title }}</div>
+            <div class="size32 bold lh60 line1">{{ item.title }}</div>
             <div class="flex jb ac mt24">
                 <div class="flex ac size24 blue">
                     <div class="mr5">{{ $t('投票详情') }}</div>
                     <van-icon name="arrow" />
                 </div>
-                <div class="size26 main" v-if="item?.has_voted">{{ $t('赞成') }} {{ item.agree_count}} - {{ $t('反对') }} {{ item.disagree_count }}</div>
+                <div class="size26 main" v-if="item?.has_voted && isCanVote">{{ $t('赞成') }} {{ item.agree_count}} - {{ $t('反对') }} {{ item.disagree_count }}</div>
             </div>
-            <div class="size26 lh52 mt24 rich" v-html="item.content"></div>
+            <div class="size26 lh52 mt24 rich line3" v-html="item.content"></div>
             <div class="flex jb ae size28 bold">
                 <div class="agree">{{ $t('赞成') }}</div>
                 <img src="@/assets/imgs/14.png" class="pic14">
@@ -40,8 +40,8 @@
                     </div>
                     <div class="size26 main" v-if="item?.has_voted">{{ $t('赞成') }} {{ item.agree_count}} - {{ $t('反对') }} {{ item.disagree_count }}</div>
                 </div>
-                <div class="size32 bold lh60 mt20">{{ item.title }}</div>
-                <div class="size26 lh52 mt24 rich" v-html="item.content"></div>
+                <div class="size32 bold lh60 mt20 line1">{{ item.title }}</div>
+                <div class="size26 lh52 mt24 rich line3" v-html="item.content"></div>
                 <div class="flex jb size24 mt40">
                     <div class="green">{{ $t('赞成') }}</div>
                     <div class="main">{{ $t('反对') }}</div>
@@ -73,6 +73,9 @@ const params = computed(()=>({status:2}))
 
 const { list, props, loadList } = useLoadList('/api/votes', 'votes', params)
 loadList()
+
+const isCanVote = ref(false)
+apiGet('/api/users/my').then((res:any)=>isCanVote.value=res.is_nft)
 
 const votes = ref<any>([])
 apiGet('/api/votes',{

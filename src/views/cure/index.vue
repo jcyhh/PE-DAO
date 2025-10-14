@@ -12,15 +12,15 @@
         </div>
 
         <div class="card mt40" v-if="voteInfo">
-            <div class="size32 bold lh60">{{ voteInfo?.title }}</div>
+            <div class="size32 bold lh60 line1">{{ voteInfo?.title }}</div>
             <div class="flex jb ac mt24">
                 <div class="flex ac size24 blue" @click="routerPush(`/cure/vote/${voteInfo?.id}`)">
                     <div class="mr5">{{ $t('投票详情') }}</div>
                     <van-icon name="arrow" />
                 </div>
-                <div class="size26 main" v-if="voteInfo?.has_voted">{{ $t('赞成') }} {{ voteInfo.agree_count}} - {{ $t('反对') }} {{ voteInfo.disagree_count }}</div>
+                <div class="size26 main" v-if="voteInfo?.has_voted && isCanVote">{{ $t('赞成') }} {{ voteInfo.agree_count}} - {{ $t('反对') }} {{ voteInfo.disagree_count }}</div>
             </div>
-            <div class="size26 lh52 mt40 rich" v-html="voteInfo?.content"></div>
+            <div class="size26 lh52 mt40 rich  line3" v-html="voteInfo?.content"></div>
             <div class="flex jb ae size28 bold" @click="routerPush(`/cure/vote/${voteInfo?.id}`)">
                 <div class="agree">{{ $t('赞成') }}</div>
                 <img src="@/assets/imgs/14.png" class="pic14">
@@ -56,6 +56,9 @@ import { apiGet } from '@/utils/request'
 //     {name:t('治理NFT'), value:0},
 //     {name:t('我的NFT'), value:0}
 // ]))
+
+const isCanVote = ref(false)
+apiGet('/api/users/my').then((res:any)=>isCanVote.value=res.is_nft)
 
 const voteInfo = ref()
 apiGet('/api/votes',{

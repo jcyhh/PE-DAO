@@ -22,7 +22,7 @@
             </div>
         </div>
 
-        <div class="flex jb ac mb32" v-if="info?.user_vote">
+        <div class="flex jb ac mb32" v-if="info?.user_vote && isCanVote">
             <div class="size24">{{ $t('投票结果') }}</div>
             <!-- <div class="size26 main">{{ $t('赞成') }} {{ progressAgree }}%-{{ $t('反对') }} {{ progressReject }}%</div> -->
             <div class="size26 main" v-if="info?.has_voted">{{ $t('赞成') }} {{ info.agree_count}} - {{ $t('反对') }} {{ info.disagree_count }}</div>
@@ -87,7 +87,7 @@ apiGet('/api/users/my').then((res:any)=>isCanVote.value=res.is_nft)
 // })
 
 const submit = (option:number) => {
-    if(!isCanVote.value)return message(t('投票失败，您的地址无治理权'))
+    if(!isCanVote.value)return message(t('无治理权，无法参与表决'))
     apiPost('/api/votes/vote',{
         vote_id: params?.id,
         option
