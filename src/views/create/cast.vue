@@ -19,9 +19,21 @@
         </div>
 
         <div class="gap40"></div>
-        
+
         <div class="pl30 pr30">
-            <div class="mainCard">
+            <div class="flex jb size20">
+                <div class="green">{{ $t('本期已铸造') }} <span v-init="info?.dq_count_coinage"></span></div>
+                <div class="main">{{ $t('本期可铸造') }} <span v-init="computedSub(info?.dq_count_coinage_limit, info?.dq_count_coinage)"></span></div>
+            </div>
+            <div class="progressLine mt20"></div>
+            <div class="progress flex jb ac mt30 size18">
+                <div class="rel pl30">{{ progress_left }}%</div>
+                <div class="rel pr30">{{ progress_right }}%</div>
+                <div class="leftLine" :style="{width:`${progress_left}%`}"></div>
+                <div class="rightLine" :style="{width:`${progress_right}%`}"></div>
+            </div>
+
+            <div class="mainCard mt30">
                 <div class="size24 grey">{{ $t('可用铸币权') }}</div>
                 <div class="mainCard mt24 flex jb ac">
                     <div class="flex ac">
@@ -79,11 +91,11 @@
 
 <script setup lang="ts">
 import CusNav from '@/components/CusNav/index.vue'
-import { computed, ref, watch } from 'vue';
+import { computed, ref, watch, watchEffect } from 'vue';
 import ShinyText from '@/components/VueBits/ShinyText.vue'
 import { routerPush } from '@/router';
 import { apiGet, apiPost } from '@/utils/request';
-import { computedMul, isToday } from '@/utils';
+import { computedDiv, computedMul, computedSub, isToday } from '@/utils';
 import { tokenName } from '@/config';
 import { message } from '@/utils/message';
 import { useEthers } from '@/dapp';
@@ -123,6 +135,17 @@ const loadData = () => {
 }
 loadData()
 
+const progress_left = ref(0)
+const progress_right = ref(100)
+watchEffect(()=>{
+    const left_amount = info.value?.dq_count_coinage
+    const total = info.value?.dq_count_coinage_limit
+    if(left_amount && total){
+        progress_left.value = Number((computedDiv(left_amount, total) * 100).toFixed(2))
+        progress_right.value = computedSub(100, progress_left.value)
+    }
+})
+
 const token_price = ref()
 apiGet('/api/token_price').then((res:any)=>token_price.value=res.coinage_token_price)
 
@@ -161,6 +184,35 @@ const submit = async () => {
 </script>
 
 <style lang="scss" scoped>
+.progressLine{
+    width: 100%;
+    height: 6px;
+    background-image: url("@/assets/imgs/3.png");
+    background-size: 100% 100%;
+}
+.progress{
+    height: 38px;
+    border-radius: 19px;
+    overflow: hidden;
+    position: relative;
+    background-color: #3030304D;
+    .leftLine{
+        height: 38px;
+        background-color: $green;
+        transition: all 2s;
+        position: absolute;
+        left: 0;
+        top: 0;
+    }
+    .rightLine{
+        height: 38px;
+        background-color: $main-color;
+        transition: all 2s;
+        position: absolute;
+        right: 0;
+        top: 0;
+    }
+}
 .sponsor{
     width: 100vw;
     min-height: 100vh;

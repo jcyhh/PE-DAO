@@ -234,5 +234,9 @@
     "赞助PE-DAO，即刻获得赞助价值200%的奖励点，以及分享共识者资格。": "Sponsor PE-DAO to immediately get 200% of sponsorship value in reward points, as well as share consensus member qualification.",
     "价格": "Price",
     "铸币价值": "Minting Value",
-    "无治理权，无法参与表决": "No governance rights, cannot participate in voting"
+    "无治理权，无法参与表决": "No governance rights, cannot participate in voting",
+    "本期已铸造": "Minted This Period",
+    "本期可铸造": "Available for Minting This Period",
+    "释放进度": "Release Progress",
+    "释放数量": "Release Quantity"
 }

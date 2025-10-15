@@ -15,11 +15,24 @@
         <van-list class="list" v-bind="listProps">
             <div class="pl30 pr30">
                 <div class="node mb30" v-for="(item,index) in list" :key="index">
-                    <div class="size40 bold" v-init="item.u_amount"></div>
-                    <div class="blue size24 mt4">{{ $t('铸币价值') }}(USD)</div>
+                    <div class="flex jb ac">
+                        <div>
+                            <div class="size40 bold" v-init="item.u_amount"></div>
+                            <div class="blue size24 mt4">{{ $t('铸币价值') }}(USD)</div>
+                        </div>
+                        <div class="flex col ae">
+                            <div class="size24 opc6 mb20 tr">{{ $t('释放进度') }}({{ Math.floor(computedDiv(item.release_amount, item.amount) * 10000) / 100 }}%)</div>
+                            <CusProgress :width="Math.floor(computedDiv(item.release_amount, item.amount) * 10000) / 100"></CusProgress>
+                        </div>
+                    </div>
+                    
                     <div class="flex jb ac mt50">
                         <div class="size24">{{ $t('铸造数量') }}</div>
                         <div class="size28 bold"><span v-init="item.amount"></span> {{ tokenName }}</div>
+                    </div>
+                    <div class="flex jb ac mt30">
+                        <div class="size24 opc6">{{ $t('释放数量') }}</div>
+                        <div class="size28"><span v-init="item.release_amount"></span> {{ tokenName }}</div>
                     </div>
                     <div class="flex jb ac mt30">
                         <div class="size24 opc6">{{ $t('消耗铸币权') }}</div>
@@ -56,6 +69,8 @@ import { useLoadList } from '@/hooks/useLoadList';
 import { usePullRefresh } from '@/hooks/usePullRefresh';
 import CusEmpty from '@/components/CusEmpty/index.vue'
 import { tokenName } from '@/config';
+import CusProgress from '@/components/CusProgress/index.vue'
+import { computedDiv } from '@/utils';
 
 const params = computed(()=>({
     start_at: start_at.value,
