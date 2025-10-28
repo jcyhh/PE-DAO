@@ -238,5 +238,6 @@
     "本期已铸造": "Minted This Period",
     "本期可铸造": "Available for Minting This Period",
     "释放进度": "Release Progress",
-    "释放数量": "Release Quantity"
+    "释放数量": "Release Quantity",
+    "确认现在领取吗？": "Confirm to claim now?"
 }
