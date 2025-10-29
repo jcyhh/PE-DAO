@@ -1,5 +1,5 @@
 <template>
-    <CusNav :title="$t('投票列表')"></CusNav>
+    <CusNav :title="$t('治理投票')"></CusNav>
     <div class="pl30 pr30 pt40">
 
         <div class="bold size32 font2">
@@ -21,6 +21,10 @@
                 <img src="@/assets/imgs/14.png" class="pic14">
                 <div class="reject">{{ $t('反对') }}</div>
             </div>
+        </div>
+        <div v-if="votes.length==0">
+            <CusEmpty></CusEmpty>
+            <div class="tc size24 gray">{{ $t('暂无治理投票') }}</div>
         </div>
 
         <div class="bold size32 font2 mt80 mb40">

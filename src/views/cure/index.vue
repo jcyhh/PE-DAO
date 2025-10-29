@@ -27,6 +27,10 @@
                 <div class="reject">{{ $t('反对') }}</div>
             </div>
         </div>
+        <div v-else>
+            <CusEmpty></CusEmpty>
+            <div class="tc size24 gray">{{ $t('暂无治理投票') }}</div>
+        </div>
 
     </div>
 
@@ -36,6 +40,9 @@
 
     <Nft v-if="current==0"></Nft>
     <MyNft v-else></MyNft> -->
+    <div class="bold size32 font2 pl30 mt100">
+        <ShinyText :text="$t('我的')+' NFT'"></ShinyText>
+    </div>
     <MyNft></MyNft>
 </template>
 
@@ -48,6 +55,7 @@ import { routerPush } from '@/router'
 // import Nft from './components/Nft.vue'
 import MyNft from './components/MyNft.vue'
 import { apiGet } from '@/utils/request'
+import CusEmpty from '@/components/CusEmpty/index.vue'
 // import { computedDiv, computedSub } from '@/utils'
 // import { t } from '@/locale'
 

@@ -33,6 +33,10 @@
                         <div class="size24 opc6">{{ $t('释放方式') }}</div>
                         <div class="size26">{{ Number(item.nft.release_rate) }}%</div>
                     </div>
+                    <div class="flex jb ac mt30">
+                        <div class="size24 opc6">{{ $t('权重') }}</div>
+                        <div class="size26">{{ item.nft.govern_award_weight }}</div>
+                    </div>
                 </div>
             </div>
         </div>
