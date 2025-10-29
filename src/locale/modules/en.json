@@ -239,5 +239,12 @@
     "本期可铸造": "Available for Minting This Period",
     "释放进度": "Release Progress",
     "释放数量": "Release Quantity",
-    "确认现在领取吗？": "Confirm to claim now?"
+    "确认现在领取吗？": "Confirm to claim now?",
+    "全网USDT总赞助": "Total Network USDT Sponsorship",
+    "全网PE总赞助": "Total Network PE Sponsorship",
+    "全网USDT池奖励点": "Total Network USDT Pool Reward Points",
+    "全网PE池奖励点": "Total Network PE Pool Reward Points",
+    "我的总赞助价值": "My Total Sponsorship Value",
+    "我的USDT池剩余奖励点": "My Remaining USDT Pool Reward Points",
+    "我的PE池剩余奖励点": "My Remaining PE Pool Reward Points"
 }

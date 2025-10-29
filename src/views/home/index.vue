@@ -33,7 +33,7 @@
     <div class="flex jb mt40 pl30 pr30 animate__animated animate__fadeInUp">
         <div class="assetCard flex col jc ac">
             <img src="@/assets/usdt.png" class="img48">
-            <div class="grey size24 mt24">USDT {{ $t('资产') }}</div>
+            <div class="grey size24 mt24 tc">{{ $t('全网USDT总赞助') }}</div>
             <div class="size36 bold mt32">
                 <span v-if="usdt[0]!='0'">{{ usdt[0] }}</span>
                 <span v-else>0</span>
@@ -42,7 +42,7 @@
         </div>
         <div class="assetCard flex col jc ac">
             <img src="@/assets/pe.png" class="img48 rel3">
-            <div class="grey size24 mt24">{{ tokenName }} {{ $t('资产') }}</div>
+            <div class="grey size24 mt24 tc">{{ $t('全网PE总赞助') }}</div>
             <div class="size36 bold mt32">
                 <span v-if="token[0]!='0'">{{ token[0] }}</span>
                 <span v-else>0</span>
@@ -67,7 +67,7 @@
                         <span v-init="sponsor?.residue_usdt_reward_point"></span>
                         <span class="size22 ml10">USD</span>
                     </div>
-                    <div class="grey size20">USDT {{ $t('赞助总量') }}</div>
+                    <div class="grey size20">{{ $t('全网USDT池奖励点') }}</div>
                 </div>
                 <div class="box flex1">
                     <img src="@/assets/pe.png" class="img40">
@@ -75,7 +75,7 @@
                         <span v-init="sponsor?.residue_pe_reward_point"></span>
                         <span class="size22 ml10">USD</span>
                     </div>
-                    <div class="grey size20">{{ tokenName }} {{ $t('赞助总量') }}</div>
+                    <div class="grey size20">{{ $t('全网PE池奖励点') }}</div>
                 </div>
             </div>
             <div class="flex jb size20 mt32">
@@ -97,7 +97,7 @@
                 <ShinyText :text="$t('我的赞助')"></ShinyText>
             </div>
             <div class="box mt40 flex jb ac" @click="routerPush('/home/sponsorLog')">
-                <div class="size24 grey">{{ $t('总赞助价值') }}</div>
+                <div class="size24 grey">{{ $t('我的总赞助价值') }}</div>
                 <div class="size26 bold flex ac flex0 ml30">
                     <div class="nobr">
                         <span v-init="sponsor?.user_count_sponsor"></span>
@@ -109,7 +109,7 @@
                 </div>
             </div>
             <div class="box mt20 flex jb ac" @click="routerPush('/home/award')">
-                <div class="size24 grey">{{ $t('剩余USDT池奖励点') }}</div>
+                <div class="size24 grey">{{ $t('我的USDT池剩余奖励点') }}</div>
                 <div class="size26 bold flex ac flex0 ml30">
                     <div class="nobr">
                         <span v-init="sponsor?.user_residue_usdt_reward_point"></span>
@@ -121,7 +121,7 @@
                 </div>
             </div>
             <div class="box mt20 flex jb ac" @click="routerPush('/home/award',{cur:1})">
-                <div class="size24 grey">{{ $t('剩余PE池奖励点') }}</div>
+                <div class="size24 grey">{{ $t('我的PE池剩余奖励点') }}</div>
                 <div class="size26 bold flex ac flex0 ml30">
                     <div class="nobr">
                         <span v-init="sponsor?.user_residue_pe_reward_point"></span>
