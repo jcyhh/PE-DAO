@@ -39,11 +39,17 @@
                     </div>
                     <div class="flex jb ac mt30">
                         <div class="size24 opc6">{{ $t('个人赞助') }}</div>
-                        <div class="size28" v-init="item.sponsor_kpi"></div>
+                        <div class="size28">
+                            <span v-init="item.sponsor_kpi"></span>
+                            USD
+                        </div>
                     </div>
                     <div class="flex jb ac mt30">
                         <div class="size24 opc6">{{ $t('社区赞助') }}</div>
-                        <div class="size28" v-init="item.sponsor_team_kpi"></div>
+                        <div class="size28">
+                            <span v-init="item.sponsor_team_kpi"></span>
+                            USD
+                        </div>
                     </div>
                     <div class="flex jb ac mt30">
                         <div class="size24 opc6">{{ $t('账户级别') }}</div>

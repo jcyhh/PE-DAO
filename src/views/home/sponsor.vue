@@ -86,7 +86,7 @@ import ShinyText from '@/components/VueBits/ShinyText.vue'
 import { routerPush } from '@/router';
 import { useRoute } from 'vue-router';
 import { apiGet, apiPost } from '@/utils/request';
-import { computedDiv, computedMul } from '@/utils';
+import { computedDiv } from '@/utils';
 import { message } from '@/utils/message';
 import { useEthers } from '@/dapp';
 import { useBizV2 } from '@/dapp/contract/bizV2/useBizV2';
@@ -135,7 +135,7 @@ const inputAll = () => {
         const balance = balanceUsdt.value.toFixed(0)
         inputAmount.value = Number(balance)
     }else{
-        const balance = computedMul(balanceToken.value.toFixed(0), token_price.value).toFixed(0)
+        const balance = balanceToken.value
         inputAmount.value = Number(balance)
     }
 }
@@ -165,7 +165,7 @@ const submit = async () => {
     if(!gasEnough)return;
 
     if(current.value==0)await approveUsdt(inputAmount.value); // 授权U
-    else await approvePe(inputAmount.value); // 授权PE
+    else await approvePe(usdt.value); // 授权PE
 
     const signInfo = await getSign('SponsorOrder')
 
