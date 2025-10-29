@@ -5,7 +5,7 @@
     <div class="start flex jc ac">
         <img src="@/assets/common/start.png" class="startImg animate__animated animate__bounceInRight" />
     </div>
-    <div class="size28 mt30 grey tips animate__animated animate__fadeInUp">{{ $t('系统更新中...') }}</div>
+    <div class="size28 mt30 grey tips animate__animated animate__fadeInUp">{{ $t('系统升级中...') }}</div>
 </template>
 
 <script setup lang="ts">
