@@ -128,8 +128,8 @@ const tabs = computed(()=>([
     {name:'PE ' + t('赞助'), value:2}
 ]))
 
-const inputAmount = ref(500)
-const list = [500, 1000, 2000, 3000, 5000, 100000]
+const inputAmount = ref(100)
+const list = [100, 1000, 2000, 3000, 5000, 100000]
 const inputAll = () => {
     if(current.value == 0){
         const balance = balanceUsdt.value.toFixed(0)

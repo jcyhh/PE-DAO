@@ -66,8 +66,8 @@
         </div>
         <div class="flex mt30">
             <div class="flex1 cell">
-                <div class="size28 bold">{{ info?.team_count }}</div>
-                <div class="size20 mt10 gray">{{ $t('团队人数') }}</div>
+                <div class="size28 bold">{{ info?.team_sponsor_user_count }}</div>
+                <div class="size20 mt10 gray">{{ $t('团队入金人数') }}</div>
             </div>
             <div class="flex1 cell ml20">
                 <div class="size28 bold">{{ info?.referral_count }}</div>
