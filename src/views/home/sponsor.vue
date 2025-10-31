@@ -46,7 +46,7 @@
                     <div>{{ $t('实际支付') }}</div>
                     <div v-if="current==1" @click="loadPrice(true)">
                         <span>{{ $t('赞助价格') }} : </span>
-                        <span>{{ Number(coinage_token_price) }}</span>
+                        <span>{{ Number(token_price) }}</span>
                         <span class="main ml10 animate__animated animate__rotateIn">
                             <van-icon name="replay" />
                         </span>
@@ -141,11 +141,9 @@ const inputAll = () => {
 }
 
 const token_price = ref()
-const coinage_token_price = ref()
 const loadPrice = (flag:boolean=false) => {
     apiGet('/api/token_price').then((res:any)=>{
         token_price.value = res.token_price
-        coinage_token_price.value = res.coinage_token_price
         if(flag)message(t('刷新成功'), 'success')
     })
 }
