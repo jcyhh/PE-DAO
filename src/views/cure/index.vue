@@ -43,6 +43,7 @@
     <div class="bold size32 font2 pl30 mt100">
         <ShinyText :text="$t('我的')+' NFT'"></ShinyText>
     </div>
+    <div class="gap30"></div>
     <MyNft></MyNft>
 </template>
 

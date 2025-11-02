@@ -66,7 +66,7 @@
 
 <script setup lang="ts">
 import CusNav from '@/components/CusNav/index.vue'
-import { computed, ref } from 'vue'
+import { computed, nextTick, ref } from 'vue'
 import { useLoadList } from '@/hooks/useLoadList';
 import { usePullRefresh } from '@/hooks/usePullRefresh';
 import { tokenName } from '@/config';
@@ -74,6 +74,7 @@ import CusEmpty from '@/components/CusEmpty/index.vue'
 import CusPicker from '@/components/CusPicker/index.vue';
 import { useRoute } from 'vue-router';
 import { t } from '@/locale';
+import { apiGet } from '@/utils/request';
 
 const { query } = useRoute()
 
@@ -85,7 +86,13 @@ const params = computed(() => ({
 
 const { list, props: listProps, loadList } = useLoadList('/api/users/my/balance_logs', 'balance_logs', params)
 const { props } = usePullRefresh(loadList)
-loadList()
+
+const is_nft = ref(false)
+apiGet('/api/users/my').then(async (res:any)=>{
+    is_nft.value=res.is_nft
+    await nextTick()
+    loadList()
+})
 
 const showDate = ref(false)
 const start_at = ref()
@@ -99,10 +106,16 @@ const onDateChange = (vals:any) => {
 
 const picker = ref()
 const current = ref(query.cur ? Number(query.cur) : 0)
-const pickerList = computed(() => ([
-    { name: t('赞助奖励'), value: 'jt_balance_token' },
-    { name: t('布道奖励'), value: 'dt_balance_token' }
-]))
+const pickerList = computed(() => {
+    const arr = [
+        { name: t('赞助奖励'), value: 'jt_balance_token' },
+        { name: t('布道奖励'), value: 'dt_balance_token' }
+    ]
+    if(is_nft.value){
+        arr.push({ name: t('贡献奖励'), value: 'gx_balance_token' })
+    }
+    return arr;
+})
 const pickerChange = (index:number) => {
     current.value = index
     loadList()

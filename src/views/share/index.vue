@@ -117,6 +117,28 @@
             </div>
             <div class="mainBtn mt48" @click="showBuDao=true">{{ $t('领取布道奖励') }}</div>
         </div>
+        <div class="item mb30" v-if="info?.is_nft">
+            <div class="flex jb ac">
+                <div class="size24 opc6">{{ $t('总贡献奖励') }}</div>
+                <div class="size26"><span v-init="stats?.gx_income"></span> {{ tokenName }}</div>
+            </div>
+            <div class="flex jb ac mt28">
+                <div class="size24 opc6">{{ $t('待领取贡献奖励') }}</div>
+                <div class="size26"><span v-init="stats?.gx_balance_token"></span> {{ tokenName }}</div>
+            </div>
+            <div class="flex jb ac mt28">
+                <div class="size24 opc6">{{ $t('已领取贡献奖励') }}</div>
+                <div class="size26"><span v-init="stats?.gx_withdraw_amount"></span> {{ tokenName }}</div>
+            </div>
+            <div class="mainBtn mt48" @click="showGongXian=true">{{ $t('领取贡献奖励') }}</div>
+        </div>
+        <div class="item mb30" v-if="stats?.balance_usdt && stats?.balance_usdt > 0">
+            <div class="flex jb ac">
+                <div class="size24 opc6">NFT {{ $t('收益') }}</div>
+                <div class="size26"><span v-init="stats?.balance_usdt"></span> USDT</div>
+            </div>
+            <div class="mainBtn mt48" @click="showShouYi=true">{{ $t('领取NFT收益') }}</div>
+        </div>
         <div class="flex jb ac mt80 mb40">
             <div class="bold size32 font2">
                 <ShinyText :text="$t('赞助奖励')"></ShinyText>
@@ -167,6 +189,31 @@
                 <div class="size20 gray mt10">{{ $t('全部布道奖励') }}(USD)</div>
             </div>
         </div>
+        <div class="flex jb ac mt60 mb40" v-if="info?.is_nft">
+            <div class="bold size32 font2">
+                <ShinyText :text="$t('贡献奖励')"></ShinyText>
+            </div>
+            <div class="flex ac main size20" @click="routerPush('/share/log', {cur:2})">
+                <div class="mr5">{{ $t('查看详情') }}</div>
+                <van-icon name="arrow" />
+            </div>
+        </div>
+        <div class="item flex ast mt40" style="background: #FFFFFF0F;" v-if="info?.is_nft">
+            <div class="flex1 tc">
+                <div class="size28 bold" v-init="stats?.day_gx_income_u"></div>
+                <div class="size20 gray mt10">{{ $t('今日贡献奖励') }}(USD)</div>
+            </div>
+            <div class="line"></div>
+            <div class="flex1 tc">
+                <div class="size28 bold" v-init="stats?.month_gx_income_u"></div>
+                <div class="size20 gray mt10">{{ $t('本月贡献奖励') }}(USD)</div>
+            </div>
+            <div class="line"></div>
+            <div class="flex1 tc">
+                <div class="size28 bold" v-init="stats?.count_gx_income_u"></div>
+                <div class="size20 gray mt10">{{ $t('全部贡献奖励') }}(USD)</div>
+            </div>
+        </div>
     </div>
 
     <div class="gap60"></div>
@@ -192,12 +239,35 @@
             <div class="mainBtn mt40" v-scale v-delay="{fun:submitBuDao}">{{ $t('确认') }}</div>
         </div>
     </van-popup>
+
+    <van-popup v-model:show="showGongXian" style="background-color: transparent !important;" :close-on-click-overlay="false" overlay-class="cusMask">
+        <div class="pop">
+            <div class="flex jb ac">
+                <div class="size32 bold">{{ $t('领取贡献奖励') }}</div>
+                <van-icon name="cross" color="#999999" :size="25" @click="showGongXian=false" />
+            </div>
+            <div class="mt60 size24">{{ $t('领取收益手续费为') }} {{ gx_token_fee }}% {{ $t('，确认现在领取收益吗？') }}</div>
+            <div class="mainBtn mt40" v-scale v-delay="{fun:submitGongXian}">{{ $t('确认') }}</div>
+        </div>
+    </van-popup>
+
+    <van-popup v-model:show="showShouYi" style="background-color: transparent !important;" :close-on-click-overlay="false" overlay-class="cusMask">
+        <div class="pop">
+            <div class="flex jb ac">
+                <div class="size32 bold">{{ $t('领取NFT收益') }}</div>
+                <van-icon name="cross" color="#999999" :size="25" @click="showShouYi=false" />
+            </div>
+            <div class="mt60 size24">{{ $t('领取收益手续费为') }} {{ usdt_fee }}% {{ $t('，确认现在领取收益吗？') }}</div>
+            <div class="mainBtn mt40" v-scale v-delay="{fun:submitShouYi}">{{ $t('确认') }}</div>
+        </div>
+    </van-popup>
 </template>
 
 <script setup lang="ts">
 import ShinyText from '@/components/VueBits/ShinyText.vue'
 import { tokenName } from '@/config';
 import { useEthers } from '@/dapp';
+import { useBiz } from '@/dapp/contract/biz/useBiz';
 import { useBizV2 } from '@/dapp/contract/bizV2/useBizV2';
 import { routerPush } from '@/router';
 import { useDappStore } from '@/store';
@@ -211,22 +281,31 @@ const { address } = storeToRefs(useStore)
 
 const { getSign, checkGas } = useEthers()
 
-const { writeClaim, init } = useBizV2()
+const { writeClaim:writeClaimV2, init:initBizV2 } = useBizV2()
+
+const { writeClaim:writeClaim, init:initBiz } = useBiz()
 
 watch(address, val => {
     if(val){
-        init()
+        initBizV2()
+        initBiz()
     }
 }, {immediate:true})
 
 const showZanZu = ref(false)
 const showBuDao = ref(false)
+const showGongXian = ref(false)
+const showShouYi = ref(false)
 
 const dt_token_fee = ref(0)
 const jt_token_fee = ref(0)
+const gx_token_fee = ref(0)
+const usdt_fee = ref(0)
 apiGet('/api/withdraw/fee').then((res:any)=>{
     dt_token_fee.value = res.dt_token_fee
     jt_token_fee.value = res.jt_token_fee
+    gx_token_fee.value = res.gx_token_fee
+    usdt_fee.value = res.usdt_fee
 })
 
 const info = ref()
@@ -247,7 +326,7 @@ const submitZanZu = async () => {
         ...signInfo
     }).then(async (res:any)=>{
         const { id, token, sign_amount, expired_at, sign } = res.info
-        await writeClaim(id, token, sign_amount, expired_at, sign)
+        await writeClaimV2(id, token, sign_amount, expired_at, sign)
         showZanZu.value = false
         setTimeout(() => {
             loadIncome()
@@ -267,8 +346,47 @@ const submitBuDao = async () => {
         ...signInfo
     }).then(async (res:any)=>{
         const { id, token, sign_amount, expired_at, sign } = res.info
-        await writeClaim(id, token, sign_amount, expired_at, sign)
+        await writeClaimV2(id, token, sign_amount, expired_at, sign)
         showBuDao.value = false
+        setTimeout(() => {
+            loadIncome()
+        }, 3000);
+    })
+}
+
+// 提贡献
+const submitGongXian = async () => {
+    const gasEnough = await checkGas(); // 检测Gas
+    if(!gasEnough)return;
+
+    const signInfo:any = await getSign('Claim') // 签名
+
+    apiPost('/api/withdraw',{
+        ccy:'gx_balance_token',
+        ...signInfo
+    }).then(async (res:any)=>{
+        const { id, token, sign_amount, expired_at, sign } = res.info
+        await writeClaimV2(id, token, sign_amount, expired_at, sign)
+        showGongXian.value = false
+        setTimeout(() => {
+            loadIncome()
+        }, 3000);
+    })
+}
+// 提U
+const submitShouYi = async () => {
+    const gasEnough = await checkGas(); // 检测Gas
+    if(!gasEnough)return;
+
+    const signInfo:any = await getSign('Claim') // 签名
+
+    apiPost('/api/withdraw',{
+        ccy:'balance_usdt',
+        ...signInfo
+    }).then(async (res:any)=>{
+        const { id, token, sign_amount, expired_at, sign } = res.info
+        await writeClaim(id, token, sign_amount, expired_at, sign)
+        showShouYi.value = false
         setTimeout(() => {
             loadIncome()
         }, 3000);

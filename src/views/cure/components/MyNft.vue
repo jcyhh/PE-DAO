@@ -184,6 +184,7 @@ const update = async () => {
         top: 0;
         left: 30px;
         z-index: 1;
+        border-radius: 10px;
     }
 
     .box {

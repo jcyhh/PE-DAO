@@ -253,5 +253,14 @@
     "暂无治理投票":"Voto provvisorio",
     "治理投票":"Il voto sulla governance",
     "系统升级中...":"Nel potenziamento del sistema …",
-    "团队入金人数":"Numero di membri del team depositati"
+    "团队入金人数":"Numero di membri del team depositati",
+    "总贡献奖励": "Ricompense Totali Contributo",
+    "待领取贡献奖励": "Ricompense Contributo in Attesa",
+    "已领取贡献奖励": "Ricompense Contributo Ritirate",
+    "领取贡献奖励": "Ritira Ricompense Contributo",
+    "贡献奖励": "Ricompense Contributo",
+    "今日贡献奖励": "Ricompense Contributo di Oggi",
+    "本月贡献奖励": "Ricompense Contributo del Mese",
+    "全部贡献奖励": "Tutte le Ricompense Contributo",
+    "领取NFT收益": "Ritira Guadagni NFT"
 }

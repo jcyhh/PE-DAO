@@ -75,7 +75,8 @@ const menus = computed(()=>([
     {name:t('共治'), path:'/cure/index'},
     {name:t('共享'), path:'/share/index'},
     {name:t('公告'), path:'/news/index'},
-    {name:t('常见问题'), path:'/qa/index'}
+    {name:t('常见问题'), path:'/qa/index'},
+    {name:'PE Forge', path:''}
 ]))
 
 const jump = (path:string) => {
