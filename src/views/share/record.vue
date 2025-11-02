@@ -94,7 +94,8 @@ const picker = ref()
 const current = ref(0)
 const pickerList = computed(() => ([
     { name: t('赞助奖励'), value: 'jt_balance_token' },
-    { name: t('布道奖励'), value: 'dt_balance_token' }
+    { name: t('布道奖励'), value: 'dt_balance_token' },
+    { name: t('贡献奖励'), value: 'gx_balance_token' }
 ]))
 const pickerChange = (index:number) => {
     current.value = index
