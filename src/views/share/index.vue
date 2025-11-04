@@ -117,7 +117,7 @@
             </div>
             <div class="mainBtn mt48" @click="showBuDao=true">{{ $t('领取布道奖励') }}</div>
         </div>
-        <div class="item mb30" v-if="info?.is_nft">
+        <div class="item mb30">
             <div class="flex jb ac">
                 <div class="size24 opc6">{{ $t('总贡献奖励') }}</div>
                 <div class="size26"><span v-init="stats?.gx_income"></span> {{ tokenName }}</div>
@@ -189,7 +189,7 @@
                 <div class="size20 gray mt10">{{ $t('全部布道奖励') }}(USD)</div>
             </div>
         </div>
-        <div class="flex jb ac mt60 mb40" v-if="info?.is_nft">
+        <div class="flex jb ac mt60 mb40">
             <div class="bold size32 font2">
                 <ShinyText :text="$t('贡献奖励')"></ShinyText>
             </div>
@@ -198,7 +198,7 @@
                 <van-icon name="arrow" />
             </div>
         </div>
-        <div class="item flex ast mt40" style="background: #FFFFFF0F;" v-if="info?.is_nft">
+        <div class="item flex ast mt40" style="background: #FFFFFF0F;">
             <div class="flex1 tc">
                 <div class="size28 bold" v-init="stats?.day_gx_income_u"></div>
                 <div class="size20 gray mt10">{{ $t('今日贡献奖励') }}(USD)</div>
