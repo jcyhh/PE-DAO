@@ -88,11 +88,11 @@
             </div>
         </div>
         <div class="item mb30">
-            <div class="flex jb ac">
+            <!-- <div class="flex jb ac">
                 <div class="size24 opc6">{{ $t('总赞助奖励') }}</div>
                 <div class="size26"><span v-init="stats?.jt_income"></span> {{ tokenName }}</div>
-            </div>
-            <div class="flex jb ac mt28">
+            </div> -->
+            <div class="flex jb ac">
                 <div class="size24 opc6">{{ $t('待领取赞助奖励') }}</div>
                 <div class="size26"><span v-init="stats?.jt_balance_token"></span> {{ tokenName }}</div>
             </div>
@@ -103,11 +103,11 @@
             <div class="mainBtn mt48" @click="showZanZu=true">{{ $t('领取赞助奖励') }}</div>
         </div>
         <div class="item mb30">
-            <div class="flex jb ac">
+            <!-- <div class="flex jb ac">
                 <div class="size24 opc6">{{ $t('总布道奖励') }}</div>
                 <div class="size26"><span v-init="stats?.dt_income"></span> {{ tokenName }}</div>
-            </div>
-            <div class="flex jb ac mt28">
+            </div> -->
+            <div class="flex jb ac">
                 <div class="size24 opc6">{{ $t('待领取布道奖励') }}</div>
                 <div class="size26"><span v-init="stats?.dt_balance_token"></span> {{ tokenName }}</div>
             </div>
@@ -118,11 +118,11 @@
             <div class="mainBtn mt48" @click="showBuDao=true">{{ $t('领取布道奖励') }}</div>
         </div>
         <div class="item mb30">
-            <div class="flex jb ac">
+            <!-- <div class="flex jb ac">
                 <div class="size24 opc6">{{ $t('总贡献奖励') }}</div>
                 <div class="size26"><span v-init="stats?.gx_income"></span> {{ tokenName }}</div>
-            </div>
-            <div class="flex jb ac mt28">
+            </div> -->
+            <div class="flex jb ac">
                 <div class="size24 opc6">{{ $t('待领取贡献奖励') }}</div>
                 <div class="size26"><span v-init="stats?.gx_balance_token"></span> {{ tokenName }}</div>
             </div>

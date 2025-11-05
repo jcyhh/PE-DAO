@@ -14,10 +14,17 @@
                 </div>
                 <div class="opc6 size24 mt12" v-init:time="userInfo?.created_at"></div>
                 <div class="flex jb ac mt50">
-                    <div class="size24">{{ $t('账户等级') }}</div>
+                    <div class="size24">DAO {{ $t('星级') }}</div>
                     <div class="flex ac">
                         <img src="@/assets/imgs/9.png" class="img48 aniRotate mr8">
                         <div class="size24">{{ userInfo?.level?.name }}</div>
+                    </div>
+                </div>
+                <div class="flex jb ac mt50">
+                    <div class="size24">NFT {{ $t('星级') }}</div>
+                    <div class="flex ac">
+                        <img src="@/assets/imgs/9.png" class="img48 aniRotate mr8">
+                        <div class="size24">{{ userInfo?.nft_level?.name }}</div>
                     </div>
                 </div>
                 <div class="box flex jb ac">
