@@ -162,7 +162,7 @@
             </div>
             <div class="flex mt60">
                 <div class="flex1">
-                    <div class="bold size28 main">0x5768****uyjh</div>
+                    <div class="bold size28 main" v-init:address="tokenAddress"></div>
                     <div class="size24 opc6 mt16">{{ $t('合约地址') }}</div>
                 </div>
                 <div class="flex1">
@@ -258,6 +258,8 @@ import { useEthers } from '@/dapp';
 import { useBizV2 } from '@/dapp/contract/bizV2/useBizV2';
 
 const token_price = ref()
+
+const tokenAddress = import.meta.env.VITE_PE
 
 const total = computed(() => {
     if (token_price.value) return computedMul(token_price.value, 2100000000)
