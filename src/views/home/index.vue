@@ -108,29 +108,35 @@
                     </div>
                 </div>
             </div>
-            <div class="box mt20 flex jb ac" @click="routerPush('/home/award')">
-                <div class="size24 grey">{{ $t('我的USDT池剩余奖励点') }}</div>
-                <div class="size26 bold flex ac flex0 ml30">
-                    <div class="nobr">
-                        <span v-init="sponsor?.user_residue_usdt_reward_point"></span>
-                        USD
-                    </div>
-                    <div class="main ml8">
-                        <van-icon name="arrow" />
+            <div class="box mt20" @click="routerPush('/home/award')">
+                <div class="flex jb ac">
+                    <div class="size24 grey">{{ $t('我的USDT池剩余奖励点') }}</div>
+                    <div class="size26 bold flex ac flex0 ml30">
+                        <div class="nobr">
+                            <span v-init="sponsor?.user_residue_usdt_reward_point"></span>
+                            USD
+                        </div>
+                        <div class="main ml8">
+                            <van-icon name="arrow" />
+                        </div>
                     </div>
                 </div>
+                <div class="tr main size20 mt18">{{ $t('昨日USDT池收益率') }} +{{ sponsor?.yesterday_usdt_yield_rate }}%</div>
             </div>
-            <div class="box mt20 flex jb ac" @click="routerPush('/home/award',{cur:1})">
-                <div class="size24 grey">{{ $t('我的PE池剩余奖励点') }}</div>
-                <div class="size26 bold flex ac flex0 ml30">
-                    <div class="nobr">
-                        <span v-init="sponsor?.user_residue_pe_reward_point"></span>
-                        USD
-                    </div>
-                    <div class="main ml8">
-                        <van-icon name="arrow" />
+            <div class="box mt20" @click="routerPush('/home/award',{cur:1})">
+                <div class="flex jb ac">
+                    <div class="size24 grey">{{ $t('我的PE池剩余奖励点') }}</div>
+                    <div class="size26 bold flex ac flex0 ml30">
+                        <div class="nobr">
+                            <span v-init="sponsor?.user_residue_pe_reward_point"></span>
+                            USD
+                        </div> 
+                        <div class="main ml8">
+                            <van-icon name="arrow" />
+                        </div>
                     </div>
                 </div>
+                <div class="tr main size20 mt18">{{ $t('昨日PE池收益率') }} +{{ sponsor?.yesterday_pe_yield_rate }}%</div>
             </div>
         </div>
         

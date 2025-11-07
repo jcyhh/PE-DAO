@@ -17,6 +17,7 @@ declare module 'vue' {
     CusProgress: typeof import('./src/components/CusProgress/index.vue')['default']
     CusTab: typeof import('./src/components/CusTab/index.vue')['default']
     Demo: typeof import('./src/components/CusLang/demo.vue')['default']
+    QRCode: typeof import('vue-amazing-ui')['QRCode']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     ShinyText: typeof import('./src/components/VueBits/ShinyText.vue')['default']

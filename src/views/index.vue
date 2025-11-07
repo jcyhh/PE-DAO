@@ -31,6 +31,9 @@ import { apiGet, apiPost } from '@/utils/request';
 import { storeToRefs } from 'pinia';
 import { ref, watch } from 'vue';
 import CusLang from '@/components/CusLang/index.vue';
+import { useRoute } from 'vue-router';
+
+const { params } = useRoute()
 
 const { getSign, connectWallet } = useEthers()
 
@@ -38,7 +41,7 @@ const dappStore = useDappStore()
 const { address, hasMetaMask } = storeToRefs(dappStore)
 
 const show = ref(false)
-const inviteCode = ref()
+const inviteCode = ref(params?.ref || '')
 
 // 当钱包对象异步注入到浏览器后，钱包登录 或者 去首页
 watch(address, async (val)=>{

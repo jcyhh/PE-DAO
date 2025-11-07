@@ -78,118 +78,125 @@
             </div>
         </div>
 
-        <div class="mainCard mt30">
-            <div class="bold size32">
+        <div class="mainCard mt30" style="padding-left: 0;padding-right: 0;">
+            <div class="bold size32 pl30">
                 <ShinyText :text="`${tokenName} ${$t('激励代币总览')}`"></ShinyText>
             </div>
-            <div class="flex ac">
-                <div ref="chartRef" class="chartBox"></div>
-                <div class="flex1">
-                    <div class="flex ac jb">
-                        <div class="flex ac">
-                            <div class="ball mr12 flex0"></div>
-                            <div class="size24 opc6">{{ $t('流通总量') }}</div>
+            <div class="pl30 pr30">
+                <div class="flex ac">
+                    <div ref="chartRef" class="chartBox"></div>
+                    <div class="flex1">
+                        <div class="flex ac jb">
+                            <div class="flex ac">
+                                <div class="ball mr12 flex0"></div>
+                                <div class="size24 opc6">{{ $t('流通总量') }}</div>
+                            </div>
+                            <div class="tr size24"><span v-init="info?.lt_count"></span> {{ tokenName }}</div>
                         </div>
-                        <div class="tr size24"><span v-init="info?.lt_count"></span> {{ tokenName }}</div>
-                    </div>
-                    <div class="flex ac jb mt40 mb40">
-                        <div class="flex ac">
-                            <div class="ball ball1 mr12 flex0"></div>
-                            <div class="size24 opc6">{{ $t('销毁总量') }}</div>
+                        <div class="flex ac jb mt40 mb40">
+                            <div class="flex ac">
+                                <div class="ball ball1 mr12 flex0"></div>
+                                <div class="size24 opc6">{{ $t('销毁总量') }}</div>
+                            </div>
+                            <div class="tr size24"><span v-init="info?.xh_count"></span> {{ tokenName }}</div>
                         </div>
-                        <div class="tr size24"><span v-init="info?.xh_count"></span> {{ tokenName }}</div>
-                    </div>
-                    <div class="flex ac jb">
-                        <div class="flex ac">
-                            <div class="ball ball2 mr12 flex0"></div>
-                            <div class="size24 opc6">{{ $t('待铸造') }}</div>
+                        <div class="flex ac jb">
+                            <div class="flex ac">
+                                <div class="ball ball2 mr12 flex0"></div>
+                                <div class="size24 opc6">{{ $t('待铸造') }}</div>
+                            </div>
+                            <div class="tr size24"><span v-init="info?.dq_count_not_coinage"></span> {{ tokenName }}</div>
                         </div>
-                        <div class="tr size24"><span v-init="info?.dq_count_not_coinage"></span> {{ tokenName }}</div>
                     </div>
+                </div>
+                <div class="mainCard mt60 flex ac">
+                    <img src="@/assets/pe.png" class="img72 mr30">
+                    <div>
+                        <div class="size28 bold">{{ tokenName }} Coin</div>
+                        <div class="size24 opc6 mt10">{{ $t('币种名称') }}</div>
+                    </div>
+                </div>
+                <div class="flex mt60">
+                    <div class="flex1">
+                        <div class="bold">
+                            <span class="size28">2.1</span>
+                            <span class="size20 ml10">{{ $t('亿') }}</span>
+                        </div>
+                        <div class="size24 opc6 mt16">{{ $t('发行总量') }}</div>
+                    </div>
+                    <div class="flex1">
+                        <div class="bold">
+                            <span class="size28">8400</span>
+                            <span class="size20 ml10">{{ $t('万') }}</span>
+                        </div>
+                        <div class="size24 opc6 mt16">{{ $t('初始发行') }}</div>
+                    </div>
+                </div>
+                <div class="flex mt60">
+                    <div class="flex1">
+                        <div class="bold">
+                            <span class="size28" v-init="info?.lt_count"></span>
+                        </div>
+                        <div class="size24 opc6 mt16">{{ $t('流通总量') }}</div>
+                    </div>
+                    <div class="flex1">
+                        <div class="bold">
+                            <span class="size28" v-init="info?.dq_count_not_coinage"></span>
+                        </div>
+                        <div class="size24 opc6 mt16">{{ $t('待铸造') }}</div>
+                    </div>
+                </div>
+                <div class="flex mt60">
+                    <div class="flex1">
+                        <div class="bold">
+                            <span class="size28" v-init="info?.xh_count"></span>
+                        </div>
+                        <div class="size24 opc6 mt16">{{ $t('销毁总量') }}</div>
+                    </div>
+                    <div class="flex1">
+                        <div class="bold">
+                            <span class="size28">60</span>
+                            <span class="size20 ml10">{{ $t('个月') }}</span>
+                        </div>
+                        <div class="size24 opc6 mt16">{{ $t('铸币周期') }}</div>
+                    </div>
+                </div>
+                <div class="flex mt60">
+                    <div class="flex1">
+                        <div class="bold size28 main" v-init:address="tokenAddress"></div>
+                        <div class="size24 opc6 mt16">{{ $t('合约地址') }}</div>
+                    </div>
+                    <div class="flex1">
+                        <div class="bold">
+                            <span class="size28">{{ Number(info?.token_price) }}</span>
+                            <span class="size20 ml10">USD</span>
+                        </div>
+                        <div class="size24 opc6 mt16">{{ $t('实时价格') }}</div>
+                    </div>
+                </div>
+                <div class="flex mt60">
+                    <div class="flex1">
+                        <div class="bold">
+                            <span class="size28">2,100,000</span>
+                            <span class="size20 ml10">{{ $t('枚/月') }}</span>
+                        </div>
+                        <div class="size24 opc6 mt16">{{ $t('铸币速度') }}</div>
+                    </div>
+                    <div class="flex1">
+                        <div class="bold">
+                            <span class="size20">{{ $t('第') }}</span>
+                            <span class="size28 ml10">{{ info?.cycle }}</span>
+                            <span class="size20 ml10">{{ $t('个月') }}</span>
+                        </div>
+                        <div class="size24 opc6 mt16">{{ $t('铸币周期') }}</div>
+                    </div>
+                </div>
+                <div class="bold size32 mt60">
+                    <ShinyText :text="`${$t('PE价格趋势')}`"></ShinyText>
                 </div>
             </div>
-            <div class="mainCard mt60 flex ac">
-                <img src="@/assets/pe.png" class="img72 mr30">
-                <div>
-                    <div class="size28 bold">{{ tokenName }} Coin</div>
-                    <div class="size24 opc6 mt10">{{ $t('币种名称') }}</div>
-                </div>
-            </div>
-            <div class="flex mt60">
-                <div class="flex1">
-                    <div class="bold">
-                        <span class="size28">2.1</span>
-                        <span class="size20 ml10">{{ $t('亿') }}</span>
-                    </div>
-                    <div class="size24 opc6 mt16">{{ $t('发行总量') }}</div>
-                </div>
-                <div class="flex1">
-                    <div class="bold">
-                        <span class="size28">8400</span>
-                        <span class="size20 ml10">{{ $t('万') }}</span>
-                    </div>
-                    <div class="size24 opc6 mt16">{{ $t('初始发行') }}</div>
-                </div>
-            </div>
-            <div class="flex mt60">
-                <div class="flex1">
-                    <div class="bold">
-                        <span class="size28" v-init="info?.lt_count"></span>
-                    </div>
-                    <div class="size24 opc6 mt16">{{ $t('流通总量') }}</div>
-                </div>
-                <div class="flex1">
-                    <div class="bold">
-                        <span class="size28" v-init="info?.dq_count_not_coinage"></span>
-                    </div>
-                    <div class="size24 opc6 mt16">{{ $t('待铸造') }}</div>
-                </div>
-            </div>
-            <div class="flex mt60">
-                <div class="flex1">
-                    <div class="bold">
-                        <span class="size28" v-init="info?.xh_count"></span>
-                    </div>
-                    <div class="size24 opc6 mt16">{{ $t('销毁总量') }}</div>
-                </div>
-                <div class="flex1">
-                    <div class="bold">
-                        <span class="size28">60</span>
-                        <span class="size20 ml10">{{ $t('个月') }}</span>
-                    </div>
-                    <div class="size24 opc6 mt16">{{ $t('铸币周期') }}</div>
-                </div>
-            </div>
-            <div class="flex mt60">
-                <div class="flex1">
-                    <div class="bold size28 main" v-init:address="tokenAddress"></div>
-                    <div class="size24 opc6 mt16">{{ $t('合约地址') }}</div>
-                </div>
-                <div class="flex1">
-                    <div class="bold">
-                        <span class="size28">{{ Number(info?.token_price) }}</span>
-                        <span class="size20 ml10">USD</span>
-                    </div>
-                    <div class="size24 opc6 mt16">{{ $t('实时价格') }}</div>
-                </div>
-            </div>
-            <div class="flex mt60">
-                <div class="flex1">
-                    <div class="bold">
-                        <span class="size28">2,100,000</span>
-                        <span class="size20 ml10">{{ $t('枚/月') }}</span>
-                    </div>
-                    <div class="size24 opc6 mt16">{{ $t('铸币速度') }}</div>
-                </div>
-                <div class="flex1">
-                    <div class="bold">
-                        <span class="size20">{{ $t('第') }}</span>
-                        <span class="size28 ml10">{{ info?.cycle }}</span>
-                        <span class="size20 ml10">{{ $t('个月') }}</span>
-                    </div>
-                    <div class="size24 opc6 mt16">{{ $t('铸币周期') }}</div>
-                </div>
-            </div>
+            
+            <Chart></Chart>
         </div>
     </div>
     <div class="gap60"></div>
@@ -256,6 +263,7 @@ import { storeToRefs } from 'pinia';
 import { useDappStore } from '@/store';
 import { useEthers } from '@/dapp';
 import { useBizV2 } from '@/dapp/contract/bizV2/useBizV2';
+import Chart from './Chart.vue';
 
 const token_price = ref()
 

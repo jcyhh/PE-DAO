@@ -47,8 +47,25 @@
                     </div>
                     <div class="flex jb ac mt30">
                         <div class="size24 opc6">{{ $t('交易哈希') }}</div>
-                        <div class="size28 tr br hash">{{ item.deal_id || '--' }}</div>
+                        <div class="size28 tr">{{ item.deal_id || '--' }}</div>
                     </div>
+                    <div class="flex jb ac mt30" v-if="item.type==33 && item.residue_reward_point > 0">
+                        <div class="size24 opc6">USDT {{ $t('池奖励点') }}</div>
+                        <div class="size28 tr" v-init="item.residue_reward_point"></div>
+                    </div>
+                    <div class="flex jb ac mt30" v-if="item.type==33 && item.yield_rate > 0">
+                        <div class="size24 opc6">USDT {{ $t('池收益率') }}</div>
+                        <div class="size28 tr bold green">{{ item.yield_rate }}%</div>
+                    </div>
+                    <div class="flex jb ac mt30" v-if="item.type==34 && item.residue_reward_point > 0">
+                        <div class="size24 opc6">{{ tokenName }} {{ $t('池奖励点') }}</div>
+                        <div class="size28 tr" v-init="item.residue_reward_point"></div>
+                    </div>
+                    <div class="flex jb ac mt30" v-if="item.type==34 && item.yield_rate > 0">
+                        <div class="size24 opc6">{{ tokenName }} {{ $t('池收益率') }}</div>
+                        <div class="size28 tr bold green">{{ item.yield_rate }}%</div>
+                    </div>
+                    
                 </div>
 
             </div>

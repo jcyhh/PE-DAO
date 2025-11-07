@@ -39,6 +39,14 @@
             <div>{{ $t('邀请码') }}</div>
             <van-icon name="arrow" />
         </div> -->
+        <div class="cell mt48 flex jb ac size24" @click="routerPush('/share/invite')">
+            <div class="flex ac">
+                <img src="@/assets/imgs/24.png" class="img28 mr10">
+                <div>SHOW {{ $t('我的收益') }}</div>
+            </div>
+            
+            <van-icon name="arrow" />
+        </div>
         <div class="flex jb ac mt40">
             <div class="bold size32 font2">
                 <ShinyText :text="$t('布道成果')"></ShinyText>

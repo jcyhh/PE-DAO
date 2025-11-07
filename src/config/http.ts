@@ -45,3 +45,5 @@ export type Api =
 | '/api/votes/vote'                     // 投票
 | '/api/journalism_notices'             // 新闻公告
 | `/api/journalism_notices/${string}`   // 新闻详情
+| '/api/users/my/share_info'
+| '/api/token_price_line'

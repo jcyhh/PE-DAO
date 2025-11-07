@@ -54,5 +54,9 @@ export default [
     {
         path:'/notices/:id',
         component: () => import('@/views/notice/detail.vue')
+    },
+    {
+        path:'/share/invite',
+        component: () => import('@/views/share/invite.vue')
     }
 ]
