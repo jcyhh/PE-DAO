@@ -16,28 +16,29 @@
         <div class="main size24 mt20">{{ time2 }}</div>
 
         <div class="mt20">
+            <span class="mr10 bold size60" style="color: #08FE6B;">+</span>
             <span class="font1 bold size60" style="color: #08FE6B;" v-init="info?.day_count_income_u"></span>
-            <span class="ml10 size30">USDT</span>
+            <span class="ml10 size30">USD</span>
         </div>
 
         <div class="flex mt40">
             <div class="flex1">
-                <div class="size24 gray">{{ $t('七日收益率') }}</div>
+                <div class="size24 gray">{{ $t('今日DAO收益率') }}</div>
                 <div class="size26 mt20">{{ info?.day7_yield_rate }}%</div>
             </div>
             <div class="flex1">
-                <div class="size24 gray">PE {{ $t('涨跌幅') }}</div>
+                <div class="size24 gray">{{ $t('今日PE涨跌幅') }}</div>
                 <div class="size26 mt20">{{ info?.token_price_increase_percentage }}%</div>
             </div>
         </div>
 
         <div class="flex mt40">
             <div class="flex1">
-                <div class="size24 gray">PE {{ $t('池收益') }}</div>
+                <div class="size24 gray">PE {{ $t('池赞助收益') }}</div>
                 <div class="size26 mt20" v-init="info?.sponsor_pe_jt_income"></div>
             </div>
             <div class="flex1">
-                <div class="size24 gray">USDT {{ $t('池收益') }}</div>
+                <div class="size24 gray">USDT {{ $t('池赞助收益') }}</div>
                 <div class="size26 mt20" v-init="info?.sponsor_usdt_jt_income"></div>
             </div>
         </div>
@@ -67,13 +68,14 @@
                 </div>
             </div>
             <div class="qrcodeBox flex jc ac" v-if="inviteUrl">
-                <QRCode :size="80" :value="inviteUrl" :bordered="false" />
+                <QRCode ref="qrcodeRef" bgColor="#FFFFFF" :size="80" :value="inviteUrl" :bordered="false" />
             </div>
         </div>
         <div class="flex jb ac mt60">
             <div class="inp line1 size24 flex ac">{{ inviteUrl || '--' }}</div>
             <img src="@/assets/imgs/23.png" class="img80" v-copy="inviteUrl">
         </div>
+        <div class="mainBtn mt40" @click="dowloadQRCode">{{ $t('保存二维码') }}</div>
     </div>
 </template>
 
@@ -93,15 +95,25 @@ const time1 = `${month}/${day} ${hours}:${minutes}`
 const time2 = `${month}/${day}`
 
 const info = ref()
-const inviteUrl = computed(()=>info.value?.referral_code ? `${window.origin}${publicPath}${info.value?.referral_code}` : '')
+const inviteUrl = computed(()=>info.value?.referral_code ? `${window.origin}${publicPath}${info.value?.referral_code}` : '123456')
 apiGet('/api/users/my/share_info').then((res)=>info.value = res)
+
+const qrcodeRef = ref()
+const dowloadQRCode = async () => {
+  const url = await qrcodeRef.value.getQRCodeImage()
+  const a = document.createElement('a')
+  a.download = 'QRCode.png'
+  a.href = url
+  document.body.appendChild(a)
+  a.click()
+  document.body.removeChild(a)
+}
 </script>
 
 <style lang="scss" scoped>
 .bot{
     background: linear-gradient(rgba(72, 72, 87, 0.1), rgba(9, 8, 20, 0.1));
     width: 100vw;
-    height: 452px;
     padding: 60px 30px 70px 30px;
     .qrcodeBox{
         width: 100PX;
