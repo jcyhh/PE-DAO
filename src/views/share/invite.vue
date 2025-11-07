@@ -57,7 +57,7 @@
                     <ShinyText text="PE-DAO"></ShinyText>
                 </div>
                 <div class="bold size40 font1 mt16">
-                    <ShinyText :text="`${$t('邀请码')} ${info?.referral_code}`"></ShinyText>
+                    <ShinyText :text="`${$t('邀请码')} ${info?.referral_code || '--'}`"></ShinyText>
                 </div>
                 <div class="flex mt18">
                     <div class="flex ac" v-copy="info?.referral_code">
@@ -66,12 +66,12 @@
                     </div>
                 </div>
             </div>
-            <div class="qrcodeBox flex jc ac">
+            <div class="qrcodeBox flex jc ac" v-if="inviteUrl">
                 <QRCode :size="80" :value="inviteUrl" :bordered="false" />
             </div>
         </div>
         <div class="flex jb ac mt60">
-            <div class="inp line1 size24 flex ac">{{ inviteUrl }}</div>
+            <div class="inp line1 size24 flex ac">{{ inviteUrl || '--' }}</div>
             <img src="@/assets/imgs/23.png" class="img80" v-copy="inviteUrl">
         </div>
     </div>
@@ -93,7 +93,7 @@ const time1 = `${month}/${day} ${hours}:${minutes}`
 const time2 = `${month}/${day}`
 
 const info = ref()
-const inviteUrl = computed(()=>`${window.origin}${publicPath}${info.value?.referral_code}`)
+const inviteUrl = computed(()=>info.value?.referral_code ? `${window.origin}${publicPath}${info.value?.referral_code}` : '')
 apiGet('/api/users/my/share_info').then((res)=>info.value = res)
 </script>
 

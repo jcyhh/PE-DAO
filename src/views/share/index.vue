@@ -39,7 +39,7 @@
             <div>{{ $t('邀请码') }}</div>
             <van-icon name="arrow" />
         </div> -->
-        <div class="cell mt48 flex jb ac size24" @click="routerPush('/share/invite')">
+        <div class="cell mt48 flex jb ac size24" @click="routerPush('/share/invite')" v-if="info?.referral_code">
             <div class="flex ac">
                 <img src="@/assets/imgs/24.png" class="img28 mr10">
                 <div>SHOW {{ $t('我的收益') }}</div>
