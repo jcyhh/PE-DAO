@@ -19,50 +19,80 @@
             <div class="mainCard">
                 <div class="size24 grey mb30">{{ $t('赞助数量') }}</div>
                 <div class="flex wrap jb size26">
-                    <div class="item flex jc ac mb20" :class="inputAmount==item?'itemAct':''" v-for="(item,index) in list" :key="index" @click="inputAmount=item">{{ item }} USD</div>
+                    <div class="item flex jc ac mb20" :class="inputAmount==item?'itemAct':''" v-for="(item,index) in list" :key="index" @click="inputAmount=item">{{ item }} {{ current ? tokenName : 'USD' }}</div>
                 </div>
                 <div class="gap10"></div>
-                <div class="flex jb ac size24 grey mb30">
-                    <div>{{ $t('赞助价值') }}</div>
-                    <div>
-                        <span>{{ $t('余额') }} : </span>
-                        <span v-init="balanceUsdt" v-if="current==0"></span>
-                        <span v-init="balanceToken" v-else></span>
-                        <span class="ml10">{{ current==0 ? 'USDT' : tokenName }}</span>
+                <div v-if="current==0">
+                    <div class="flex jb ac size24 grey mb30">
+                        <div>{{ $t('赞助价值') }}</div>
+                        <div>
+                            <span>{{ $t('余额') }} : </span>
+                            <span v-init="balanceUsdt" v-if="current==0"></span>
+                            <span v-init="balanceToken" v-else></span>
+                            <span class="ml10">{{ current==0 ? 'USDT' : tokenName }}</span>
+                        </div>
+                    </div>
+                    <div class="mainCard mt24 flex ac">
+                        <div class="flex ac">
+                            <img src="@/assets/usd.png" class="img46 mr12">
+                            <div class="size28">USD</div>
+                        </div>
+                        <input type="number" v-model="inputAmount" :placeholder="$t('请输入赞助价值')" class="size28 flex1 tr">
+                        <div class="line ml16 mr16 flex0"></div>
+                        <div class="bold size24 font2" @click="inputAll">
+                            <ShinyText :text="$t('全部')"></ShinyText>
+                        </div>
+                    </div>
+                    <div class="flex jb size24 grey mt30">
+                        <div>{{ $t('实际支付') }}</div>
+                    </div>
+                    <div class="mainCard mt24 flex jb ac">
+                        <div class="flex ac">
+                            <img src="@/assets/usdt.png" class="img46 mr12">
+                            <div class="size28">USDT</div>
+                        </div>
+                        <div class="size28" v-init="inputAmount"></div>
                     </div>
                 </div>
-                <div class="mainCard mt24 flex ac">
-                    <div class="flex ac">
-                        <img src="@/assets/usd.png" class="img46 mr12">
-                        <div class="size28">USD</div>
+                <div v-else>
+                    <div class="flex jb ac size24 grey mb30">
+                        <div>{{ $t('赞助价值') }}</div>
+                        <div @click="loadPrice(true)">
+                            <span>{{ $t('赞助价格') }} : </span>
+                            <span>{{ Number(token_price) }}</span>
+                            <span class="main ml10 animate__animated animate__rotateIn">
+                                <van-icon name="replay" />
+                            </span>
+                        </div>
                     </div>
-                    <input type="number" v-model="inputAmount" :placeholder="$t('请输入赞助价值')" class="size28 flex1 tr">
-                    <div class="line ml16 mr16 flex0"></div>
-                    <div class="bold size24 font2" @click="inputAll">
-                        <ShinyText :text="$t('全部')"></ShinyText>
+                    <div class="mainCard mt24 flex jb ac">
+                        <div class="flex ac">
+                            <img src="@/assets/usd.png" class="img46 mr12">
+                            <div class="size28">USD</div>
+                        </div>
+                        <div class="size28" v-init="usdt"></div>
+                    </div>
+                    <div class="flex jb size24 grey mt30">
+                        <div>{{ $t('实际支付') }}</div>
+                        <div>
+                            <span>{{ $t('余额') }} : </span>
+                            <span v-init="balanceToken"></span>
+                            <span class="ml10">{{tokenName}}</span>
+                        </div>
+                    </div>
+                    <div class="mainCard mt24 flex jb ac">
+                        <div class="flex ac">
+                            <img src="@/assets/pe.png" class="img46 mr12">
+                            <div class="size28">{{ tokenName }}</div>
+                        </div>
+                        <input type="number" v-model="inputAmount" :placeholder="$t('请输入支付数量')" class="size28 flex1 tr">
+                        <div class="line ml16 mr16 flex0"></div>
+                        <div class="bold size24 font2" @click="inputAll">
+                            <ShinyText :text="$t('全部')"></ShinyText>
+                        </div>
                     </div>
                 </div>
-                <div class="flex jb size24 grey mt30">
-                    <div>{{ $t('实际支付') }}</div>
-                    <div v-if="current==1" @click="loadPrice(true)">
-                        <span>{{ $t('赞助价格') }} : </span>
-                        <span>{{ Number(token_price) }}</span>
-                        <span class="main ml10 animate__animated animate__rotateIn">
-                            <van-icon name="replay" />
-                        </span>
-                    </div>
-                </div>
-                <div class="mainCard mt24 flex jb ac">
-                    <div class="flex ac" v-if="current==0">
-                        <img src="@/assets/usdt.png" class="img46 mr12">
-                        <div class="size28">USDT</div>
-                    </div>
-                    <div class="flex ac" v-else>
-                        <img src="@/assets/pe.png" class="img46 mr12">
-                        <div class="size28">{{ tokenName }}</div>
-                    </div>
-                    <div class="size28" v-init="usdt"></div>
-                </div>
+                
                 <div class="mainBtn mt60" v-scale v-delay="{fun:submit}">{{ $t('立即赞助') }}</div>
                 <div class="flex jc mt40">
                     <div class="flex ac main size24" @click="routerPush('/home/sponsorLog')">
@@ -86,7 +116,7 @@ import ShinyText from '@/components/VueBits/ShinyText.vue'
 import { routerPush } from '@/router';
 import { useRoute } from 'vue-router';
 import { apiGet, apiPost } from '@/utils/request';
-import { computedDiv } from '@/utils';
+import { computedMul } from '@/utils';
 import { message } from '@/utils/message';
 import { useEthers } from '@/dapp';
 import { useBizV2 } from '@/dapp/contract/bizV2/useBizV2';
@@ -128,19 +158,7 @@ const tabs = computed(()=>([
     {name:'PE ' + t('赞助'), value:2}
 ]))
 
-const inputAmount = ref(100)
-const list = [100, 1000, 2000, 3000, 5000, 100000]
-const inputAll = () => {
-    if(current.value == 0){
-        const balance = balanceUsdt.value.toFixed(0)
-        inputAmount.value = Number(balance)
-    }else{
-        const balance = balanceToken.value
-        inputAmount.value = Number(balance)
-    }
-}
-
-const token_price = ref()
+const token_price = ref(1)
 const loadPrice = (flag:boolean=false) => {
     apiGet('/api/token_price').then((res:any)=>{
         token_price.value = res.token_price
@@ -149,10 +167,29 @@ const loadPrice = (flag:boolean=false) => {
 }
 loadPrice()
 
+const inputAmount = ref<number | string>(100)
+const list = [100, 1000, 2000, 3000, 5000, 100000]
+const inputAll = () => {
+    if(current.value == 0){
+        const balance = Math.trunc(computedMul(balanceUsdt.value ?? 0, 100)) / 100 
+        inputAmount.value = Number(balance)
+    }else{
+        const balance = Math.trunc(computedMul(balanceToken.value ?? 0, 100)) / 100 
+        inputAmount.value = Number(balance)
+    }
+}
+
+watch(inputAmount, (val) => {
+    if (val === '' || val === null || val === undefined) return
+    const num = Number(val)
+    if (!Number.isFinite(num)) return
+    const truncated = Math.trunc(computedMul(num, 100)) / 100
+    if (num !== truncated) inputAmount.value = truncated
+})
+
 const usdt = computed(()=>{
     if(inputAmount.value){
-        if(current.value==0)return inputAmount.value
-        else return computedDiv(inputAmount.value, token_price.value)
+        return computedMul(inputAmount.value, token_price.value)
     }else return 0
 })
 
@@ -163,12 +200,12 @@ const submit = async () => {
     if(!gasEnough)return;
 
     if(current.value==0)await approveUsdt(inputAmount.value); // 授权U
-    else await approvePe(usdt.value); // 授权PE
+    else await approvePe(inputAmount.value); // 授权PE
 
     const signInfo = await getSign('SponsorOrder')
 
     apiPost('/api/sponsor',{
-        u_amount:inputAmount.value,
+        u_amount:current.value == 0 ? inputAmount.value : usdt.value,
         type: tabs.value[current.value].value,
         ...signInfo
     }).then(async (res:any)=>{

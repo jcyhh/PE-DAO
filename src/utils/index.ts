@@ -103,9 +103,9 @@ export function initNumber(value:number | bigint){
     let text:string = ''
     if(value){
         const num = Number(value)
-        // 使用 Intl.NumberFormat 格式化数字，包含千分位分隔符和两位小数
-        // 先使用 toFixed(2) 进行裁剪，然后格式化
-        const roundedNum = Math.floor(num * 100) / 100; // 裁剪到两位小数
+        const multiplied = computedMul(num, 100)
+        const truncated = Math.trunc(multiplied)
+        const roundedNum = truncated / 100 // 裁剪到两位小数
         text = new Intl.NumberFormat('en-US', {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2
