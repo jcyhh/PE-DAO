@@ -24,7 +24,7 @@
         <div class="pl30 pr30">
             <div class="flex jb size20">
                 <div class="green">{{ $t('本期已铸造') }} <span v-init="info?.dq_count_coinage"></span></div>
-                <div class="main">{{ $t('本期可铸造') }} <span v-init="computedSub(info?.dq_count_coinage_limit, info?.dq_count_coinage)"></span></div>
+                <div class="main">{{ $t('本期可铸造') }} <span v-init="info?.dq_permit_coinage"></span></div>
             </div>
             <div class="progressLine mt20"></div>
             <div class="progress flex jb ac mt30 size18">
@@ -140,7 +140,7 @@ const progress_left = ref(0)
 const progress_right = ref(100)
 watchEffect(()=>{
     const left_amount = info.value?.dq_count_coinage
-    const total = info.value?.dq_count_coinage_limit
+    const total = info.value?.dq_permit_coinage
     if(left_amount && total){
         progress_left.value = Number((computedDiv(left_amount, total) * 100).toFixed(2))
         progress_right.value = computedSub(100, progress_left.value)
