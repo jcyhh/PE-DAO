@@ -263,9 +263,9 @@
                 <div class="inp mt20 flex">
                     <input type="text" v-model="inputTransferAddress" :placeholder="$t('请输入接收地址')" class="size28 flex1">
                 </div>
-                <div class="size24 mt30">{{ $t('转账金额') }}</div>
+                <div class="size24 mt30">{{ $t('转账数量') }}</div>
                 <div class="inp mt20 flex">
-                    <input type="number" v-model="inputTransferAmount" :placeholder="$t('请输入转账金额')" class="size28 flex1">
+                    <input type="number" v-model="inputTransferAmount" :placeholder="$t('请输入转账数量')" class="size28 flex1">
                 </div>
             </div>
             
@@ -437,7 +437,7 @@ const submit = async () => {
 
 const transferSubmit = async () => {
     if(!inputTransferAddress.value)return message(t('请输入接收地址'))
-    if(!inputTransferAmount.value)return message(t('请输入转账金额'))
+    if(!inputTransferAmount.value)return message(t('请输入转账数量'))
     console.log('1111');
     
     const signInfo = await getSign('Transfer')

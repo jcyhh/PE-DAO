@@ -283,6 +283,6 @@
   "转账铸币权": "Trasferisci Diritti di Conio",
   "接收地址": "Indirizzo Destinatario",
   "请输入接收地址": "Inserisci l'indirizzo del destinatario",
-  "转账金额": "Importo Trasferimento",
-  "请输入转账金额": "Inserisci l'importo del trasferimento"
+  "转账数量":"Numero di trasferimenti",
+    "请输入转账数量":"Per favore digitate il numero di trasferimenti"
 }

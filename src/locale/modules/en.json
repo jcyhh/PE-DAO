@@ -283,6 +283,6 @@
   "转账铸币权": "Transfer Minting Rights",
   "接收地址": "Recipient Address",
   "请输入接收地址": "Please enter recipient address",
-  "转账金额": "Transfer Amount",
-  "请输入转账金额": "Please enter transfer amount"
+  "转账数量":"Transfer amount",
+    "请输入转账数量":"Please enter the amount for the transfer."
 }
