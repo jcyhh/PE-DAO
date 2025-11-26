@@ -67,6 +67,7 @@
             </div>
             <div class="mainBtn mt60" @click="routerPush('/create/cast')" v-if="nowIsToday">{{ $t('去铸币') }}</div>
             <div class="disableBtn mt60" v-else>{{ $t('去铸币') }}</div>
+            <div class="transferBtn mt30 size28 flex jc ac" @click="openTransfer">{{ $t('转账铸币权') }}</div>
         </div>
 
         <div class="mainCard mt30 flex jb ac">
@@ -248,6 +249,29 @@
             <div class="mainBtn mt60" @click="showRule3 = false">{{ $t('确认') }}</div>
         </div>
     </van-popup>
+
+    <van-popup v-model:show="transferShow" style="background-color: transparent !important;" overlay-class="cusMask">
+        <div class="pop">
+            <div class="flex jb ac">
+                <div class="bold size32 font2">
+                    <ShinyText :text="`${$t('转账铸币权')}`"></ShinyText>
+                </div>
+                <van-icon name="cross" :size="25" color="#999999" @click="transferShow=false" />
+            </div>
+            <div class="content mt60">
+                <div class="size24">{{ $t('接收地址') }}</div>
+                <div class="inp mt20 flex">
+                    <input type="text" v-model="inputTransferAddress" :placeholder="$t('请输入接收地址')" class="size28 flex1">
+                </div>
+                <div class="size24 mt30">{{ $t('转账金额') }}</div>
+                <div class="inp mt20 flex">
+                    <input type="number" v-model="inputTransferAmount" :placeholder="$t('请输入转账金额')" class="size28 flex1">
+                </div>
+            </div>
+            
+            <div class="mainBtn mt40" v-scale v-delay="{fun:transferSubmit}">{{ $t('确认') }}</div>
+        </div>
+    </van-popup>
 </template>
 
 <script setup lang="ts">
@@ -264,6 +288,7 @@ import { useDappStore } from '@/store';
 import { useEthers } from '@/dapp';
 import { useBizV2 } from '@/dapp/contract/bizV2/useBizV2';
 import Chart from './Chart.vue';
+import { message } from '@/utils/message';
 
 const token_price = ref()
 
@@ -277,6 +302,15 @@ const total = computed(() => {
 const showRule1 = ref(false)
 const showRule2 = ref(false)
 const showRule3 = ref(false)
+const transferShow = ref(false)
+const inputTransferAmount = ref()
+const inputTransferAddress = ref()
+
+const openTransfer = () => {
+    inputTransferAddress.value = ''
+    inputTransferAmount.value = ''
+    transferShow.value = true
+}
 
 const coinage_balance_token = ref()
 
@@ -401,6 +435,24 @@ const submit = async () => {
     })
 }
 
+const transferSubmit = async () => {
+    if(!inputTransferAddress.value)return message(t('请输入接收地址'))
+    if(!inputTransferAmount.value)return message(t('请输入转账金额'))
+    console.log('1111');
+    
+    const signInfo = await getSign('Transfer')
+    apiPost('/api/transfer', {
+        to: inputTransferAddress.value,
+        ccy: 'coinage_limit',
+        amount: inputTransferAmount.value,
+        ...signInfo
+    }).then(()=>{
+        message(t('操作成功'), 'success')
+        loadData()
+        transferShow.value = false
+    })
+}
+
 onMounted(async ()=>{
     await nextTick()
     initChart()
@@ -422,6 +474,12 @@ onUnmounted(() => {
     position: absolute;
     top: 0;
     left: 0;
+}
+
+.transferBtn{
+    border: 1px solid rgba($color: #FFFFFF, $alpha: 0.5);
+    height: 80px;
+    border-radius: 40px;
 }
 
 .card {
@@ -471,5 +529,12 @@ onUnmounted(() => {
     border: 1px solid #FFFFFF80;
     border-radius: 20px;
     background: linear-gradient(52deg, #1C1F1D, #080908);
+    .inp{
+        background-color: #3030304D;
+        border: 1px solid #C4C4C433;
+        height: 84px;
+        border-radius: 20px;
+        padding: 0 30px;
+    }
 }
 </style>

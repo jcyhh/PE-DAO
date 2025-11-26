@@ -279,5 +279,10 @@
   "今日PE涨跌幅": "Today's PE Change",
   "今日DAO收益率": "Today's DAO Yield",
   "保存二维码": "Save QR Code",
-  "请输入支付数量": "Please enter payment amount"
+  "请输入支付数量": "Please enter payment amount",
+  "转账铸币权": "Transfer Minting Rights",
+  "接收地址": "Recipient Address",
+  "请输入接收地址": "Please enter recipient address",
+  "转账金额": "Transfer Amount",
+  "请输入转账金额": "Please enter transfer amount"
 }

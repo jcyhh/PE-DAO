@@ -279,5 +279,10 @@
   "今日PE涨跌幅": "Variazione PE Oggi",
   "今日DAO收益率": "Rendimento DAO Oggi",
   "保存二维码": "Salva Codice QR",
-  "请输入支付数量": "Inserisci l'importo del pagamento"
+  "请输入支付数量": "Inserisci l'importo del pagamento",
+  "转账铸币权": "Trasferisci Diritti di Conio",
+  "接收地址": "Indirizzo Destinatario",
+  "请输入接收地址": "Inserisci l'indirizzo del destinatario",
+  "转账金额": "Importo Trasferimento",
+  "请输入转账金额": "Inserisci l'importo del trasferimento"
 }

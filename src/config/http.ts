@@ -47,3 +47,4 @@ export type Api =
 | `/api/journalism_notices/${string}`   // 新闻详情
 | '/api/users/my/share_info'
 | '/api/token_price_line'
+| '/api/transfer'
