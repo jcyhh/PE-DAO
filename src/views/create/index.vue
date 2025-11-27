@@ -19,8 +19,7 @@
                 <div>{{ $t('下次铸币时间') }}</div>
             </div>
             <div class="main">
-                <span v-init:date="info?.coinage_at"></span>
-                <span> 00:00</span>
+                <span>{{ initDateTime(info?.coinage_at) }}</span>
             </div>
         </div>
         <div class="card mt80">
@@ -65,8 +64,13 @@
                     <van-icon name="arrow" />
                 </div>
             </div>
-            <div class="mainBtn mt60" @click="routerPush('/create/cast')" v-if="nowIsToday">{{ $t('去铸币') }}</div>
-            <div class="disableBtn mt60" v-else>{{ $t('去铸币') }}</div>
+            <div class="mainBtn mt60" @click="routerPush('/create/cast')" v-if="seconds<0">
+                <span>{{ $t('去铸币') }}</span>
+            </div>
+            <div class="disableBtn mt60 flex jc ac" v-else>
+                <span class="mr10">{{ $t('去铸币') }}</span>
+                <van-count-down :time="seconds" :format="`DD ${$t('天')} HH:mm:ss`" @finish="loadCoinageData()" />
+            </div>
             <div class="transferBtn mt30 size28 flex jc ac" @click="openTransfer">{{ $t('转账铸币权') }}</div>
         </div>
 
@@ -279,7 +283,7 @@ import ShinyText from '@/components/VueBits/ShinyText.vue'
 import { tokenName } from '@/config';
 import { t } from '@/locale';
 import { routerPush } from '@/router';
-import { computedMul, isToday } from '@/utils';
+import { computedMul, getSecondsUntil, initDateTime, isToday } from '@/utils';
 import { apiGet, apiPost } from '@/utils/request';
 import * as echarts from 'echarts';
 import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue';
@@ -317,6 +321,12 @@ const coinage_balance_token = ref()
 const chartRef = ref()
 const info = ref()
 const nowIsToday = ref(false)
+
+const seconds = computed(()=>{
+    if(info.value?.coinage_at)return getSecondsUntil(info.value?.coinage_at) * 1000
+    else return 0
+})
+
 let myChart: any = null
 
 // 初始化 echarts 实例

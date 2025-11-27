@@ -22,6 +22,7 @@ declare module 'vue' {
     RouterView: typeof import('vue-router')['RouterView']
     ShinyText: typeof import('./src/components/VueBits/ShinyText.vue')['default']
     VanCalendar: typeof import('vant/es')['Calendar']
+    VanCountDown: typeof import('vant/es')['CountDown']
     VanIcon: typeof import('vant/es')['Icon']
     VanList: typeof import('vant/es')['List']
     VanPopup: typeof import('vant/es')['Popup']

@@ -168,6 +168,18 @@ export function initDate(timestamp:string){
     return `${month}/${day}`
 }
 
+export function initDateTime(timestamp:string){
+    if(!timestamp)return '--'
+    const date = new Date(timestamp); // 将时间戳转换为 Date 对象
+
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // 月份从 0 开始
+    const day = date.getDate().toString().padStart(2, '0');
+
+    return `${month}/${day} ${hours}:${minutes}`
+}
+
 /**
  * 判断传入的日期是否是当天
  * @param {string} dateString - 日期字符串，格式如 '2025-10-01'
@@ -183,4 +195,33 @@ export function isToday(dateString: string): boolean {
     return inputDate.getFullYear() === today.getFullYear() &&
            inputDate.getMonth() === today.getMonth() &&
            inputDate.getDate() === today.getDate();
+}
+
+/**
+ * 计算距离指定日期的秒数
+ * @param {string} dateTimeString - 日期时间字符串，格式如 '2025-11-30 01:00:00'
+ * @returns {number} 距离目标日期的秒数（正数表示目标时间在未来，负数表示目标时间在过去）
+ */
+export function getSecondsUntil(dateTimeString: string): number {
+    if (!dateTimeString) return 0;
+    
+    // 将日期时间字符串转换为 Date 对象
+    // 将格式 '2025-11-30 01:00:00' 转换为 '2025-11-30T01:00:00' 以便正确解析
+    const formattedString = dateTimeString.replace(' ', 'T');
+    const targetDate = new Date(formattedString);
+    
+    // 检查日期是否有效
+    if (isNaN(targetDate.getTime())) {
+        console.warn('Invalid date string:', dateTimeString);
+        return 0;
+    }
+    
+    // 获取当前时间
+    const now = new Date();
+    
+    // 计算时间差（毫秒），然后转换为秒
+    const diffInMs = targetDate.getTime() - now.getTime();
+    const diffInSeconds = Math.floor(diffInMs / 1000);
+    
+    return diffInSeconds;
 }
