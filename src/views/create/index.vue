@@ -283,7 +283,7 @@ import ShinyText from '@/components/VueBits/ShinyText.vue'
 import { tokenName } from '@/config';
 import { t } from '@/locale';
 import { routerPush } from '@/router';
-import { computedMul, getSecondsUntil, initDateTime, isToday } from '@/utils';
+import { computedMul, initDateTime, isToday } from '@/utils';
 import { apiGet, apiPost } from '@/utils/request';
 import * as echarts from 'echarts';
 import { computed, nextTick, onMounted, onUnmounted, ref, watch } from 'vue';
@@ -323,7 +323,7 @@ const info = ref()
 const nowIsToday = ref(false)
 
 const seconds = computed(()=>{
-    if(info.value?.coinage_at)return getSecondsUntil(info.value?.coinage_at) * 1000
+    if(info.value?.count_down)return info.value?.count_down * 1000
     else return 0
 })
 
